@@ -30,7 +30,7 @@
   </div>
 
   <!-- Quiz cho từng cửa -->
-  <div id="quiz1" class="hidden w-full max-w-2xl mt-6">
+  <div id="quiz1" class="hidden w-full max-w-2xl mt-6 pb-32">
     <h2 class="text-xl font-bold text-red-600">Cửa 1</h2>
     <p id="counter1" class="font-semibold">Câu 1/10</p>
     <div id="qBox1" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
@@ -38,7 +38,7 @@
     <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
   </div>
 
-  <div id="quiz2" class="hidden w-full max-w-2xl mt-6">
+  <div id="quiz2" class="hidden w-full max-w-2xl mt-6 pb-32">
     <h2 class="text-xl font-bold text-blue-600">Cửa 2</h2>
     <p id="counter2" class="font-semibold">Câu 1/10</p>
     <div id="qBox2" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
@@ -54,24 +54,23 @@
   </div>
 
   <!-- Scoreboard lớn -->
-  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 px-8 py-4 rounded-2xl shadow-2xl text-3xl font-extrabold">
+  <div id="bigScore" class="hidden fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-white/90 px-6 py-3 rounded-2xl shadow-2xl text-xl md:text-3xl font-extrabold">
     <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span> 
-    <span class="mx-6">⚔️</span> 
+    <span class="mx-4">⚔️</span> 
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
   <!-- Âm thanh Kahoot -->
-  <audio id="soundCorrect" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3a8f95c3a.mp3?filename=correct-answer-3-145859.mp3"></audio>
-  <audio id="soundWrong" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_44f94a6e25.mp3?filename=wrong-answer-126515.mp3"></audio>
-  <audio id="soundWin" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_b63f9a8f3f.mp3?filename=success-fanfare-trumpets-6185.mp3"></audio>
-  <audio id="soundLose" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d26e0d3b2.mp3?filename=negative_beeps-6008.mp3"></audio>
-  <audio id="soundBg" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0f37d0c2a9.mp3?filename=game-music-loop-10369.mp3" loop></audio>
+  <audio id="soundCorrect" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3a8f95c3a.mp3"></audio>
+  <audio id="soundWrong" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_44f94a6e25.mp3"></audio>
+  <audio id="soundWin" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_b63f9a8f3f.mp3"></audio>
+  <audio id="soundLose" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d26e0d3b2.mp3"></audio>
+  <audio id="soundBg" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0f37d0c2a9.mp3" loop></audio>
 
 <script>
 let dataAll = {}, quizData1 = [], quizData2 = [];
 let idx1=0, idx2=0, score1=0, score2=0;
 
-// Bắt đầu cho 1 cửa
 async function startGame(door){
   if(Object.keys(dataAll).length===0){
     const res = await fetch("questions.json?_="+Date.now());
@@ -79,31 +78,27 @@ async function startGame(door){
   }
   const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[]), ...(dataAll.Bai5||[])];
 
-  document.getElementById("soundBg").play();
+  document.getElementById("soundBg").play().catch(()=>{});
 
   if(door===1){
     quizData1 = pick(allQs,10);
     idx1=0; score1=0;
     document.getElementById('quiz1').classList.remove('hidden');
-    document.getElementById('scoreBoard').classList.remove('hidden');
-    document.getElementById('bigScore').classList.remove('hidden');
-    showQ(1);
   }else{
     quizData2 = pick(allQs,10);
     idx2=0; score2=0;
     document.getElementById('quiz2').classList.remove('hidden');
-    document.getElementById('scoreBoard').classList.remove('hidden');
-    document.getElementById('bigScore').classList.remove('hidden');
-    showQ(2);
   }
+  document.getElementById('scoreBoard').classList.remove('hidden');
+  document.getElementById('bigScore').classList.remove('hidden');
+  showQ(door);
 }
 
-// Hiển thị câu hỏi
 function showQ(door){
   let idx = (door===1?idx1:idx2);
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
-  let cleanQ = q.q.replace(/^Bài.*?:\s*/,'');
+  let cleanQ = q.q.replace(/^Bài.*?:\s*/,'').replace("⁺","+");
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
   document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${cleanQ}</span>`;
   let html = '';
@@ -115,7 +110,6 @@ function showQ(door){
   document.getElementById('nextBtn'+door).classList.add('hidden');
 }
 
-// Trả lời
 function answer(door,btn,correct){
   let chosen = btn.innerText.trim();
   let buttons = document.querySelectorAll('#opts'+door+' button');
@@ -133,7 +127,6 @@ function answer(door,btn,correct){
   document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
-// Update điểm
 function updateScore(){
   document.getElementById('score1').innerText=score1;
   document.getElementById('score2').innerText=score2;
@@ -141,7 +134,6 @@ function updateScore(){
   document.getElementById('bigScore2').innerText=score2;
 }
 
-// Next
 function nextQ(door){
   if(door===1){
     idx1++;
@@ -152,7 +144,6 @@ function nextQ(door){
   }
 }
 
-// Kết thúc
 function endGame(){
   if(idx1>=10 && idx2>=10){
     let msg="🎉 Trận đấu kết thúc!\n";
@@ -177,14 +168,12 @@ function endGame(){
   }
 }
 
-// Âm thanh
 function playSound(id){
   let audio=document.getElementById(id);
   audio.currentTime=0;
   audio.play();
 }
 
-// Hiệu ứng nền
 function flashBackground(color){
   let body=document.body;
   let i=0;
@@ -195,7 +184,6 @@ function flashBackground(color){
   },300);
 }
 
-// Tools
 function pick(arr,n){
   let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;
 }
