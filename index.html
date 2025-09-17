@@ -76,8 +76,7 @@ async function startGame(door){
   const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
 
   // play background music sau click
-  let bg=document.getElementById("soundBg");
-  bg.currentTime=0; bg.play().catch(()=>{});
+  playSound("soundBg");
 
   if(door===1){ quizData1=pickUnique(allQs,10); idx1=0; score1=0; }
   else { quizData2=pickUnique(allQs,10); idx2=0; score2=0; }
@@ -132,24 +131,32 @@ function updateScore(){
 }
 
 function nextQ(door){
-  if(door===1){ idx1++; if(idx1<quizData1.length){showQ(1);}else{endGame();} }
-  else{ idx2++; if(idx2<quizData2.length){showQ(2);}else{endGame();} }
+  if(door===1){ idx1++; if(idx1<quizData1.length){showQ(1);}else{endGame(1);} }
+  else{ idx2++; if(idx2<quizData2.length){showQ(2);}else{endGame(2);} }
 }
 
-function endGame(){
+function endGame(door){
+  if(door===1){
+    alert(`🎉 Cửa 1 đã hoàn thành!\nĐiểm: ${score1}`);
+  } else {
+    alert(`🎉 Cửa 2 đã hoàn thành!\nĐiểm: ${score2}`);
+  }
+
+  // Nếu cả hai cùng xong thì so điểm
   if(idx1>=10 && idx2>=10){
-    let final=`⚔️ Trận đấu kết thúc!\nCửa 1: ${score1}\nCửa 2: ${score2}\n`;
-    if(score1>score2){final+="👉 Cửa 1 Thắng!"; playSound("soundWin");}
-    else if(score2>score1){final+="👉 Cửa 2 Thắng!"; playSound("soundWin");}
-    else{final+="🤝 Hòa!"; playSound("soundLose");}
-    alert(final);
+    let msg=`⚔️ Trận đấu kết thúc!\nCửa 1: ${score1}\nCửa 2: ${score2}\n`;
+    if(score1>score2){msg+="👉 Cửa 1 thắng!"; playSound("soundWin");}
+    else if(score2>score1){msg+="👉 Cửa 2 thắng!"; playSound("soundWin");}
+    else{msg+="🤝 Hòa!"; playSound("soundLose");}
+    alert(msg);
     document.getElementById("soundBg").pause();
   }
 }
 
 function playSound(id){
   let s=document.getElementById(id);
-  s.currentTime=0; s.play().catch(()=>{});
+  s.currentTime=0;
+  s.play().catch(()=>{});
 }
 
 function pickUnique(arr,n){
