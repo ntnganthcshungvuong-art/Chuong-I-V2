@@ -2,147 +2,149 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>🔥 Quiz Đối Kháng - Cửa 1 vs Cửa 2 🔥</title>
+  <title>🔥 Quiz Đối Kháng - Chương I 🔥</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; }
-    .hidden { display:none; }
+    .hidden { display: none; }
   </style>
 </head>
-<body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-4">
+<body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-6">
 
-  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
+  <!-- Nút Trang chủ -->
+  <button id="homeBtn" onclick="goHome()" 
+    class="hidden fixed top-3 right-3 bg-gray-800 text-white px-3 py-1 rounded-lg shadow-lg hover:bg-gray-700">
+    🏠 Trang chủ
+  </button>
+
+  <!-- Tiêu đề -->
+  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Chương I - Chế độ Chơi 🔥</h1>
 
   <!-- Menu -->
   <div id="menuScreen" class="text-center">
-    <p class="mb-4 text-gray-700">Chọn cửa để bắt đầu thi đấu:</p>
-    <div class="flex gap-6 justify-center">
-      <button onclick="startGame(1)" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg">🔑 Cửa 1</button>
-      <button onclick="startGame(2)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg">🔑 Cửa 2</button>
+    <p class="mb-4 text-gray-700">Chọn chế độ chơi:</p>
+    <div class="flex flex-col gap-4 justify-center">
+      <button onclick="chooseMode('dual')" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg">⚔️ Đối kháng (Cửa 1 vs Cửa 2)</button>
+      <button onclick="chooseMode('single')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg">🎯 Chơi đơn</button>
     </div>
   </div>
 
-  <!-- Quiz cho từng cửa -->
-  <div id="quizArea" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mt-6">
-    <div id="quiz1" class="hidden bg-white p-4 rounded-xl shadow">
+  <!-- Đối kháng -->
+  <div id="dualMode" class="hidden grid grid-cols-2 gap-6 w-full max-w-6xl">
+    <!-- Cửa 1 -->
+    <div class="bg-white p-4 rounded-xl shadow-lg">
       <h2 class="text-xl font-bold text-red-600">Cửa 1</h2>
       <p id="counter1" class="font-semibold">Câu 1/10</p>
-      <div id="qBox1" class="p-3 text-lg font-medium"></div>
+      <div id="qBox1" class="p-3 rounded-xl text-lg font-medium"></div>
       <div id="opts1" class="grid gap-2"></div>
       <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
     </div>
-
-    <div id="quiz2" class="hidden bg-white p-4 rounded-xl shadow">
+    <!-- Cửa 2 -->
+    <div class="bg-white p-4 rounded-xl shadow-lg">
       <h2 class="text-xl font-bold text-blue-600">Cửa 2</h2>
       <p id="counter2" class="font-semibold">Câu 1/10</p>
-      <div id="qBox2" class="p-3 text-lg font-medium"></div>
+      <div id="qBox2" class="p-3 rounded-xl text-lg font-medium"></div>
       <div id="opts2" class="grid gap-2"></div>
       <button onclick="nextQ(2)" id="nextBtn2" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
     </div>
   </div>
 
-  <!-- Scoreboard -->
+  <!-- Chơi đơn -->
+  <div id="singleMode" class="hidden w-full max-w-3xl">
+    <h2 class="text-xl font-bold text-center text-purple-600">🎯 Chế độ đơn</h2>
+    <p id="counterSingle" class="font-semibold">Câu 1/10</p>
+    <div id="qBoxSingle" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
+    <div id="optsSingle" class="grid gap-2"></div>
+    <button onclick="nextQ('single')" id="nextBtnSingle" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
+  </div>
+
+  <!-- Scoreboard nhỏ -->
   <div id="scoreBoard" class="hidden mt-6 bg-white shadow-lg rounded-xl p-4">
     <p class="text-lg font-bold">🏆 Bảng điểm</p>
     <p>Cửa 1: <span id="score1">0</span></p>
     <p>Cửa 2: <span id="score2">0</span></p>
   </div>
 
-  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 px-8 py-4 rounded-2xl shadow-2xl text-2xl font-extrabold">
+  <!-- Scoreboard lớn -->
+  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 px-8 py-4 rounded-2xl shadow-2xl text-3xl font-extrabold">
     <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span> 
     <span class="mx-6">⚔️</span> 
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
   <!-- Âm thanh -->
+  <audio id="soundStart" src="https://assets.mixkit.co/sfx/preview/mixkit-game-level-completed-2059.mp3"></audio>
+  <audio id="soundNewQ" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-mechanical-bling-210.wav"></audio>
   <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
   <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
   <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+  <audio id="soundLose" src="https://assets.mixkit.co/sfx/preview/mixkit-game-over-fail-2014.mp3"></audio>
 
 <script>
-let dataAll = {}, quizData1 = [], quizData2 = [];
-let idx1=0, idx2=0, score1=0, score2=0;
+let dataAll = {}, quizData1=[], quizData2=[], quizDataSingle=[];
+let idx1=0, idx2=0, idxSingle=0, score1=0, score2=0;
 
-async function startGame(door){
-  if(Object.keys(dataAll).length===0){
-    const res = await fetch("questions.json?_="+Date.now());
-    dataAll = await res.json();
-  }
+async function chooseMode(mode){
+  playSound("soundStart");
+  const res = await fetch("questions.json?_="+Date.now());
+  dataAll = await res.json();
   const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
-  if(door===1){
-    quizData1 = pickValid(allQs,10);
-    idx1=0; score1=0;
-    document.getElementById('quiz1').classList.remove('hidden');
-    document.getElementById('scoreBoard').classList.remove('hidden');
-    document.getElementById('bigScore').classList.remove('hidden');
-    showQ(1);
+
+  document.getElementById("menuScreen").classList.add("hidden");
+  document.getElementById("homeBtn").classList.remove("hidden");
+
+  if(mode==='dual'){
+    quizData1 = pick(allQs,10);
+    quizData2 = pick(allQs.filter(q=>!quizData1.includes(q)),10);
+    idx1=0; idx2=0; score1=0; score2=0;
+    document.getElementById("dualMode").classList.remove("hidden");
+    document.getElementById("scoreBoard").classList.remove("hidden");
+    document.getElementById("bigScore").classList.remove("hidden");
+    showQ(1); showQ(2);
   }else{
-    quizData2 = pickValid(allQs,10);
-    idx2=0; score2=0;
-    document.getElementById('quiz2').classList.remove('hidden');
-    document.getElementById('scoreBoard').classList.remove('hidden');
-    document.getElementById('bigScore').classList.remove('hidden');
-    showQ(2);
+    quizDataSingle = pick(allQs,10);
+    idxSingle=0;
+    document.getElementById("singleMode").classList.remove("hidden");
+    showQ('single');
   }
 }
 
 function showQ(door){
-  let idx = (door===1?idx1:idx2);
-  let quizData = (door===1?quizData1:quizData2);
-  let q = quizData[idx];
-  document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
+  playSound("soundNewQ");
+  let q, idx, quizData, qBox, optsBox, counter, nextBtn;
+  if(door===1){ idx=idx1; quizData=quizData1; qBox="qBox1"; optsBox="opts1"; counter="counter1"; nextBtn="nextBtn1"; }
+  else if(door===2){ idx=idx2; quizData=quizData2; qBox="qBox2"; optsBox="opts2"; counter="counter2"; nextBtn="nextBtn2"; }
+  else{ idx=idxSingle; quizData=quizDataSingle; qBox="qBoxSingle"; optsBox="optsSingle"; counter="counterSingle"; nextBtn="nextBtnSingle"; }
 
-  // Câu hỏi
-  document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span>`;
-
-  // Đáp án
-  let html = "";
-  if (Array.isArray(q.options) && q.options.length > 1){
-    shuffle([...q.options]).forEach(opt=>{
-      html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
-                class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-base">${opt}</button>`;
-    });
-  }
-  document.getElementById('opts'+door).innerHTML = html;
-  document.getElementById('nextBtn'+door).classList.add('hidden');
+  q = quizData[idx];
+  document.getElementById(counter).innerText=`Câu ${idx+1}/10`;
+  document.getElementById(qBox).innerHTML=`<span class="text-xl font-bold">${q.q.replace(/^Câu \d+: /,'')}</span>`;
+  let html='';
+  shuffle([...q.options]).forEach(opt=>{
+    html += `<button onclick="answer('${door}', this, '${escape(q.a)}')" class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
+  });
+  document.getElementById(optsBox).innerHTML=html;
+  document.getElementById(nextBtn).classList.add('hidden');
 }
 
 function answer(door,btn,correct){
-  let chosen = btn.innerText.trim();
-  let buttons = document.querySelectorAll('#opts'+door+' button');
+  let chosen=btn.innerText.trim();
+  let optsBox=(door===1?'opts1':door===2?'opts2':'optsSingle');
+  let buttons=document.querySelectorAll('#'+optsBox+' button');
   buttons.forEach(b=>b.disabled=true);
   if(chosen===correct){
     btn.classList.add('bg-green-300');
-    document.getElementById("soundCorrect").play();
-    if(door===1){score1+=10;} else{score2+=10;}
-    updateScore();
+    playSound("soundCorrect");
+    if(door===1){score1+=10;updateScore();}
+    else if(door===2){score2+=10;updateScore();}
   }else{
     btn.classList.add('bg-red-300');
-    document.getElementById("soundWrong").play();
+    playSound("soundWrong");
     buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add('ring-2','ring-green-600')}})
   }
-  document.getElementById('nextBtn'+door).classList.remove('hidden');
-}
-
-function nextQ(door){
-  if(door===1){
-    idx1++;
-    if(idx1<quizData1.length){showQ(1);}else{endGame();}
-  }else{
-    idx2++;
-    if(idx2<quizData2.length){showQ(2);}else{endGame();}
-  }
-}
-
-function endGame(){
-  if(idx1>=10 && idx2>=10){
-    let msg=`Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
-    if(score1>score2){msg+="👉 Cửa 1 thắng!"; document.getElementById("soundWin").play();}
-    else if(score2>score1){msg+="👉 Cửa 2 thắng!"; document.getElementById("soundWin").play();}
-    else {msg+="🤝 Hòa!";}
-    alert(msg);
-  }
+  let nextBtn=(door===1?'nextBtn1':door===2?'nextBtn2':'nextBtnSingle');
+  document.getElementById(nextBtn).classList.remove('hidden');
 }
 
 function updateScore(){
@@ -152,20 +154,47 @@ function updateScore(){
   document.getElementById('bigScore2').innerText=score2;
 }
 
-function pickValid(arr,n){
-  let out=[]; let tries=0;
-  while(out.length<n && tries<500){
-    let q=arr[Math.floor(Math.random()*arr.length)];
-    if(q.q && Array.isArray(q.options) && q.options.length>1){
-      out.push(q);
-    }
-    tries++;
-  }
-  return out;
+function nextQ(door){
+  if(door===1){idx1++; if(idx1<quizData1.length){showQ(1);}else{endGame();}}
+  else if(door===2){idx2++; if(idx2<quizData2.length){showQ(2);}else{endGame();}}
+  else{idxSingle++; if(idxSingle<quizDataSingle.length){showQ('single');}else{endSingle();}}
 }
 
+function endGame(){
+  if(idx1>=10 && idx2>=10){
+    let msg="🎉 Trận đấu kết thúc!\n";
+    msg+=`Cửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
+    if(score1>score2){msg+="👉 Cửa 1 Thắng!";playSound("soundWin");}
+    else if(score2>score1){msg+="👉 Cửa 2 Thắng!";playSound("soundWin");}
+    else{msg+="🤝 Hòa!";playSound("soundLose");}
+    alert(msg);
+    showReplay();
+  }
+}
+
+function endSingle(){
+  alert("🎉 Hoàn thành chế độ đơn!");
+  showReplay();
+}
+
+function showReplay(){
+  document.body.insertAdjacentHTML("beforeend",`
+    <div id="replayBox" class="fixed inset-0 flex items-center justify-center bg-black/60">
+      <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+        <h2 class="text-2xl font-bold mb-4">🔄 Chơi lại?</h2>
+        <button onclick="restart()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">Về trang chủ</button>
+      </div>
+    </div>
+  `);
+}
+
+function restart(){ location.reload(); }
+function goHome(){ if(confirm("⚠️ Bạn có chắc muốn thoát về Trang chủ?")) location.reload(); }
+
+function pick(arr,n){let out=[];let used=new Set();while(out.length<n){let q=arr[Math.floor(Math.random()*arr.length)];if(!used.has(q.q)){out.push(q);used.add(q.q);}}return out;}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
-function escape(s){return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
+function playSound(id){let s=document.getElementById(id);s.currentTime=0;s.play();}
+function escape(s){return s.replace(/'/g,"\\'").replace(/"/g,'\\"');}
 </script>
 
 </body>
