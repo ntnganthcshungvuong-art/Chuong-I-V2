@@ -8,17 +8,11 @@
   <style>
     body { font-family: 'Segoe UI', sans-serif; transition: background 0.3s; }
     .hidden { display: none; }
-    #scoreBoard {
-      position: fixed;
-      top: 80px;
-      right: 20px;
-      z-index: 50;
-    }
   </style>
 </head>
 <body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-6">
 
-  <h1 class="text-3xl font-bold mb-6 text-center">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
+  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
 
   <!-- Menu -->
   <div id="menuScreen" class="text-center">
@@ -30,7 +24,7 @@
   </div>
 
   <!-- Quiz cho từng cửa -->
-  <div id="quiz1" class="hidden w-full max-w-2xl mt-6 pb-32">
+  <div id="quiz1" class="hidden w-full max-w-2xl mt-6">
     <h2 class="text-xl font-bold text-red-600">Cửa 1</h2>
     <p id="counter1" class="font-semibold">Câu 1/10</p>
     <div id="qBox1" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
@@ -38,7 +32,7 @@
     <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
   </div>
 
-  <div id="quiz2" class="hidden w-full max-w-2xl mt-6 pb-32">
+  <div id="quiz2" class="hidden w-full max-w-2xl mt-6">
     <h2 class="text-xl font-bold text-blue-600">Cửa 2</h2>
     <p id="counter2" class="font-semibold">Câu 1/10</p>
     <div id="qBox2" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
@@ -47,60 +41,64 @@
   </div>
 
   <!-- Scoreboard nhỏ -->
-  <div id="scoreBoard" class="hidden bg-white shadow-lg rounded-xl p-4">
-    <p class="text-lg font-bold">🏆 Bảng điểm</p>
+  <div id="scoreBoard" class="hidden fixed top-4 right-4 bg-white shadow-lg rounded-xl p-4 text-sm">
+    <p class="font-bold">🏆 Bảng điểm</p>
     <p>Cửa 1: <span id="score1">0</span></p>
     <p>Cửa 2: <span id="score2">0</span></p>
   </div>
 
   <!-- Scoreboard lớn -->
-  <div id="bigScore" class="hidden fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-white/90 px-6 py-3 rounded-2xl shadow-2xl text-xl md:text-3xl font-extrabold">
+  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 px-8 py-4 rounded-2xl shadow-2xl text-2xl font-extrabold">
     <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span> 
-    <span class="mx-4">⚔️</span> 
+    <span class="mx-6">⚔️</span> 
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
-  <!-- Âm thanh Kahoot -->
-  <audio id="soundCorrect" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3a8f95c3a.mp3"></audio>
-  <audio id="soundWrong" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_44f94a6e25.mp3"></audio>
-  <audio id="soundWin" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_b63f9a8f3f.mp3"></audio>
-  <audio id="soundLose" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d26e0d3b2.mp3"></audio>
-  <audio id="soundBg" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0f37d0c2a9.mp3" loop></audio>
+  <!-- Âm thanh -->
+  <audio id="soundBg" loop src="https://cdn.pixabay.com/audio/2022/10/25/audio_b07d689abe.mp3"></audio>
+  <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
+  <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
+  <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+  <audio id="soundLose" src="https://assets.mixkit.co/sfx/preview/mixkit-game-over-fail-2014.mp3"></audio>
 
 <script>
 let dataAll = {}, quizData1 = [], quizData2 = [];
 let idx1=0, idx2=0, score1=0, score2=0;
 
+// Bắt đầu cho 1 cửa
 async function startGame(door){
   if(Object.keys(dataAll).length===0){
     const res = await fetch("questions.json?_="+Date.now());
     dataAll = await res.json();
   }
-  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[]), ...(dataAll.Bai5||[])];
+  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
 
-  document.getElementById("soundBg").play().catch(()=>{});
+  // Bật nhạc nền sau click
+  let bg = document.getElementById("soundBg");
+  bg.currentTime=0; bg.play().catch(()=>{});
 
   if(door===1){
-    quizData1 = pick(allQs,10);
+    quizData1 = pickUnique(allQs,10);
     idx1=0; score1=0;
     document.getElementById('quiz1').classList.remove('hidden');
+    showQ(1);
   }else{
-    quizData2 = pick(allQs,10);
+    quizData2 = pickUnique(allQs,10);
     idx2=0; score2=0;
     document.getElementById('quiz2').classList.remove('hidden');
+    showQ(2);
   }
   document.getElementById('scoreBoard').classList.remove('hidden');
   document.getElementById('bigScore').classList.remove('hidden');
-  showQ(door);
 }
 
+// Hiển thị câu hỏi
 function showQ(door){
   let idx = (door===1?idx1:idx2);
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
-  let cleanQ = q.q.replace(/^Bài.*?:\s*/,'').replace("⁺","+");
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
-  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${cleanQ}</span>`;
+  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${q.q}</span>`;
   let html = '';
   shuffle([...q.options]).forEach(opt=>{
     html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
@@ -110,6 +108,7 @@ function showQ(door){
   document.getElementById('nextBtn'+door).classList.add('hidden');
 }
 
+// Trả lời
 function answer(door,btn,correct){
   let chosen = btn.innerText.trim();
   let buttons = document.querySelectorAll('#opts'+door+' button');
@@ -127,6 +126,7 @@ function answer(door,btn,correct){
   document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
+// Update điểm
 function updateScore(){
   document.getElementById('score1').innerText=score1;
   document.getElementById('score2').innerText=score2;
@@ -134,64 +134,60 @@ function updateScore(){
   document.getElementById('bigScore2').innerText=score2;
 }
 
+// Next
 function nextQ(door){
   if(door===1){
     idx1++;
-    if(idx1<quizData1.length){showQ(1);}else{endGame();}
+    if(idx1<quizData1.length){showQ(1);}else{endGame(1);}
   }else{
     idx2++;
-    if(idx2<quizData2.length){showQ(2);}else{endGame();}
+    if(idx2<quizData2.length){showQ(2);}else{endGame(2);}
   }
 }
 
-function endGame(){
+// Kết thúc
+function endGame(door){
+  let msg="";
+  if(door===1){
+    msg=`🎉 Cửa 1 hoàn thành!\nĐiểm: ${score1}`;
+  }else{
+    msg=`🎉 Cửa 2 hoàn thành!\nĐiểm: ${score2}`;
+  }
+  alert(msg);
+
+  // Nếu cả hai xong thì so kèo
   if(idx1>=10 && idx2>=10){
-    let msg="🎉 Trận đấu kết thúc!\n";
-    msg+=`Cửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
-    if(score1>score2){
-      msg+="👉 Cửa 1 Thắng!";
-      playSound("soundWin");
-      flashBackground("red");
-    }
-    else if(score2>score1){
-      msg+="👉 Cửa 2 Thắng!";
-      playSound("soundWin");
-      flashBackground("blue");
-    }
-    else{
-      msg+="🤝 Hòa!";
-      playSound("soundLose");
-      flashBackground("gray");
-    }
-    alert(msg);
+    let final="⚔️ Trận đấu kết thúc!\n";
+    final+=`Cửa 1: ${score1}\nCửa 2: ${score2}\n`;
+    if(score1>score2){final+="👉 Cửa 1 Thắng!"; playSound("soundWin");}
+    else if(score2>score1){final+="👉 Cửa 2 Thắng!"; playSound("soundWin");}
+    else{final+="🤝 Hòa!"; playSound("soundLose");}
+    alert(final);
     document.getElementById("soundBg").pause();
   }
 }
 
+// Âm thanh
 function playSound(id){
-  let audio=document.getElementById(id);
-  audio.currentTime=0;
-  audio.play();
+  let s=document.getElementById(id);
+  s.currentTime=0;
+  s.play().catch(()=>{});
 }
 
-function flashBackground(color){
-  let body=document.body;
-  let i=0;
-  let interval=setInterval(()=>{
-    body.style.backgroundColor=(i%2===0?color:"white");
-    i++;
-    if(i>6){clearInterval(interval);body.style.background="";}
-  },300);
-}
-
-function pick(arr,n){
-  let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;
+// Tools
+function pickUnique(arr,n){
+  let shuffled = shuffle([...arr]);
+  return shuffled.slice(0, n);
 }
 function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;
+  for(let i=arr.length-1;i>0;i--){
+    let j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
 }
 function escape(s){
-  return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"');
+  return (s||'').replace(/"/g,'&quot;').replace(/'/g,"&#39;");
 }
 </script>
 
