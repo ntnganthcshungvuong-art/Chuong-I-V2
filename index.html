@@ -7,13 +7,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; }
-    .hidden { display: none; }
-    .quiz-col { flex: 1; min-width: 300px; }
+    .hidden { display:none; }
   </style>
 </head>
 <body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-4">
 
-  <h1 class="text-3xl font-bold mb-4">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
+  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
 
   <!-- Menu -->
   <div id="menuScreen" class="text-center">
@@ -24,9 +23,9 @@
     </div>
   </div>
 
-  <!-- Hai cửa hiển thị song song -->
-  <div id="battleScreen" class="hidden flex gap-6 w-full max-w-6xl mt-6">
-    <div id="quiz1" class="quiz-col bg-white/70 p-4 rounded-xl shadow">
+  <!-- Quiz cho từng cửa -->
+  <div id="quizArea" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mt-6">
+    <div id="quiz1" class="hidden bg-white p-4 rounded-xl shadow">
       <h2 class="text-xl font-bold text-red-600">Cửa 1</h2>
       <p id="counter1" class="font-semibold">Câu 1/10</p>
       <div id="qBox1" class="p-3 text-lg font-medium"></div>
@@ -34,7 +33,7 @@
       <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
     </div>
 
-    <div id="quiz2" class="quiz-col bg-white/70 p-4 rounded-xl shadow">
+    <div id="quiz2" class="hidden bg-white p-4 rounded-xl shadow">
       <h2 class="text-xl font-bold text-blue-600">Cửa 2</h2>
       <p id="counter2" class="font-semibold">Câu 1/10</p>
       <div id="qBox2" class="p-3 text-lg font-medium"></div>
@@ -43,29 +42,26 @@
     </div>
   </div>
 
-  <!-- Scoreboard nhỏ -->
+  <!-- Scoreboard -->
   <div id="scoreBoard" class="hidden mt-6 bg-white shadow-lg rounded-xl p-4">
     <p class="text-lg font-bold">🏆 Bảng điểm</p>
     <p>Cửa 1: <span id="score1">0</span></p>
     <p>Cửa 2: <span id="score2">0</span></p>
   </div>
 
-  <!-- Scoreboard lớn -->
-  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 
-    bg-white/80 px-8 py-4 rounded-2xl shadow-2xl text-2xl font-extrabold flex items-center gap-6">
-    <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span>
-    <span>⚔️</span>
+  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 px-8 py-4 rounded-2xl shadow-2xl text-2xl font-extrabold">
+    <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span> 
+    <span class="mx-6">⚔️</span> 
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
-  <!-- Âm thanh giống Kahoot -->
+  <!-- Âm thanh -->
   <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
   <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
   <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
-  <audio id="soundLose" src="https://assets.mixkit.co/sfx/preview/mixkit-game-over-fail-2014.mp3"></audio>
 
 <script>
-let dataAll = {}, quizData1=[], quizData2=[];
+let dataAll = {}, quizData1 = [], quizData2 = [];
 let idx1=0, idx2=0, score1=0, score2=0;
 
 async function startGame(door){
@@ -73,65 +69,76 @@ async function startGame(door){
     const res = await fetch("questions.json?_="+Date.now());
     dataAll = await res.json();
   }
-  // gom tất cả câu hỏi
-  let allQs = [];
-  Object.keys(dataAll).forEach(k=>{ allQs = allQs.concat(dataAll[k]); });
-
+  const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
   if(door===1){
     quizData1 = pick(allQs,10);
     idx1=0; score1=0;
+    document.getElementById('quiz1').classList.remove('hidden');
+    document.getElementById('scoreBoard').classList.remove('hidden');
+    document.getElementById('bigScore').classList.remove('hidden');
+    showQ(1);
   }else{
     quizData2 = pick(allQs,10);
     idx2=0; score2=0;
+    document.getElementById('quiz2').classList.remove('hidden');
+    document.getElementById('scoreBoard').classList.remove('hidden');
+    document.getElementById('bigScore').classList.remove('hidden');
+    showQ(2);
   }
-  document.getElementById("menuScreen").classList.add("hidden");
-  document.getElementById("battleScreen").classList.remove("hidden");
-  document.getElementById("scoreBoard").classList.remove("hidden");
-  document.getElementById("bigScore").classList.remove("hidden");
-
-  showQ(door);
 }
 
 function showQ(door){
   let idx = (door===1?idx1:idx2);
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
+  document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
 
-  let text = q.q.replace(/^Câu\s*\d+:?\s*/,'');
-  document.getElementById("counter"+door).innerText = `Câu ${idx+1}/10`;
-  document.getElementById("qBox"+door).innerHTML = `<span class="text-xl font-bold">${simplifyPolynomial(text)}</span>`;
-
-  let html="";
-  shuffle([...q.options]).forEach(opt=>{
-    html+=`<button onclick="answer(${door}, this, '${escape(q.a)}')" 
-      class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${simplifyPolynomial(opt)}</button>`;
-  });
-  document.getElementById("opts"+door).innerHTML=html;
-  document.getElementById("nextBtn"+door).classList.add("hidden");
+  // Render khác nhau theo type
+  let html = "";
+  if(q.type==="fill"){
+    document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span><br><input id="fillAns${door}" class="border p-2 mt-2 w-full rounded">`;
+    html = `<button onclick="checkFill(${door}, '${escape(q.a)}')" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Nộp</button>`;
+  }
+  else{ // mặc định MCQ
+    document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span>`;
+    shuffle([...q.options]).forEach(opt=>{
+      html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
+                class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-base">${opt}</button>`;
+    });
+  }
+  document.getElementById('opts'+door).innerHTML = html;
+  document.getElementById('nextBtn'+door).classList.add('hidden');
 }
 
 function answer(door,btn,correct){
-  let chosen=btn.innerText.trim();
-  let buttons=document.querySelectorAll("#opts"+door+" button");
+  let chosen = btn.innerText.trim();
+  let buttons = document.querySelectorAll('#opts'+door+' button');
   buttons.forEach(b=>b.disabled=true);
   if(chosen===correct){
-    btn.classList.add("bg-green-300");
-    playSound("soundCorrect");
-    if(door===1){score1+=10;updateScore();}
-    else{score2+=10;updateScore();}
+    btn.classList.add('bg-green-300');
+    document.getElementById("soundCorrect").play();
+    if(door===1){score1+=10;} else{score2+=10;}
+    updateScore();
   }else{
-    btn.classList.add("bg-red-300");
-    playSound("soundWrong");
-    buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add("ring-2","ring-green-600");}});
+    btn.classList.add('bg-red-300');
+    document.getElementById("soundWrong").play();
+    buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add('ring-2','ring-green-600')}})
   }
-  document.getElementById("nextBtn"+door).classList.remove("hidden");
+  document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
-function updateScore(){
-  document.getElementById("score1").innerText=score1;
-  document.getElementById("score2").innerText=score2;
-  document.getElementById("bigScore1").innerText=score1;
-  document.getElementById("bigScore2").innerText=score2;
+function checkFill(door,correct){
+  let val = document.getElementById('fillAns'+door).value.trim();
+  if(val===correct){
+    alert("✅ Đúng!");
+    document.getElementById("soundCorrect").play();
+    if(door===1){score1+=10;} else{score2+=10;}
+    updateScore();
+  } else {
+    alert("❌ Sai. Đáp án: "+correct);
+    document.getElementById("soundWrong").play();
+  }
+  document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
 function nextQ(door){
@@ -146,54 +153,24 @@ function nextQ(door){
 
 function endGame(){
   if(idx1>=10 && idx2>=10){
-    let msg=`🎉 Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
-    if(score1>score2){ msg+="👉 Cửa 1 Thắng!"; playSound("soundWin"); flashBackground("red"); }
-    else if(score2>score1){ msg+="👉 Cửa 2 Thắng!"; playSound("soundWin"); flashBackground("blue"); }
-    else{ msg+="🤝 Hòa!"; playSound("soundLose"); flashBackground("gray"); }
+    let msg=`Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
+    if(score1>score2){msg+="👉 Cửa 1 thắng!"; document.getElementById("soundWin").play();}
+    else if(score2>score1){msg+="👉 Cửa 2 thắng!"; document.getElementById("soundWin").play();}
+    else {msg+="🤝 Hòa!";}
     alert(msg);
   }
 }
 
-function playSound(id){ document.getElementById(id).play(); }
-
-function flashBackground(color){
-  let body=document.body; let i=0;
-  let interval=setInterval(()=>{
-    body.style.backgroundColor=(i%2===0?color:"white"); i++;
-    if(i>6){clearInterval(interval); body.style.background="";}
-  },300);
+function updateScore(){
+  document.getElementById('score1').innerText=score1;
+  document.getElementById('score2').innerText=score2;
+  document.getElementById('bigScore1').innerText=score1;
+  document.getElementById('bigScore2').innerText=score2;
 }
 
-function pick(arr,n){ let out=[]; for(let i=0;i<n;i++){ out.push(arr[Math.floor(Math.random()*arr.length)]);} return out; }
-function shuffle(arr){ for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
-function escape(s){ return (s||"").replace(/'/g,"\\'").replace(/"/g,'\\"'); }
-
-// Hàm rút gọn đa thức (cơ bản)
-function simplifyPolynomial(expr){
-  try{
-    // gom nhóm: chỉ xử lý dạng (ax^n + bx^m + c)
-    let terms = expr.replace(/\s+/g,"").replace(/([+-])/g," $1").trim().split(" ");
-    let map={};
-    terms.forEach(t=>{
-      if(!t) return;
-      let match=t.match(/^([+-]?\d*)(x(\^(\d+))?)?$/);
-      if(match){
-        let coef = match[1]===""||match[1]==="+"?1:(match[1]==="-"?-1:parseInt(match[1]));
-        let pow = match[4]?parseInt(match[4]):(match[2]?"1":"0");
-        map[pow]=(map[pow]||0)+coef;
-      }
-    });
-    let keys=Object.keys(map).map(k=>parseInt(k)).sort((a,b)=>b-a);
-    let out="";
-    keys.forEach((k,i)=>{
-      let c=map[k]; if(c===0) return;
-      let term=(k===0?c:(c===1?"":(c===-1?"-":c))+ "x"+(k===1?"":"^"+k));
-      if(out===""){out=term;}
-      else{ out+=(c>0?"+":"")+term; }
-    });
-    return out||expr;
-  }catch(e){ return expr; }
-}
+function pick(arr,n){let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function escape(s){return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
 </script>
 
 </body>
