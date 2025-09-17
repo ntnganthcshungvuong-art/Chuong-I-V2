@@ -48,14 +48,14 @@
   </div>
 
   <!-- Scoreboard lớn -->
-  <div id="bigScore" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 px-8 py-4 rounded-2xl shadow-2xl text-2xl font-extrabold">
+  <div id="bigScore" class="hidden fixed bottom-2 left-1/2 transform -translate-x-1/2 bg-white/90 px-6 py-3 rounded-2xl shadow-2xl text-xl font-extrabold">
     <span class="text-red-600">Cửa 1: <span id="bigScore1">0</span></span> 
-    <span class="mx-6">⚔️</span> 
+    <span class="mx-4">⚔️</span> 
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
   <!-- Âm thanh -->
-  <audio id="soundBg" loop src="https://cdn.pixabay.com/audio/2022/10/25/audio_b07d689abe.mp3"></audio>
+  <audio id="soundBg" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_baad04c021.mp3?filename=game-music-loop-117077.mp3"></audio>
   <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
   <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
   <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
@@ -65,7 +65,6 @@
 let dataAll = {}, quizData1 = [], quizData2 = [];
 let idx1=0, idx2=0, score1=0, score2=0;
 
-// Bắt đầu cho 1 cửa
 async function startGame(door){
   if(Object.keys(dataAll).length===0){
     const res = await fetch("questions.json?_="+Date.now());
@@ -73,8 +72,8 @@ async function startGame(door){
   }
   const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
 
-  // Bật nhạc nền sau click
-  let bg = document.getElementById("soundBg");
+  // play background music
+  let bg=document.getElementById("soundBg");
   bg.currentTime=0; bg.play().catch(()=>{});
 
   if(door===1){
@@ -92,13 +91,14 @@ async function startGame(door){
   document.getElementById('bigScore').classList.remove('hidden');
 }
 
-// Hiển thị câu hỏi
 function showQ(door){
   let idx = (door===1?idx1:idx2);
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
-  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${q.q}</span>`;
+  // bỏ tiền tố "Câu xx:" nếu có
+  let cleanQ = q.q.replace(/^Câu\s*\d+:\s*/,'');
+  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${cleanQ}</span>`;
   let html = '';
   shuffle([...q.options]).forEach(opt=>{
     html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
@@ -108,7 +108,6 @@ function showQ(door){
   document.getElementById('nextBtn'+door).classList.add('hidden');
 }
 
-// Trả lời
 function answer(door,btn,correct){
   let chosen = btn.innerText.trim();
   let buttons = document.querySelectorAll('#opts'+door+' button');
@@ -126,7 +125,6 @@ function answer(door,btn,correct){
   document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
-// Update điểm
 function updateScore(){
   document.getElementById('score1').innerText=score1;
   document.getElementById('score2').innerText=score2;
@@ -134,28 +132,17 @@ function updateScore(){
   document.getElementById('bigScore2').innerText=score2;
 }
 
-// Next
 function nextQ(door){
   if(door===1){
     idx1++;
-    if(idx1<quizData1.length){showQ(1);}else{endGame(1);}
+    if(idx1<quizData1.length){showQ(1);}else{endGame();}
   }else{
     idx2++;
-    if(idx2<quizData2.length){showQ(2);}else{endGame(2);}
+    if(idx2<quizData2.length){showQ(2);}else{endGame();}
   }
 }
 
-// Kết thúc
-function endGame(door){
-  let msg="";
-  if(door===1){
-    msg=`🎉 Cửa 1 hoàn thành!\nĐiểm: ${score1}`;
-  }else{
-    msg=`🎉 Cửa 2 hoàn thành!\nĐiểm: ${score2}`;
-  }
-  alert(msg);
-
-  // Nếu cả hai xong thì so kèo
+function endGame(){
   if(idx1>=10 && idx2>=10){
     let final="⚔️ Trận đấu kết thúc!\n";
     final+=`Cửa 1: ${score1}\nCửa 2: ${score2}\n`;
@@ -167,14 +154,12 @@ function endGame(door){
   }
 }
 
-// Âm thanh
 function playSound(id){
   let s=document.getElementById(id);
   s.currentTime=0;
   s.play().catch(()=>{});
 }
 
-// Tools
 function pickUnique(arr,n){
   let shuffled = shuffle([...arr]);
   return shuffled.slice(0, n);
