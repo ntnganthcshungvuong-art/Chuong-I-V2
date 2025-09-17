@@ -2,17 +2,23 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Đối Kháng - Cửa 1 vs Cửa 2</title>
+  <title>🔥 Quiz Đối Kháng - Cửa 1 vs Cửa 2 🔥</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: 'Segoe UI', sans-serif; transition: background 0.3s; }
     .hidden { display: none; }
+    #scoreBoard {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 50;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-6">
 
-  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
+  <h1 class="text-3xl font-bold mb-6 text-center">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
 
   <!-- Menu -->
   <div id="menuScreen" class="text-center">
@@ -41,7 +47,7 @@
   </div>
 
   <!-- Scoreboard nhỏ -->
-  <div id="scoreBoard" class="hidden mt-6 bg-white shadow-lg rounded-xl p-4">
+  <div id="scoreBoard" class="hidden bg-white shadow-lg rounded-xl p-4">
     <p class="text-lg font-bold">🏆 Bảng điểm</p>
     <p>Cửa 1: <span id="score1">0</span></p>
     <p>Cửa 2: <span id="score2">0</span></p>
@@ -54,11 +60,12 @@
     <span class="text-blue-600">Cửa 2: <span id="bigScore2">0</span></span>
   </div>
 
-  <!-- Âm thanh -->
-  <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
-  <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
-  <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
-  <audio id="soundLose" src="https://assets.mixkit.co/sfx/preview/mixkit-game-over-fail-2014.mp3"></audio>
+  <!-- Âm thanh Kahoot -->
+  <audio id="soundCorrect" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3a8f95c3a.mp3?filename=correct-answer-3-145859.mp3"></audio>
+  <audio id="soundWrong" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_44f94a6e25.mp3?filename=wrong-answer-126515.mp3"></audio>
+  <audio id="soundWin" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_b63f9a8f3f.mp3?filename=success-fanfare-trumpets-6185.mp3"></audio>
+  <audio id="soundLose" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7d26e0d3b2.mp3?filename=negative_beeps-6008.mp3"></audio>
+  <audio id="soundBg" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0f37d0c2a9.mp3?filename=game-music-loop-10369.mp3" loop></audio>
 
 <script>
 let dataAll = {}, quizData1 = [], quizData2 = [];
@@ -70,16 +77,9 @@ async function startGame(door){
     const res = await fetch("questions.json?_="+Date.now());
     dataAll = await res.json();
   }
+  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[]), ...(dataAll.Bai5||[])];
 
-  // Gộp tất cả các bài (Bai1..Bai5)
-  let allQs = [];
-  for (let i = 1; i <= 5; i++) {
-    const key = "Bai" + i;
-    if (Array.isArray(dataAll[key])) {
-      allQs = allQs.concat(dataAll[key]);
-    }
-  }
-  console.log("Số câu hỏi load được:", allQs.length);
+  document.getElementById("soundBg").play();
 
   if(door===1){
     quizData1 = pick(allQs,10);
@@ -103,8 +103,8 @@ function showQ(door){
   let idx = (door===1?idx1:idx2);
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
+  let cleanQ = q.q.replace(/^Bài.*?:\s*/,'');
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
-  let cleanQ = q.q.replace(/\s+(NB|TH|VD|VC)$/,''); 
   document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${cleanQ}</span>`;
   let html = '';
   shuffle([...q.options]).forEach(opt=>{
@@ -173,12 +173,15 @@ function endGame(){
       flashBackground("gray");
     }
     alert(msg);
+    document.getElementById("soundBg").pause();
   }
 }
 
 // Âm thanh
 function playSound(id){
-  document.getElementById(id).play();
+  let audio=document.getElementById(id);
+  audio.currentTime=0;
+  audio.play();
 }
 
 // Hiệu ứng nền
@@ -198,6 +201,9 @@ function pick(arr,n){
 }
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;
+}
+function escape(s){
+  return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"');
 }
 </script>
 
