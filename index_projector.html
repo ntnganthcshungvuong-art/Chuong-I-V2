@@ -2,147 +2,176 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz Chế Độ Máy Chiếu</title>
+  <title>Quiz Đối Kháng - Cửa 1 vs Cửa 2</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>body{font-family:'Segoe UI',sans-serif}.hidden{display:none}</style>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; transition: background 0.3s; }
+    .hidden { display: none; }
+  </style>
 </head>
-<body class="bg-gradient-to-r from-yellow-100 to-green-200 min-h-screen flex flex-col items-center justify-center p-4">
-  <div id="menuScreen" class="text-center max-w-3xl">
-    <h1 class="text-3xl font-bold mb-4">📽️ Quiz Máy Chiếu - Chương I</h1>
-    <p class="mb-4 text-gray-700">Chọn bài để bắt đầu hiển thị câu hỏi:</p>
-    <div class="grid grid-cols-2 gap-3">
-      <button onclick="selectLesson('Bai1')" class="btn">Bài 1: Đơn thức</button>
-      <button onclick="selectLesson('Bai2')" class="btn">Bài 2: Đa thức</button>
-      <button onclick="selectLesson('Bai3')" class="btn">Bài 3: Cộng & Trừ đa thức</button>
-      <button onclick="selectLesson('Bai4')" class="btn">Bài 4: Nhân đa thức</button>
-      <button onclick="selectLesson('Bai5')" class="btn">Bài 5: Chia đa thức</button>
-      <button onclick="selectLesson('TongHop')" class="btn bg-purple-500 hover:bg-purple-600">🔎 Tổng hợp Chương I</button>
+<body class="bg-gradient-to-r from-pink-100 to-blue-200 min-h-screen flex flex-col items-center p-6">
+
+  <h1 class="text-3xl font-bold mb-6">🔥 Quiz Đối Kháng: Cửa 1 vs Cửa 2 🔥</h1>
+
+  <!-- Menu -->
+  <div id="menuScreen" class="text-center">
+    <p class="mb-4 text-gray-700">Chọn cửa để bắt đầu thi đấu:</p>
+    <div class="flex gap-6 justify-center">
+      <button onclick="startGame(1)" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl shadow-lg">🔑 Cửa 1</button>
+      <button onclick="startGame(2)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl shadow-lg">🔑 Cửa 2</button>
     </div>
   </div>
 
-  <div id="quizScreen" class="hidden w-full max-w-3xl">
-    <div class="flex justify-between items-center mb-4">
-      <p id="questionCounter" class="font-semibold">Câu 1/20</p>
-      <p id="timer" class="font-bold text-red-600">⏳ 45s</p>
-    </div>
-    <div id="questionBox" class="bg-white p-5 rounded-2xl shadow-lg mb-3"></div>
-    <div id="optionsBox" class="grid grid-cols-1 gap-3"></div>
-    <button onclick="nextQuestion()" id="nextBtn" class="hidden mt-4 bg-green-500 text-white px-6 py-2 rounded-xl hover:bg-green-600">Câu tiếp theo</button>
+  <!-- Quiz cho từng cửa -->
+  <div id="quiz1" class="hidden w-full max-w-2xl mt-6">
+    <h2 class="text-xl font-bold text-red-600">Cửa 1</h2>
+    <p id="counter1" class="font-semibold">Câu 1/10</p>
+    <div id="qBox1" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
+    <div id="opts1" class="grid gap-2"></div>
+    <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
   </div>
+
+  <div id="quiz2" class="hidden w-full max-w-2xl mt-6">
+    <h2 class="text-xl font-bold text-blue-600">Cửa 2</h2>
+    <p id="counter2" class="font-semibold">Câu 1/10</p>
+    <div id="qBox2" class="bg-white p-4 rounded-xl shadow mb-3 text-lg font-medium"></div>
+    <div id="opts2" class="grid gap-2"></div>
+    <button onclick="nextQ(2)" id="nextBtn2" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
+  </div>
+
+  <!-- Scoreboard -->
+  <div id="scoreBoard" class="hidden mt-6 bg-white shadow-lg rounded-xl p-4">
+    <p class="text-lg font-bold">🏆 Bảng điểm</p>
+    <p>Cửa 1: <span id="score1">0</span></p>
+    <p>Cửa 2: <span id="score2">0</span></p>
+  </div>
+
+  <!-- Âm thanh -->
+  <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
+  <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
+  <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
+  <audio id="soundLose" src="https://assets.mixkit.co/sfx/preview/mixkit-game-over-fail-2014.mp3"></audio>
 
 <script>
-let quizData=[], currentIndex=0, timer, timeLeft=45;
+let dataAll = {}, quizData1 = [], quizData2 = [];
+let idx1=0, idx2=0, score1=0, score2=0;
 
-async function selectLesson(lesson){
-  try {
-    const response = await fetch('https://ntnganthcshungvuong-art.github.io/To-n-8-Ch-ng-I/questions.json?_=' + Date.now());
-    const all = await response.json();
-    quizData = pick20(all[lesson] || []);
-    currentIndex = 0;
-    document.getElementById('menuScreen').classList.add('hidden');
-    document.getElementById('quizScreen').classList.remove('hidden');
-    showQuestion();
-    startTimer();
-  } catch(e) {
-    alert("❌ Không tải được dữ liệu: " + e);
+// Bắt đầu cho 1 cửa
+async function startGame(door){
+  if(Object.keys(dataAll).length===0){
+    const res = await fetch("questions.json?_="+Date.now());
+    dataAll = await res.json();
+  }
+  const allQs = [...dataAll.NB, ...dataAll.TH, ...dataAll.VD, ...dataAll.VC];
+  if(door===1){
+    quizData1 = pick(allQs,10);
+    idx1=0; score1=0;
+    document.getElementById('quiz1').classList.remove('hidden');
+    document.getElementById('scoreBoard').classList.remove('hidden');
+    showQ(1);
+  }else{
+    quizData2 = pick(allQs,10);
+    idx2=0; score2=0;
+    document.getElementById('quiz2').classList.remove('hidden');
+    document.getElementById('scoreBoard').classList.remove('hidden');
+    showQ(2);
   }
 }
 
-function pick20(all){
-  const nb_th = all.filter(q=>q.level==='NB'||q.level==='TH');
-  const others = all.filter(q=>q.level==='VD'||q.level==='VC');
-  function pick(arr,n){ const out=[]; for(let i=0;i<n;i++){ out.push(arr[Math.floor(Math.random()*arr.length)]); } return out; }
-  return shuffleArray([...pick(nb_th,12), ...pick(others,8)]);
-}
-
-function startTimer(){
-  timeLeft=45;
-  document.getElementById('timer').innerText='⏳ '+timeLeft+'s';
-  timer=setInterval(()=>{
-    timeLeft--;
-    document.getElementById('timer').innerText='⏳ '+timeLeft+'s';
-    if(timeLeft<=0){ nextQuestion(); }
-  },1000);
-}
-
-function showQuestion(){
-  clearInterval(timer); 
-  startTimer();
-
-  const q = quizData[currentIndex];
-  document.getElementById('questionCounter').innerText=`Câu ${currentIndex+1}/20`;
-
-  // Bỏ nhãn NB/TH/VD/VC nếu có
-  let cleanQ = q.q.replace(/\s+(NB|TH|VD|VC)$/,''); 
-  document.getElementById('questionBox').innerHTML = `<span class="text-2xl font-bold">${cleanQ}</span>`;
-
-  let html='';
-  shuffleArray([...(q.options||[])]).forEach(opt=>{
-    html += `<button data-value="${escapeHtml(opt)}" 
-                    onclick="selectAnswer(this,'${escapeJs(q.a)}','${escapeJs(q.hint||'')}')" 
-                    class="bg-white border rounded-xl p-3 text-left hover:bg-blue-100 text-lg font-semibold">${opt}</button>`;
+// Hiển thị câu hỏi cho 1 cửa
+function showQ(door){
+  let idx = (door===1?idx1:idx2);
+  let quizData = (door===1?quizData1:quizData2);
+  let q = quizData[idx];
+  document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
+  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${q.q}</span>`;
+  let html = '';
+  shuffle([...q.options]).forEach(opt=>{
+    html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
+              class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
   });
-  document.getElementById('optionsBox').innerHTML = html;
-
-  document.getElementById('nextBtn').classList.add('hidden');
+  document.getElementById('opts'+door).innerHTML = html;
+  document.getElementById('nextBtn'+door).classList.add('hidden');
 }
 
-function selectAnswer(btn, correct, hint){
-  const buttons=document.querySelectorAll('#optionsBox button');
+// Chọn đáp án
+function answer(door,btn,correct){
+  let chosen = btn.innerText.trim();
+  let buttons = document.querySelectorAll('#opts'+door+' button');
   buttons.forEach(b=>b.disabled=true);
-  const chosen=(btn.dataset.value||'').trim();
-  const correctTrim=(correct||'').trim();
-  if(chosen===correctTrim){
+  if(chosen===correct){
     btn.classList.add('bg-green-300');
-    alert("✅ ĐÚNG!");
-  } else {
+    playSound("soundCorrect");
+    if(door===1){score1+=10;document.getElementById('score1').innerText=score1;}
+    else{score2+=10;document.getElementById('score2').innerText=score2;}
+  }else{
     btn.classList.add('bg-red-300');
-    buttons.forEach(b=>{
-      if((b.dataset.value||'').trim()===correctTrim){
-        b.classList.add('ring-2','ring-green-600');
-      }
-    });
-    alert("❌ SAI. Đáp án đúng: "+correctTrim+"\\n👉 Gợi ý: "+hint);
+    playSound("soundWrong");
+    buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add('ring-2','ring-green-600')}})
   }
-  document.getElementById('nextBtn').classList.remove('hidden');
-  clearInterval(timer);
+  document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
 
-function nextQuestion(){
-  currentIndex++;
-  if(currentIndex < quizData.length){
-    showQuestion();
-  } else {
-    alert('🎉 Hết 20 câu!');
-    location.reload();
+// Câu tiếp
+function nextQ(door){
+  if(door===1){
+    idx1++;
+    if(idx1<quizData1.length){showQ(1);}else{endGame();}
+  }else{
+    idx2++;
+    if(idx2<quizData2.length){showQ(2);}else{endGame();}
   }
 }
 
-function shuffleArray(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
+// Kết thúc
+function endGame(){
+  if(idx1>=10 && idx2>=10){
+    let msg="🎉 Trận đấu kết thúc!\n";
+    msg+=`Cửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
+    if(score1>score2){
+      msg+="👉 Cửa 1 Thắng!";
+      playSound("soundWin");
+      flashBackground("red");
+    }
+    else if(score2>score1){
+      msg+="👉 Cửa 2 Thắng!";
+      playSound("soundWin");
+      flashBackground("blue");
+    }
+    else{
+      msg+="🤝 Hòa!";
+      playSound("soundLose");
+      flashBackground("gray");
+    }
+    alert(msg);
   }
-  return arr;
 }
 
-function escapeJs(s){
-  return (s||'')
-    .replace(/\\/g,'\\\\')
-    .replace(/'/g,"\\'")
-    .replace(/"/g,'\\"');
+// Âm thanh
+function playSound(id){
+  document.getElementById(id).play();
 }
 
-function escapeHtml(s){
-  return (s||'')
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
+// Hiệu ứng chớp nền
+function flashBackground(color){
+  let body=document.body;
+  let i=0;
+  let interval=setInterval(()=>{
+    body.style.backgroundColor=(i%2===0?color:"white");
+    i++;
+    if(i>6){clearInterval(interval);body.style.background="";}
+  },300);
+}
+
+// Tools
+function pick(arr,n){
+  let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;
 }
 </script>
 
-<style>.btn{@apply bg-blue-500 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-blue-600}</style>
 </body>
 </html>
