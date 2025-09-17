@@ -70,14 +70,16 @@ async function startGame(door){
     const res = await fetch("questions.json?_="+Date.now());
     dataAll = await res.json();
   }
-  // Gộp tất cả các bài lại
-  const allQs = [
-    ...(dataAll.Bai1 || []),
-    ...(dataAll.Bai2 || []),
-    ...(dataAll.Bai3 || []),
-    ...(dataAll.Bai4 || []),
-    ...(dataAll.Bai5 || [])
-  ];
+
+  // Gộp tất cả các bài (Bai1..Bai5)
+  let allQs = [];
+  for (let i = 1; i <= 5; i++) {
+    const key = "Bai" + i;
+    if (Array.isArray(dataAll[key])) {
+      allQs = allQs.concat(dataAll[key]);
+    }
+  }
+  console.log("Số câu hỏi load được:", allQs.length);
 
   if(door===1){
     quizData1 = pick(allQs,10);
