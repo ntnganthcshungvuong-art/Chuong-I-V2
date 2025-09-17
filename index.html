@@ -71,14 +71,14 @@ async function startGame(door){
   }
   const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
   if(door===1){
-    quizData1 = pick(allQs,10);
+    quizData1 = pickValid(allQs,10);
     idx1=0; score1=0;
     document.getElementById('quiz1').classList.remove('hidden');
     document.getElementById('scoreBoard').classList.remove('hidden');
     document.getElementById('bigScore').classList.remove('hidden');
     showQ(1);
   }else{
-    quizData2 = pick(allQs,10);
+    quizData2 = pickValid(allQs,10);
     idx2=0; score2=0;
     document.getElementById('quiz2').classList.remove('hidden');
     document.getElementById('scoreBoard').classList.remove('hidden');
@@ -93,14 +93,12 @@ function showQ(door){
   let q = quizData[idx];
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
 
-  // Render khác nhau theo type
+  // Câu hỏi
+  document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span>`;
+
+  // Đáp án
   let html = "";
-  if(q.type==="fill"){
-    document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span><br><input id="fillAns${door}" class="border p-2 mt-2 w-full rounded">`;
-    html = `<button onclick="checkFill(${door}, '${escape(q.a)}')" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Nộp</button>`;
-  }
-  else{ // mặc định MCQ
-    document.getElementById('qBox'+door).innerHTML = `<span class="text-lg font-bold">${q.q}</span>`;
+  if (Array.isArray(q.options) && q.options.length > 1){
     shuffle([...q.options]).forEach(opt=>{
       html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
                 class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-base">${opt}</button>`;
@@ -123,20 +121,6 @@ function answer(door,btn,correct){
     btn.classList.add('bg-red-300');
     document.getElementById("soundWrong").play();
     buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add('ring-2','ring-green-600')}})
-  }
-  document.getElementById('nextBtn'+door).classList.remove('hidden');
-}
-
-function checkFill(door,correct){
-  let val = document.getElementById('fillAns'+door).value.trim();
-  if(val===correct){
-    alert("✅ Đúng!");
-    document.getElementById("soundCorrect").play();
-    if(door===1){score1+=10;} else{score2+=10;}
-    updateScore();
-  } else {
-    alert("❌ Sai. Đáp án: "+correct);
-    document.getElementById("soundWrong").play();
   }
   document.getElementById('nextBtn'+door).classList.remove('hidden');
 }
@@ -168,7 +152,18 @@ function updateScore(){
   document.getElementById('bigScore2').innerText=score2;
 }
 
-function pick(arr,n){let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;}
+function pickValid(arr,n){
+  let out=[]; let tries=0;
+  while(out.length<n && tries<500){
+    let q=arr[Math.floor(Math.random()*arr.length)];
+    if(q.q && Array.isArray(q.options) && q.options.length>1){
+      out.push(q);
+    }
+    tries++;
+  }
+  return out;
+}
+
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 function escape(s){return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'\\"');}
 </script>
