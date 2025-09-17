@@ -70,7 +70,15 @@ async function startGame(door){
     const res = await fetch("questions.json?_="+Date.now());
     dataAll = await res.json();
   }
-  const allQs = [...dataAll.NB, ...dataAll.TH, ...dataAll.VD, ...dataAll.VC];
+  // Gộp tất cả các bài lại
+  const allQs = [
+    ...(dataAll.Bai1 || []),
+    ...(dataAll.Bai2 || []),
+    ...(dataAll.Bai3 || []),
+    ...(dataAll.Bai4 || []),
+    ...(dataAll.Bai5 || [])
+  ];
+
   if(door===1){
     quizData1 = pick(allQs,10);
     idx1=0; score1=0;
@@ -94,7 +102,8 @@ function showQ(door){
   let quizData = (door===1?quizData1:quizData2);
   let q = quizData[idx];
   document.getElementById('counter'+door).innerText = `Câu ${idx+1}/10`;
-  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${q.q}</span>`;
+  let cleanQ = q.q.replace(/\s+(NB|TH|VD|VC)$/,''); 
+  document.getElementById('qBox'+door).innerHTML = `<span class="text-xl font-bold">${cleanQ}</span>`;
   let html = '';
   shuffle([...q.options]).forEach(opt=>{
     html += `<button onclick="answer(${door}, this, '${escape(q.a)}')" 
