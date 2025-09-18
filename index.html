@@ -81,13 +81,18 @@ async function loadData(){
 
 async function startGame(mode){
   await loadData();
-  const allQs = [
-    ...(dataAll.Bai1 || []),
-    ...(dataAll.Bai2 || []),
-    ...(dataAll.Bai3 || []),
-    ...(dataAll.Bai4 || [])
-  ];
-  
+  // ✅ Fix: gom linh hoạt các phần, nếu chưa có thì bỏ qua
+  const allQs = []
+    .concat(dataAll.Bai1 || [])
+    .concat(dataAll.Bai2 || [])
+    .concat(dataAll.Bai3 || [])
+    .concat(dataAll.Bai4 || []);
+
+  if(allQs.length===0){
+    alert("⚠️ Chưa có dữ liệu câu hỏi trong questions.json!");
+    return;
+  }
+
   document.getElementById('menuScreen').classList.add('hidden');
   document.getElementById('scoreBoard').classList.remove('hidden');
 
