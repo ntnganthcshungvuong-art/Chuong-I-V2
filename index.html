@@ -6,7 +6,10 @@
   <title>🔥 Quiz Toán 8 – Chương I</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .btn { @apply w-full px-4 py-3 rounded-xl border font-semibold shadow-sm transition text-left; }
+    .btn { 
+      @apply w-full px-4 py-3 rounded-xl border font-semibold shadow-sm transition;
+      display: block; text-align: left; line-height: 1.5;
+    }
     .btn:hover { transform: translateY(-1px); }
     .correct {
       background:#16a34a !important;
@@ -20,6 +23,7 @@
       font-weight:bold;
     }
     .disabled { pointer-events:none; opacity:0.9; }
+    .btn span { word-break: break-word; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 text-gray-800">
@@ -98,12 +102,16 @@
       el("qCounter").textContent = `Câu ${STATE.idx+1}/10`;
       el("questionBox").innerHTML = formatPower(q.q);
 
-      const ops = q.options || [];
       el("optionsBox").innerHTML = "";
-      ops.forEach((opt,i)=>{
+      (q.options||[]).forEach((opt,i)=>{
         const btn = document.createElement("button");
         btn.className = "btn bg-white hover:bg-indigo-50";
-        btn.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${formatPower(opt)}`;
+        btn.innerHTML = `
+          <div class="flex items-start">
+            <span class="w-6 font-bold">${String.fromCharCode(65+i)}.</span>
+            <span class="flex-1">${formatPower(opt)}</span>
+          </div>
+        `;
         btn.onclick = ()=>chooseAnswer(btn,opt,q.a);
         el("optionsBox").appendChild(btn);
       });
