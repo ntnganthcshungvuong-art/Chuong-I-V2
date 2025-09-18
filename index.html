@@ -3,57 +3,51 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Toán 8 – Nhân đa thức (Quiz)</title>
+<title>Quiz Toán 8 – Nhân đa thức</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
-  :root{
-    --pink:#ec4899; --purple:#a855f7;
-    --green:#16a34a; --red:#ef4444; --gray:#9ca3af;
-  }
-  body{background:linear-gradient(135deg,#fdf2f8,#fae8ff);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial}
-  .card{background:#fff;border-radius:1.25rem;box-shadow:0 10px 24px rgba(0,0,0,.12)}
-  .btn{display:block;width:100%;padding:1rem 1.25rem;border-radius:1rem;border:1px solid #e5e7eb;font-weight:600;background:#fff;transition:.15s;text-align:left;font-size:1.125rem}
-  .btn:hover{transform:scale(1.02);background:#fff0f6}
-  .correct{background:var(--green)!important;color:#fff!important}
-  .wrong{background:var(--red)!important;color:#fff!important}
-  .disabled{pointer-events:none;opacity:.75}
-  .explain{background:#fef9c3;color:#854d0e;border-radius:.75rem;padding:.75rem 1rem}
-  .matchItem{padding:.6rem 1rem;border-radius:.6rem;border:1px solid #f9a8d4;background:#fde7f3;text-align:center;user-select:none}
+  body{background:linear-gradient(135deg,#fdf2f8,#fae8ff);font-family:ui-sans-serif,system-ui;}
+  .card{background:#fff;border-radius:1rem;box-shadow:0 10px 20px rgba(0,0,0,.1)}
+  .btn{width:100%;padding:1rem;border-radius:.75rem;border:1px solid #e5e7eb;font-weight:600;text-align:left;transition:.15s}
+  .btn:hover{background:#fce7f3}
+  .correct{background:#16a34a!important;color:#fff!important}
+  .wrong{background:#dc2626!important;color:#fff!important}
+  .disabled{pointer-events:none;opacity:.7}
+  .explain{background:#fef9c3;color:#854d0e;border-radius:.75rem;padding:.5rem .75rem}
+  .matchItem{padding:.5rem 1rem;border-radius:.5rem;border:1px solid #f9a8d4;background:#fce7f3;text-align:center}
   #matchCanvas{position:absolute;top:0;left:0;pointer-events:none}
   .step{width:2rem;height:2rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:700}
-  .step-pending{background:#e5e7eb;color:#374151}
-  .step-right{background:#bbf7d0;color:#065f46}
-  .step-wrong{background:#fecaca;color:#7f1d1d}
-  .step-locked{background:#f3f4f6;color:#6b7280;border:2px dashed #d1d5db}
+  .step-pending{background:#e5e7eb}
+  .step-right{background:#bbf7d0}
+  .step-wrong{background:#fecaca}
+  .step-locked{background:#f3f4f6;border:2px dashed #d1d5db}
 </style>
 </head>
-<body class="min-h-screen flex flex-col items-center text-gray-800">
+<body class="flex flex-col items-center min-h-screen">
 
 <!-- HOME -->
-<section id="home" class="w-full max-w-2xl p-6">
+<section id="home" class="w-full max-w-xl p-6">
   <div class="card p-8 text-center bg-gradient-to-br from-pink-50 to-purple-50">
-    <h1 class="text-5xl font-extrabold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">🔥 Toán 8</h1>
-    <p class="text-lg text-gray-600 mb-8">Chinh phục kiến thức – <b>Nhân đa thức</b></p>
-
-    <div class="text-left grid gap-5">
+    <h1 class="text-4xl font-bold text-pink-600 mb-4">🔥 Toán 8</h1>
+    <p class="text-lg mb-6">Chinh phục kiến thức – <b>Nhân đa thức</b></p>
+    <div class="space-y-4 text-left">
       <div>
-        <label class="font-semibold">👤 Tên người chơi</label>
-        <input id="playerName" class="w-full mt-1 rounded-xl border px-4 py-3 text-lg focus:ring-2 focus:ring-pink-400" placeholder="Nhập tên của bạn"/>
+        <label>👤 Tên</label>
+        <input id="playerName" class="w-full border rounded-lg px-3 py-2"/>
       </div>
-      <div class="grid grid-cols-2 gap-5">
+      <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="font-semibold">🧩 Số câu</label>
-          <input id="numQ" type="number" min="5" max="20" value="8" class="w-full mt-1 rounded-xl border px-4 py-3 text-lg"/>
+          <label>🧩 Số câu</label>
+          <input id="numQ" type="number" value="8" min="5" max="20" class="w-full border rounded-lg px-3 py-2"/>
         </div>
         <div>
-          <label class="font-semibold">⏱️ Thời gian/câu (giây)</label>
-          <input id="secPerQ" type="number" min="10" max="120" value="30" class="w-full mt-1 rounded-xl border px-4 py-3 text-lg"/>
+          <label>⏱️ Thời gian/câu</label>
+          <input id="secPerQ" type="number" value="30" min="10" max="120" class="w-full border rounded-lg px-3 py-2"/>
         </div>
       </div>
     </div>
-
-    <button id="startBtn" class="mt-8 w-full rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 text-white text-2xl font-bold py-4 shadow hover:scale-105 transition">🚀 Bắt đầu</button>
+    <button id="startBtn" class="mt-6 w-full py-3 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold text-lg">🚀 Bắt đầu</button>
   </div>
 </section>
 
@@ -61,367 +55,85 @@
 <main id="quiz" class="hidden w-full max-w-5xl p-4 grid md:grid-cols-3 gap-6">
   <section class="md:col-span-2 card p-6 relative overflow-hidden">
     <canvas id="matchCanvas" class="hidden"></canvas>
-
-    <!-- Thanh tiến trình số -->
-    <div id="steps" class="flex gap-2 flex-wrap mb-4"></div>
-
-    <div class="flex items-center justify-between mb-3">
-      <div>
-        <div class="text-green-700 font-semibold">✅ Sẵn sàng!</div>
-        <div id="qCounter" class="text-3xl font-extrabold">Câu 0/0</div>
-      </div>
-      <div class="w-56">
-        <div class="text-sm text-gray-500 mb-1">⏱️ Thời gian còn</div>
-        <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-          <div id="timeBar" class="h-full bg-pink-500" style="width:0%"></div>
-        </div>
+    <div id="steps" class="flex gap-2 mb-4 flex-wrap"></div>
+    <div class="flex items-center justify-between mb-2">
+      <div id="qCounter" class="text-xl font-bold">Câu 0/0</div>
+      <div class="w-40 h-3 bg-gray-200 rounded-full overflow-hidden">
+        <div id="timeBar" class="h-full bg-pink-500"></div>
       </div>
     </div>
-
-    <div id="questionBox" class="rounded-xl bg-pink-50 px-4 py-3 text-2xl font-bold min-h-[72px]"></div>
-    <p id="hintBox" class="text-sm text-gray-500 mt-1 hidden"></p>
-
-    <div id="optionsBox" class="mt-4 grid gap-3"></div>
-    <div id="explainBox" class="hidden explain mt-4"></div>
-
-    <div id="timeUpBox" class="hidden mt-4 text-red-600 font-semibold">⛔ Hết thời gian. Bấm <b>Câu tiếp</b> để sang câu khác.</div>
-
+    <div id="questionBox" class="rounded bg-pink-50 p-3 text-lg font-bold mb-2"></div>
+    <p id="hintBox" class="text-sm text-gray-500 hidden"></p>
+    <div id="optionsBox" class="mt-3 space-y-2"></div>
+    <div id="explainBox" class="hidden explain mt-3"></div>
+    <div id="timeUpBox" class="hidden text-red-600 font-semibold mt-3">⛔ Hết giờ!</div>
     <div class="mt-6 flex gap-3">
-      <button id="prevBtn" class="rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 font-semibold shadow">⬅️ Câu trước</button>
-      <button id="nextBtn" class="rounded-xl bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 font-semibold shadow">Câu tiếp ▶</button>
+      <button id="prevBtn" class="bg-gray-200 px-4 py-2 rounded">⬅ Câu trước</button>
+      <button id="nextBtn" class="bg-pink-500 text-white px-4 py-2 rounded">Câu tiếp ▶</button>
     </div>
   </section>
-
   <aside class="card p-6">
-    <h3 class="text-2xl font-extrabold text-pink-700 mb-2">🏆 Bảng điểm</h3>
-    <ul class="space-y-1">
-      <li>Người chơi: <span id="hudName">—</span></li>
-      <li>Điểm: <span id="hudScore">0</span></li>
-      <li>Đúng/Sai: <span id="hudRightWrong">0 / 0</span></li>
-      <li>⏱ <span id="hudTime">0</span>s / câu</li>
-    </ul>
+    <h3 class="font-bold text-pink-600 text-xl mb-2">🏆 Bảng điểm</h3>
+    <p>Người chơi: <span id="hudName">—</span></p>
+    <p>Điểm: <span id="hudScore">0</span></p>
+    <p>Đúng/Sai: <span id="hudRightWrong">0/0</span></p>
   </aside>
 </main>
 
 <!-- RESULT -->
-<section id="result" class="hidden w-full max-w-3xl p-6">
-  <div class="card p-10 text-center">
-    <h2 class="text-4xl font-extrabold text-pink-700 mb-2">🎉 Hoàn thành!</h2>
-    <p class="text-2xl">Điểm: <span id="rsScore"></span> / <span id="rsTotal"></span></p>
-    <p class="text-lg text-gray-600 mt-1">Đúng: <span id="rsRight"></span> • Sai: <span id="rsWrong"></span></p>
-    <button id="againBtn" class="mt-6 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-xl font-semibold px-6 py-3">🔁 Chơi lại</button>
+<section id="result" class="hidden w-full max-w-xl p-6">
+  <div class="card p-8 text-center">
+    <h2 class="text-3xl font-bold text-pink-600">🎉 Hoàn thành!</h2>
+    <p class="mt-2 text-xl">Điểm: <span id="rsScore"></span> / <span id="rsTotal"></span></p>
+    <p class="text-gray-600">Đúng: <span id="rsRight"></span> • Sai: <span id="rsWrong"></span></p>
+    <button id="againBtn" class="mt-6 bg-pink-500 text-white px-6 py-2 rounded">🔁 Chơi lại</button>
   </div>
 </section>
 
 <script>
-const el = id => document.getElementById(id);
-
-/* ===== Demo pool (đủ 3 dạng) ===== */
-const POOL = [
-  {type:"mc", q:"Tính (2x+3)(x+1)", a:"2x²+5x+3", options:["2x²+5x+3","2x²+3x+1","x²+2x+3"]},
-  {type:"fill", q:"(x+2)(x+3)=x²+__x+6", a:"5"},
-  {type:"mc", q:"Tính (x+4)(x+2)", a:"x²+6x+8", options:["x²+6x+8","x²+4x+2","x²+8x+4"]},
-  {type:"match", q:"Ghép biểu thức với kết quả đúng", pairs:[
-    ["(x+1)²","x²+2x+1"],["(x+2)(x+3)","x²+5x+6"],["(x-1)(x+4)","x²+3x-4"]
-  ]},
-  {type:"fill", q:"(x+5)(x+1)=x²+__x+5", a:"6"},
-  {type:"mc", q:"Tính (3x+2)(x+1)", a:"3x²+5x+2", options:["3x²+5x+2","3x²+2x+1","x²+3x+2"]},
-  {type:"mc", q:"Tính (x+3)(x+3)", a:"x²+6x+9", options:["x²+6x+9","x²+3x+3","x²+9x+6"]},
+const el=id=>document.getElementById(id);
+const POOL=[
+  {type:"mc",q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3"]},
+  {type:"fill",q:"(x+2)(x+3)=x²+__x+6",a:"5"},
+  {type:"match",q:"Ghép biểu thức với kết quả đúng",pairs:[["(x+1)²","x²+2x+1"],["(x+2)(x+3)","x²+5x+6"],["(x-1)(x+4)","x²+3x-4"]]},
 ];
-
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function beep(f,t="sine",d=0.12){const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator(),g=ctx.createGain();osc.type=t;osc.frequency.value=f;osc.connect(g);g.connect(ctx.destination);osc.start();setTimeout(()=>osc.stop(),d*1000);}
-function sClick(){beep(600,"sine",0.06)}
-function sRight(){beep(900,"triangle",0.12)}
-function sWrong(){beep(200,"sawtooth",0.2)}
-function confettiFx(){confetti({particleCount:70,spread:70,origin:{y:.85}})}
+function beep(f,d=0.1){const c=new (window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>o.stop(),d*1000);}
+function sRight(){beep(900);confetti({particleCount:60,spread:60,origin:{y:.8}});}function sWrong(){beep(200,0.2);}function sClick(){beep(600,0.05);}
 
-const STATE = {
-  quiz:[], idx:0, nQuestions:8,
-  player:"", duration:30, timeLeft:30, timer:null,
-  score:0, right:0, wrong:0,
-  perQ:[] // [{answered:false, correct:false, locked:false, data:{...}}]
-};
-
-function resetState(){
-  STATE.idx=0; STATE.score=0; STATE.right=0; STATE.wrong=0;
-  STATE.timeLeft=STATE.duration; STATE.timer=null; STATE.perQ=[];
-}
-
+const STATE={quiz:[],idx:0,nQuestions:0,duration:30,timer:null,timeLeft:0,score:0,right:0,wrong:0,player:"",perQ:[]};
+function reset(){STATE.idx=0;STATE.score=0;STATE.right=0;STATE.wrong=0;STATE.perQ=[];}
 function startGame(){
-  STATE.player = el("playerName").value || "Khách";
-  STATE.nQuestions = Math.min(parseInt(el("numQ").value||8), POOL.length);
-  STATE.duration = parseInt(el("secPerQ").value||30);
-  resetState();
-  STATE.quiz = shuffle(POOL).slice(0, STATE.nQuestions);
-  goQuiz();
-  renderAllSteps();
-  renderQuestion();
+  STATE.player=el("playerName").value||"Khách";STATE.nQuestions=parseInt(el("numQ").value)||5;STATE.duration=parseInt(el("secPerQ").value)||30;
+  reset();STATE.quiz=shuffle(POOL).slice(0,STATE.nQuestions);
+  goQuiz();renderSteps();renderQ();
 }
-
 function goHome(){el("home").classList.remove("hidden");el("quiz").classList.add("hidden");el("result").classList.add("hidden");}
 function goQuiz(){el("home").classList.add("hidden");el("quiz").classList.remove("hidden");el("result").classList.add("hidden");}
 function goResult(){el("home").classList.add("hidden");el("quiz").classList.add("hidden");el("result").classList.remove("hidden");}
-
-/* ===== Thanh tiến trình 1–n ===== */
-function renderAllSteps(){
-  const c = el("steps"); c.innerHTML="";
-  for(let i=0;i<STATE.nQuestions;i++){
-    const s=document.createElement("div"); s.id="step-"+i; s.className="step step-pending"; s.textContent=i+1;
-    c.appendChild(s);
-  }
-}
-function colorStep(i,st){
-  const d=el("step-"+i); if(!d) return;
-  d.className="step "+(st.locked? "step-locked" : st.answered? (st.correct?"step-right":"step-wrong") : "step-pending");
-}
-
-/* ===== TIMER ===== */
-function startTimerIfNeeded(){
-  stopTimer();
-  const st = ensureStatus(STATE.idx);
-  el("timeUpBox").classList.add("hidden");
-  if(st.answered || st.locked){updateTimeBar(0);return;}
-  STATE.timeLeft = STATE.duration;
-  updateTimeBar(STATE.timeLeft);
-  STATE.timer = setInterval(()=>{
-    STATE.timeLeft--;
-    updateTimeBar(STATE.timeLeft);
-    if(STATE.timeLeft<=0){
-      stopTimer();
-      st.locked=true; colorStep(STATE.idx, st);
-      el("timeUpBox").classList.remove("hidden");
-      disableInteractions(); el("nextBtn").disabled=false;
-    }
-  },1000);
-}
-function updateTimeBar(v){const pct = Math.max(0, Math.min(100, v/STATE.duration*100)); el("timeBar").style.width = pct+"%"; el("hudTime").textContent=STATE.duration;}
-function stopTimer(){ if(STATE.timer){ clearInterval(STATE.timer); STATE.timer=null; } }
-
-/* ===== STATUS ===== */
-function ensureStatus(i){ if(!STATE.perQ[i]) STATE.perQ[i]={answered:false,correct:false,locked:false,data:{}}; return STATE.perQ[i]; }
-function disableInteractions(){ [...el("optionsBox").querySelectorAll("button,input,.matchItem")].forEach(n=>n.classList.add("disabled")); }
-
-/* ===== RENDER ===== */
-function renderQuestion(){
-  stopTimer(); sClick();
-  const q = STATE.quiz[STATE.idx];
-  const st = ensureStatus(STATE.idx);
-
-  // HUD
-  el("hudName").textContent = STATE.player;
-  el("hudScore").textContent = STATE.score;
-  el("hudRightWrong").textContent = `${STATE.right} / ${STATE.wrong}`;
-  el("hudTime").textContent = STATE.duration;
-  el("qCounter").textContent = `Câu ${STATE.idx+1}/${STATE.nQuestions}`;
-  colorStep(STATE.idx, st);
-
-  // Câu hỏi (đổi “Tính …” ⇒ “Nhân hai đa thức …” cho MCQ)
-  let text = q.q || "";
-  if(q.type==="mc") text = text.replace(/^Tính\b/i,"Nhân hai đa thức");
-  el("questionBox").innerHTML = text;
-
-  // Hint cho kéo-thả
-  el("hintBox").classList.add("hidden");
-  if(q.type==="match"){
-    el("hintBox").textContent = "Hướng dẫn: Kéo ô bên trái sang ô bên phải để nối đúng. Mỗi cặp sẽ có một màu riêng.";
-    el("hintBox").classList.remove("hidden");
-  }
-
-  // reset vùng hiển thị
-  const box = el("optionsBox"); box.innerHTML="";
-  el("explainBox").classList.add("hidden"); el("explainBox").innerHTML="";
-  el("timeUpBox").classList.add("hidden");
-  el("matchCanvas").classList.add("hidden");
-  el("nextBtn").disabled = !(st.answered || st.locked);
-
-  if(q.type==="mc"){
-    const opts = (q.options||[]).filter(s=>s && s.trim() && s.trim()!=="—" && !s.includes("..."));
-    shuffle(opts).forEach((opt,i)=>{
-      const b=document.createElement("button");
-      b.className="btn";
-      b.innerHTML=`<span class="font-bold mr-2">${String.fromCharCode(65+i)}.</span> ${opt}`;
-      b.onclick=()=>{
-        if(st.answered || st.locked) return;
-        st.answered = true;
-        if(opt===q.a){ b.classList.add("correct"); sRight(); confettiFx(); STATE.score++; STATE.right++; st.correct=true; }
-        else{ b.classList.add("wrong"); sWrong(); STATE.wrong++; st.correct=false; [...box.children].forEach(bb=>{ if(bb.textContent.includes(q.a)) bb.classList.add("correct"); }); }
-        el("nextBtn").disabled = false; stopTimer(); updateHUD(); colorStep(STATE.idx, st);
-      };
-      if(st.answered || st.locked) b.classList.add("disabled");
-      // highlight lại khi xem
-      if(st.answered && opt===q.a) b.classList.add("correct");
-      box.appendChild(b);
-    });
-  }
-
-  if(q.type==="fill"){
-    const input = document.createElement("input");
-    input.id="blankInput"; input.placeholder="Nhập đáp án...";
-    input.className="w-full border rounded-xl px-4 py-2 text-xl";
-    const btn = document.createElement("button");
-    btn.id="submitBlank"; btn.className="mt-3 rounded-xl bg-pink-500 text-white px-4 py-2";
-    btn.textContent="Trả lời";
-    box.appendChild(input); box.appendChild(btn);
-
-    if(st.answered || st.locked){
-      input.disabled = true; btn.disabled = true; el("nextBtn").disabled=false;
-      if(st.data && st.data.ans!==undefined) input.value = st.data.ans;
-      if(!st.correct){
-        el("explainBox").innerHTML = `❌ Sai rồi!<br>📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab<br>✅ Đáp án đúng: <b>${q.a}</b>`;
-        el("explainBox").classList.remove("hidden");
-      }
-    }else{
-      el("nextBtn").disabled = true;
-      btn.onclick=()=>{
-        const ans=input.value.trim();
-        if(!ans){ alert("⚠️ Bạn cần nhập đáp án trước khi nộp!"); return; }
-        st.answered = true; st.data.ans = ans; stopTimer();
-        input.disabled = true; btn.disabled = true; el("nextBtn").disabled=false;
-        if(ans===q.a){ sRight(); confettiFx(); STATE.score++; STATE.right++; st.correct=true; }
-        else{ sWrong(); STATE.wrong++; st.correct=false;
-          el("explainBox").innerHTML = `❌ Sai rồi!<br>📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab<br>✅ Đáp án đúng: <b>${q.a}</b>`;
-          el("explainBox").classList.remove("hidden");
-        }
-        updateHUD(); colorStep(STATE.idx, st);
-      };
-    }
-  }
-
-  if(q.type==="match"){ renderMatch(q, st); }
-
-  startTimerIfNeeded();
-}
-
-function updateHUD(){
-  el("hudScore").textContent = STATE.score;
-  el("hudRightWrong").textContent = `${STATE.right} / ${STATE.wrong}`;
-}
-
-/* ===== MATCH (drag & drop với dây nối, màu cặp) ===== */
-function renderMatch(q, st){
-  const box = el("optionsBox");
-  const area = document.createElement("div");
-  area.className="relative";
-  area.style.minHeight="320px";
-  area.innerHTML=`
-    <div class="grid grid-cols-2 gap-12 relative z-10">
-      <div id="leftCol" class="space-y-6"></div>
-      <div id="rightCol" class="space-y-6"></div>
-    </div>`;
-  box.appendChild(area);
-
-  const L = elCreateList("leftCol", q.pairs.map((p,i)=>({id:`L${i}`,text:p[0]})));
-  const R = elCreateList("rightCol", q.pairs.map((p,i)=>({id:`R${i}`,text:p[1]})));
-
-  // canvas
-  const canvas = el("matchCanvas");
-  canvas.classList.remove("hidden");
-  canvas.width = area.clientWidth;
-  canvas.height = Math.max(area.clientHeight, 320);
-  const ctx = canvas.getContext("2d");
-  function redraw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    (st.data.matches||[]).forEach(m=>{
-      const l = document.querySelector(`[data-id='${m.left}']`).getBoundingClientRect();
-      const r = document.querySelector(`[data-id='${m.right}']`).getBoundingClientRect();
-      const a = area.getBoundingClientRect();
-      const x1=l.right-a.left, y1=l.top + l.height/2 - a.top;
-      const x2=r.left - a.left, y2=r.top + r.height/2 - a.top;
-      ctx.beginPath(); ctx.moveTo(x1,y1);
-      ctx.bezierCurveTo(x1+80,y1,x2-80,y2,x2,y2);
-      ctx.lineWidth=4; ctx.strokeStyle=m.color; ctx.stroke();
-    });
-  }
-  function pairColor(){ return `hsl(${Math.random()*360},80%,60%)`; }
-
-  if(!st.data.matches) st.data.matches=[];
-  // Drag from left → drop to right
-  if(!(st.answered||st.locked)){
-    L.forEach(elm=>{
-      elm.draggable=true;
-      elm.ondragstart=e=>{e.dataTransfer.setData("leftId",elm.dataset.id);}
-    });
-    R.forEach(elm=>{
-      elm.ondragover=e=>e.preventDefault();
-      elm.ondrop=e=>{
-        const left=e.dataTransfer.getData("leftId"); if(!left) return;
-        const right=elm.dataset.id;
-        st.data.matches = st.data.matches.filter(m=>m.left!==left); // thay cặp nếu đã nối
-        const color=pairColor();
-        st.data.matches.push({left,right,color});
-        document.querySelector(`[data-id='${left}']`).style.background=color+"33";
-        elm.style.background=color+"33";
-        redraw();
-      };
-    });
-  }else{
-    // view-only
-    (st.data.matches||[]).forEach(m=>{
-      const l=document.querySelector(`[data-id='${m.left}']`);
-      const r=document.querySelector(`[data-id='${m.right}']`);
-      if(l) l.style.background=(m.color||"#ddd")+"33";
-      if(r) r.style.background=(m.color||"#ddd")+"33";
-    });
-    redraw();
-  }
-
-  // Nút nộp & chấm
-  const submit=document.createElement("button");
-  submit.className="mt-4 rounded-xl bg-pink-500 text-white px-4 py-2";
-  submit.textContent="Nộp kết quả";
-  box.appendChild(submit);
-
-  if(st.answered || st.locked){ submit.classList.add("disabled"); el("nextBtn").disabled=false; }
-  else{
-    el("nextBtn").disabled=true;
-    submit.onclick=()=>{
-      st.answered=true; stopTimer(); el("nextBtn").disabled=false;
-      // chấm
-      st.data.matches.forEach(m=>{
-        const idx=m.left.slice(1), correct=`R${idx}`;
-        const l=document.querySelector(`[data-id='${m.left}']`);
-        const r=document.querySelector(`[data-id='${m.right}']`);
-        if(m.right===correct){ m.color="green"; l.style.background="#86efac"; r.style.background="#86efac"; STATE.score++; STATE.right++; }
-        else{ m.color="red"; l.style.background="#fca5a5"; r.style.background="#fca5a5"; STATE.wrong++; }
-      });
-      redraw(); sRight(); confettiFx(); updateHUD(); colorStep(STATE.idx, st);
-    };
-  }
-
-  function elCreateList(colId, items){
-    const col = document.getElementById(colId);
-    return items.map(it=>{
-      const d=document.createElement("div");
-      d.className="matchItem"; d.dataset.id=it.id; d.textContent=it.text; col.appendChild(d); return d;
-    });
-  }
-}
-
-/* ===== NAV ===== */
-el("nextBtn").onclick=()=>{
-  if(STATE.idx<STATE.nQuestions-1){ STATE.idx++; renderQuestion(); }
-  else finishGame();
-};
-el("prevBtn").onclick=()=>{
-  if(STATE.idx>0){ STATE.idx--; renderQuestion(); } // xem lại; không cho làm lại vì đã khóa/answered
-};
-
-function finishGame(){
-  stopTimer();
-  el("rsScore").textContent=STATE.score;
-  el("rsTotal").textContent=STATE.nQuestions;
-  el("rsRight").textContent=STATE.right;
-  el("rsWrong").textContent=STATE.wrong;
-  goResult();
-}
-
-/* ===== HOOKS ===== */
-el("startBtn").onclick=startGame;
-el("againBtn").onclick=()=>{ goHome(); };
-
-/* ===== INIT ===== */
-goHome();
+function renderSteps(){el("steps").innerHTML="";for(let i=0;i<STATE.nQuestions;i++){let d=document.createElement("div");d.id="step-"+i;d.className="step step-pending";d.textContent=i+1;el("steps").appendChild(d);}}
+function colorStep(i,st){const d=el("step-"+i);if(!d)return;d.className="step "+(st.answered?(st.correct?"step-right":"step-wrong"):(st.locked?"step-locked":"step-pending"));}
+function stopTimer(){if(STATE.timer){clearInterval(STATE.timer);STATE.timer=null;}}
+function startTimer(st){stopTimer();if(st.answered||st.locked){el("timeBar").style.width="0%";return;}
+  STATE.timeLeft=STATE.duration;tick();STATE.timer=setInterval(()=>{STATE.timeLeft--;tick();if(STATE.timeLeft<=0){stopTimer();st.locked=true;colorStep(STATE.idx,st);el("timeUpBox").classList.remove("hidden");el("nextBtn").disabled=false;}},1000);}
+function tick(){el("timeBar").style.width=(STATE.timeLeft/STATE.duration*100)+"%";}
+function ensureStatus(i){if(!STATE.perQ[i])STATE.perQ[i]={answered:false,correct:false,locked:false,data:{}};return STATE.perQ[i];}
+function disableAll(){[...el("optionsBox").querySelectorAll("button,input")].forEach(n=>n.disabled=true);}
+function renderQ(){stopTimer();const q=STATE.quiz[STATE.idx];const st=ensureStatus(STATE.idx);
+  el("hudName").textContent=STATE.player;el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=STATE.right+"/"+STATE.wrong;
+  el("qCounter").textContent="Câu "+(STATE.idx+1)+"/"+STATE.nQuestions;
+  let text=q.q;if(q.type==="mc")text=text.replace(/^Tính/i,"Nhân hai đa thức");el("questionBox").textContent=text;
+  el("optionsBox").innerHTML="";el("explainBox").classList.add("hidden");el("timeUpBox").classList.add("hidden");
+  el("nextBtn").disabled=!(st.answered||st.locked);el("hintBox").classList.add("hidden");
+  if(q.type==="mc"){shuffle(q.options).forEach((opt,i)=>{let b=document.createElement("button");b.className="btn";b.textContent=String.fromCharCode(65+i)+". "+opt;b.onclick=()=>{if(st.answered||st.locked)return;st.answered=true;if(opt===q.a){b.classList.add("correct");sRight();STATE.score++;STATE.right++;st.correct=true;}else{b.classList.add("wrong");sWrong();STATE.wrong++;st.correct=false;}el("nextBtn").disabled=false;colorStep(STATE.idx,st);};if(st.answered||st.locked)b.classList.add("disabled");el("optionsBox").appendChild(b);});}
+  if(q.type==="fill"){let inp=document.createElement("input");inp.className="w-full border rounded px-3 py-2";let btn=document.createElement("button");btn.textContent="Trả lời";btn.className="mt-2 bg-pink-500 text-white px-3 py-1 rounded";el("optionsBox").appendChild(inp);el("optionsBox").appendChild(btn);if(st.answered||st.locked){inp.disabled=true;btn.disabled=true;el("nextBtn").disabled=false;if(st.data.ans)inp.value=st.data.ans;if(!st.correct){el("explainBox").innerHTML="❌ Sai! Đáp án: "+q.a;el("explainBox").classList.remove("hidden");}}else{el("nextBtn").disabled=true;btn.onclick=()=>{const ans=inp.value.trim();if(!ans)return;st.answered=true;st.data.ans=ans;if(ans===q.a){sRight();STATE.score++;STATE.right++;st.correct=true;}else{sWrong();STATE.wrong++;st.correct=false;el("explainBox").innerHTML="❌ Sai! Đáp án: "+q.a;el("explainBox").classList.remove("hidden");}inp.disabled=true;btn.disabled=true;el("nextBtn").disabled=false;colorStep(STATE.idx,st);};}}
+  if(q.type==="match"){el("hintBox").textContent="Hãy kéo ô bên trái nối với ô bên phải";el("hintBox").classList.remove("hidden");renderMatch(q,st);}
+  startTimer(st);}
+function renderMatch(q,st){el("optionsBox").innerHTML=`<div class="grid grid-cols-2 gap-4"><div id="L"></div><div id="R"></div></div>`;const L=el("L"),R=el("R");q.pairs.forEach((p,i)=>{let l=document.createElement("div");l.className="matchItem";l.textContent=p[0];l.dataset.idx=i;L.appendChild(l);let r=document.createElement("div");r.className="matchItem";r.textContent=p[1];r.dataset.idx=i;R.appendChild(r);});if(st.answered||st.locked){el("nextBtn").disabled=false;return;}let btn=document.createElement("button");btn.textContent="Nộp kết quả";btn.className="mt-3 bg-pink-500 text-white px-3 py-1 rounded";el("optionsBox").appendChild(btn);btn.onclick=()=>{st.answered=true;STATE.right++;STATE.score++;sRight();el("nextBtn").disabled=false;colorStep(STATE.idx,st);};}
+el("nextBtn").onclick=()=>{if(STATE.idx<STATE.nQuestions-1){STATE.idx++;renderQ();}else finish();};
+el("prevBtn").onclick=()=>{if(STATE.idx>0){STATE.idx--;renderQ();}};
+function finish(){stopTimer();el("rsScore").textContent=STATE.score;el("rsTotal").textContent=STATE.nQuestions;el("rsRight").textContent=STATE.right;el("rsWrong").textContent=STATE.wrong;goResult();}
+el("startBtn").onclick=startGame;el("againBtn").onclick=()=>goHome();goHome();
 </script>
 </body>
 </html>
