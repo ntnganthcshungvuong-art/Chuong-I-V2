@@ -9,10 +9,10 @@
   body { background: linear-gradient(135deg,#fce7f3,#fbcfe8,#f9a8d4); }
   .card { background:#fff; border-radius:1.5rem; box-shadow:0 10px 25px rgba(0,0,0,.15); }
   .btn {
-    display:block; text-align:left; line-height:1.5;
-    width:100%; padding:.9rem 1rem; border-radius:1rem;
+    display:block; width:100%; padding:.9rem 1rem; border-radius:1rem;
     border:1px solid #e5e7eb; font-weight:600; background:#fff;
     box-shadow:0 2px 6px rgba(0,0,0,.08); transition:.2s;
+    text-align:left;
   }
   .btn:hover { transform:scale(1.02); background:#fdf2f8; }
   .btn div { display:flex; align-items:center; }
@@ -119,12 +119,40 @@
 
 <script>
 const el=id=>document.getElementById(id);
+
 // Superscript
 function formatPower(t){if(!t)return"";const m={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};return t.replace(/\^(\d+)/g,(_,e)=>[...e].map(d=>m[d]||d).join(""));}
+// Beautify (loại bỏ 1x, 1x²)
+function beautifyMath(text){
+  return text
+    .replace(/(^|[^0-9])1x²/g,"$1x²")
+    .replace(/(^|[^0-9])1x/g,"$1x")
+    .replace(/\+\s*-/g,"- ");
+}
 // Shuffle
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 // Clean data
 function cleanData(pool){return pool.filter(q=>q.q && q.q.length>5 && !q.q.includes("...") && !q.q.includes("__") && q.a && q.a.length>0 && !q.a.includes("...") && !q.a.includes("__") && q.options && q.options.length>=2 && !q.options.some(opt=>!opt||opt.includes("...")||opt.includes("__")||opt.length<1));}
+// Classify for variety
+function classifyPattern(s){
+  s=s.toLowerCase();
+  if(s.includes("bậc")||s.includes("hệ số")) return "degree_coef";
+  if(/\)\s*\+\s*\(/.test(s)) return "poly_add";
+  if(/\)\s*\(/.test(s)) return "poly_mul";
+  if(s.includes("tính")) return "calc";
+  return "other";
+}
+function buildQuiz(src,n,maxPer=3){
+  const groups={},out=[];const shuffled=shuffle(src);
+  for(const q of shuffled){
+    const key=classifyPattern(q.q);
+    groups[key]=groups[key]||0;
+    if(groups[key]<maxPer){out.push(q);groups[key]++;}
+    if(out.length>=n) break;
+  }
+  return out;
+}
+
 // Audio
 function beep(freq,type="sine",dur=0.15){const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const g=ctx.createGain();osc.type=type;osc.frequency.value=freq;osc.connect(g);g.connect(ctx.destination);osc.start();setTimeout(()=>osc.stop(),dur*1000);}
 function soundCorrect(){beep(880,"triangle");setTimeout(()=>beep(1320,"triangle"),120);}
@@ -143,11 +171,11 @@ function goResult(){el("home").classList.add("hidden");el("quiz").classList.add(
 function startGame(){const name=el("playerName").value.trim();if(!name){alert("Nhập tên!");return;}
 STATE.player=name;STATE.scope=el("scope").value;STATE.nQuestions=parseInt(el("numQ").value||10);STATE.duration=parseInt(el("secPerQ").value||30);
 el("hudName").textContent=STATE.player;el("hudScope").textContent=STATE.scope;el("hudTime").textContent=`${STATE.duration}s`;
-const src=STATE.scope==="ALL"?STATE.pool:(STATE.allData[STATE.scope]||[]);STATE.quiz=shuffle(cleanData(src)).slice(0,STATE.nQuestions);
+const src=STATE.scope==="ALL"?STATE.pool:(STATE.allData[STATE.scope]||[]);STATE.quiz=buildQuiz(cleanData(src),STATE.nQuestions,3);
 STATE.idx=0;STATE.score=0;STATE.right=0;STATE.wrong=0;goQuiz();renderQuestion();startTimer();}
 
 // Render
-function renderQuestion(){const q=STATE.quiz[STATE.idx];el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;el("questionBox").innerHTML=formatPower(q.q);const box=el("optionsBox");box.innerHTML="";shuffle(q.options||[]).forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${formatPower(opt)}</span></div>`;b.onclick=()=>chooseAnswer(b,opt,q.a);box.appendChild(b);});STATE.timeLeft=STATE.duration;updateTimeBar();}
+function renderQuestion(){const q=STATE.quiz[STATE.idx];el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;el("questionBox").innerHTML=beautifyMath(formatPower(q.q));const box=el("optionsBox");box.innerHTML="";shuffle(q.options||[]).forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${beautifyMath(formatPower(opt))}</span></div>`;b.onclick=()=>chooseAnswer(b,opt,q.a);box.appendChild(b);});STATE.timeLeft=STATE.duration;updateTimeBar();}
 function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
 
 // Timer
