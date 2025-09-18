@@ -7,13 +7,11 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
-  body { background: linear-gradient(135deg,#fce7f3,#fbcfe8,#f9a8d4); font-family:sans-serif; }
+  body { background: linear-gradient(135deg,#fdf2f8,#fae8ff); font-family:sans-serif; }
   .card { background:#fff; border-radius:1.5rem; box-shadow:0 10px 25px rgba(0,0,0,.15); }
-  .btn {
-    display:block; width:100%; padding:1rem 1.25rem; border-radius:1rem;
-    border:1px solid #e5e7eb; font-weight:600; background:#fff;
-    transition:.2s; text-align:left; font-size:1.25rem;
-  }
+  .btn { display:block; width:100%; padding:1rem 1.25rem; border-radius:1rem;
+         border:1px solid #e5e7eb; font-weight:600; background:#fff;
+         transition:.2s; text-align:left; font-size:1.25rem; }
   .btn:hover { transform:scale(1.02); background:#fdf2f8; }
   .btn div { display:flex; align-items:center; }
   .btn span:first-child { width:2.5rem; display:inline-block; font-weight:bold; }
@@ -22,47 +20,49 @@
   .wrong{ background:#ef4444!important; color:#fff!important; }
   .disabled{ pointer-events:none; opacity:.9; }
   .explainBox{ margin-top:1rem; padding:.75rem 1rem; border-radius:.75rem; background:#fef9c3; color:#854d0e; font-size:1rem; }
-  .dragItem{padding:.5rem 1rem;margin:.25rem;background:#fce7f3;border:1px solid #f9a8d4;border-radius:.5rem;cursor:grab;}
-  .dropZone{padding:.75rem;margin:.25rem;border:2px dashed #ddd;border-radius:.75rem;min-height:2.5rem;display:flex;align-items:center;}
+  .matchItem{padding:.5rem 1rem;margin:.25rem;background:#fce7f3;border:1px solid #f9a8d4;border-radius:.5rem;cursor:pointer;text-align:center;}
+  #matchCanvas{position:absolute;top:0;left:0;pointer-events:none;}
 </style>
 </head>
 <body class="min-h-screen flex flex-col justify-center items-center text-gray-800">
 
 <!-- ========== HOME ========== -->
-<section id="home" class="w-full max-w-3xl px-4">
-  <div class="card p-8 text-center">
-    <h1 id="gameTitle" class="text-5xl font-extrabold text-pink-600 mb-2">🔥 Toán 8</h1>
-    <p class="text-xl text-gray-600 mb-6">Chinh phục kiến thức – Leo rank hạng nhất!</p>
-    <div class="grid gap-4 text-left">
+<section id="home" class="w-full max-w-2xl px-6">
+  <div class="card p-10 text-center bg-gradient-to-br from-pink-50 to-purple-50">
+    <h1 class="text-6xl font-extrabold mb-3 bg-gradient-to-r from-pink-600 to-purple-600 text-transparent bg-clip-text">
+      🔥 Toán 8
+    </h1>
+    <p class="text-xl text-gray-600 mb-8 italic">Chinh phục kiến thức – Leo rank hạng nhất!</p>
+    <div class="grid gap-6 text-left">
       <div>
-        <label class="font-semibold">👤 Tên người chơi</label>
+        <label class="font-semibold text-gray-700">👤 Tên người chơi</label>
         <input id="playerName" type="text" placeholder="Nhập tên của bạn"
-          class="w-full rounded-xl border px-4 py-2 mt-1 text-lg focus:ring-2 focus:ring-pink-400">
+          class="w-full rounded-xl border px-4 py-3 mt-1 text-lg focus:ring-2 focus:ring-pink-400 shadow-sm">
       </div>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-6">
         <div>
-          <label class="font-semibold">🧩 Số câu</label>
+          <label class="font-semibold text-gray-700">🧩 Số câu</label>
           <input id="numQ" type="number" min="5" max="15" value="8"
-            class="w-full rounded-xl border px-4 py-2 mt-1 text-lg">
+            class="w-full rounded-xl border px-4 py-3 mt-1 text-lg focus:ring-2 focus:ring-pink-400 shadow-sm">
         </div>
         <div>
-          <label class="font-semibold">⏱️ Thời gian/câu (giây)</label>
+          <label class="font-semibold text-gray-700">⏱️ Thời gian/câu (giây)</label>
           <input id="secPerQ" type="number" min="10" max="90" value="30"
-            class="w-full rounded-xl border px-4 py-2 mt-1 text-lg">
+            class="w-full rounded-xl border px-4 py-3 mt-1 text-lg focus:ring-2 focus:ring-pink-400 shadow-sm">
         </div>
       </div>
     </div>
-    <div class="mt-8 flex gap-4 justify-center">
-      <button id="startBtn" class="flex-1 rounded-xl bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 font-semibold shadow-lg text-xl">
-        🚀 Bắt đầu
-      </button>
-    </div>
+    <button id="startBtn"
+      class="mt-10 w-full rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-4 font-bold text-2xl shadow-lg hover:scale-105 transition">
+      🚀 Bắt đầu
+    </button>
   </div>
 </section>
 
 <!-- ========== QUIZ ========== -->
 <main id="quiz" class="hidden w-full max-w-5xl px-4 my-6 grid md:grid-cols-3 gap-6">
-  <section class="md:col-span-2 card p-6">
+  <section class="md:col-span-2 card p-6 relative">
+    <canvas id="matchCanvas" class="hidden"></canvas>
     <div class="flex items-center justify-between mb-4">
       <div>
         <div id="statusLine" class="text-lg text-gray-600">✅ Sẵn sàng!</div>
@@ -112,13 +112,13 @@ const el=id=>document.getElementById(id);
 
 // Demo dữ liệu
 const pool=[
- {q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3","..."],type:"mc"},
- {q:"(x+2)(x+3)=x²+__x+6",a:"5",options:[],type:"fill"},
+ {q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3"],type:"mc"},
+ {q:"(x+2)(x+3)=x²+__x+6",a:"5",type:"fill"},
  {q:"Ghép biểu thức với kết quả đúng",pairs:[
     ["(x+1)²","x²+2x+1"],
     ["(x+2)(x+3)","x²+5x+6"],
     ["(x-1)(x+4)","x²+3x-4"]
- ],type:"drag"}
+ ],type:"match"}
 ];
 
 const STATE={quiz:[],idx:0,score:0,right:0,wrong:0,duration:30,timeLeft:30,timer:null,nQuestions:8,player:""};
@@ -128,10 +128,7 @@ function beep(f,t="sine",d=0.15){const ctx=new (window.AudioContext||window.webk
 function soundCorrect(){beep(880,"triangle");}
 function soundWrong(){beep(200,"sawtooth",0.25);}
 function showConfetti(){confetti({ particleCount: 70, spread: 70, origin:{ y:0.8 } });}
-
-function cleanOptions(opts){
-  return (opts||[]).filter(o=>o && !o.includes("...") && o.trim().length>0);
-}
+function cleanOptions(opts){return (opts||[]).filter(o=>o && !o.includes("...") && o.trim().length>0);}
 
 function startGame(){
   STATE.player=el("playerName").value||"Khách";
@@ -149,10 +146,11 @@ function renderQuestion(){
   el("questionBox").innerHTML=q.q;
   const box=el("optionsBox");box.innerHTML="";
   el("explainBox").classList.add("hidden");
+  el("matchCanvas").classList.add("hidden");
 
   if(q.type==="mc"){
     let options=cleanOptions(q.options||[]);
-    while(options.length<4) options.push("—"); // luôn đủ 4
+    while(options.length<4) options.push("—");
     shuffle(options).forEach((opt,i)=>{
       const b=document.createElement("button");
       b.className="btn";
@@ -166,15 +164,17 @@ function renderQuestion(){
                    <button id="submitBlank" class="mt-3 rounded-xl bg-pink-500 text-white px-4 py-2">Trả lời</button>`;
     el("submitBlank").onclick=()=>{
       const ans=el("blankInput").value.trim();
+      el("blankInput").setAttribute("disabled",true);
+      el("submitBlank").setAttribute("disabled",true);
       if(ans===q.a){soundCorrect();showConfetti();STATE.score++;STATE.right++;}
-      else{soundWrong();STATE.wrong++;el("explainBox").textContent="📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab";el("explainBox").classList.remove("hidden");}
-      updateHUD();};
+      else{soundWrong();STATE.wrong++;
+        el("explainBox").innerHTML=`❌ Sai rồi!<br>📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab<br>✅ Đáp án đúng: <b>${q.a}</b>`;
+        el("explainBox").classList.remove("hidden");}
+      updateHUD();
+    };
   }
-  if(q.type==="drag"){
-    let html=`<div class="grid grid-cols-2 gap-4">`;
-    html+=`<div>`;q.pairs.forEach(p=>{html+=`<div class="dropZone" data-ans="${p[1]}">${p[0]}</div>`;});html+=`</div>`;
-    html+=`<div>`;shuffle(q.pairs).forEach(p=>{html+=`<div draggable="true" data-val="${p[1]}" class="dragItem">${p[1]}</div>`;});html+=`</div></div>`;
-    box.innerHTML=html;enableDragDrop();
+  if(q.type==="match"){
+    renderMatch(q);
   }
   STATE.timeLeft=STATE.duration;updateTimeBar();
 }
@@ -186,19 +186,54 @@ function chooseMC(btn,sel,cor){
   updateHUD();
 }
 
-function enableDragDrop(){
-  document.querySelectorAll(".dragItem").forEach(el=>{
-    el.ondragstart=e=>{e.dataTransfer.setData("text",el.dataset.val);};
-  });
-  document.querySelectorAll(".dropZone").forEach(zone=>{
-    zone.ondragover=e=>e.preventDefault();
-    zone.ondrop=e=>{
-      const val=e.dataTransfer.getData("text");
-      if(val===zone.dataset.ans){zone.style.background="#bbf7d0";soundCorrect();showConfetti();STATE.score++;STATE.right++;}
-      else{zone.style.background="#fecaca";soundWrong();STATE.wrong++;}
-      updateHUD();
+// ======= MATCH (nối dây) =======
+let pending=null;let matches=[];
+function renderMatch(q){
+  const box=el("optionsBox");matches=[];pending=null;
+  box.innerHTML=`<div class="relative" id="matchArea" style="min-height:300px;">
+    <canvas id="matchCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+    <div class="grid grid-cols-2 gap-12 relative z-10">
+      <div id="leftCol" class="space-y-6">${q.pairs.map((p,i)=>`<div class="matchItem" data-id="L${i}">${p[0]}</div>`).join("")}</div>
+      <div id="rightCol" class="space-y-6">${q.pairs.map((p,i)=>`<div class="matchItem" data-id="R${i}">${p[1]}</div>`).join("")}</div>
+    </div></div>
+    <button id="submitMatch" class="mt-4 bg-pink-500 text-white rounded-xl px-4 py-2">Nộp kết quả</button>`;
+  const canvas=document.getElementById("matchCanvas");canvas.width=box.clientWidth;canvas.height=300;canvas.classList.remove("hidden");
+  const ctx=canvas.getContext("2d");
+  function drawLines(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    matches.forEach(m=>{
+      const l=document.querySelector(`[data-id='${m.left}']`).getBoundingClientRect();
+      const r=document.querySelector(`[data-id='${m.right}']`).getBoundingClientRect();
+      const x1=l.right-box.getBoundingClientRect().left,y1=l.top+ l.height/2-box.getBoundingClientRect().top;
+      const x2=r.left-box.getBoundingClientRect().left,y2=r.top+ r.height/2-box.getBoundingClientRect().top;
+      ctx.beginPath();ctx.moveTo(x1,y1);ctx.bezierCurveTo(x1+80,y1,x2-80,y2,x2,y2);
+      ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.stroke();
+    });
+  }
+  document.querySelectorAll(".matchItem").forEach(el=>{
+    el.onclick=()=>{
+      if(!pending){pending=el.dataset.id;el.classList.add("bg-pink-200");}
+      else{
+        if(pending[0]!==el.dataset.id[0]){
+          matches.push({left:pending.startsWith("L")?pending:el.dataset.id,
+                        right:pending.startsWith("R")?pending:el.dataset.id,
+                        color:`hsl(${Math.random()*360},70%,50%)`});
+          drawLines();
+        }
+        document.querySelectorAll(".matchItem").forEach(e=>e.classList.remove("bg-pink-200"));
+        pending=null;
+      }
     };
   });
+  document.getElementById("submitMatch").onclick=()=>{
+    matches.forEach(m=>{
+      const idx=m.left.slice(1);
+      const correct=`R${idx}`;
+      m.color=(m.right===correct)?"green":"red";
+      if(m.right===correct){STATE.score++;STATE.right++;}else{STATE.wrong++;}
+    });
+    soundCorrect();showConfetti();drawLines();updateHUD();
+  };
 }
 
 function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
