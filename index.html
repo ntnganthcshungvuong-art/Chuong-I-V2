@@ -74,20 +74,15 @@ let scoreSingle=0, score1=0, score2=0;
 
 async function loadData(){
   if(Object.keys(dataAll).length===0){
-    try {
-      const res = await fetch("questions.json?_=" + Date.now());
-      dataAll = await res.json();
-    } catch (e){
-      console.error("Không tải được questions.json", e);
-      alert("⚠️ Không tải được file questions.json!");
-    }
+    const res = await fetch("./questions.json?_="+Date.now());
+    dataAll = await res.json();
   }
 }
 
 async function startGame(mode){
   await loadData();
-  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
-
+  const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
+  
   document.getElementById('menuScreen').classList.add('hidden');
   document.getElementById('scoreBoard').classList.remove('hidden');
 
@@ -179,9 +174,11 @@ function updateScore(){
 }
 
 function cleanQ(text){
-  return text.replace(/^Câu\s*\d+:\s*/,'');
+  return text.replace(/^Câu\s*\d+:\s*/,''); // bỏ chữ "Câu xx:"
 }
+
 function playSound(id){document.getElementById(id).play();}
+
 function pick(arr,n){let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 </script>
