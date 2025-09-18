@@ -26,7 +26,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-center items-center text-gray-800">
 
-<!-- ========== HOME ========== -->
+<!-- HOME -->
 <section id="home" class="w-full max-w-2xl px-6">
   <div class="card p-10 text-center bg-gradient-to-br from-pink-50 to-purple-50">
     <h1 class="text-6xl font-extrabold mb-3 bg-gradient-to-r from-pink-600 to-purple-600 text-transparent bg-clip-text">
@@ -59,7 +59,7 @@
   </div>
 </section>
 
-<!-- ========== QUIZ ========== -->
+<!-- QUIZ -->
 <main id="quiz" class="hidden w-full max-w-5xl px-4 my-6 grid md:grid-cols-3 gap-6">
   <section class="md:col-span-2 card p-6 relative">
     <canvas id="matchCanvas" class="hidden"></canvas>
@@ -94,7 +94,7 @@
   </aside>
 </main>
 
-<!-- ========== RESULT ========== -->
+<!-- RESULT -->
 <section id="result" class="hidden w-full max-w-3xl px-4 my-10">
   <div class="card p-8 text-center">
     <h2 class="text-4xl font-extrabold text-pink-700 mb-4">🎉 Hoàn thành!</h2>
@@ -128,7 +128,6 @@ function beep(f,t="sine",d=0.15){const ctx=new (window.AudioContext||window.webk
 function soundCorrect(){beep(880,"triangle");}
 function soundWrong(){beep(200,"sawtooth",0.25);}
 function showConfetti(){confetti({ particleCount: 70, spread: 70, origin:{ y:0.8 } });}
-function cleanOptions(opts){return (opts||[]).filter(o=>o && !o.includes("...") && o.trim().length>0);}
 
 function startGame(){
   STATE.player=el("playerName").value||"Khách";
@@ -145,12 +144,12 @@ function renderQuestion(){
   el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;
   el("questionBox").innerHTML=q.q;
   const box=el("optionsBox");box.innerHTML="";
-  el("explainBox").classList.add("hidden");
+  el("explainBox").classList.add("hidden");el("explainBox").innerHTML="";
   el("matchCanvas").classList.add("hidden");
   el("nextBtn").disabled=false;
 
   if(q.type==="mc"){
-    let options=cleanOptions(q.options||[]);
+    let options=(q.options||[]).filter(opt=>opt && opt.trim()!=="—" && !opt.includes("..."));
     shuffle(options).forEach((opt,i)=>{
       const b=document.createElement("button");
       b.className="btn";
@@ -159,6 +158,7 @@ function renderQuestion(){
       box.appendChild(b);
     });
   }
+
   if(q.type==="fill"){
     box.innerHTML=`<input id="blankInput" class="w-full border rounded-xl px-4 py-2 text-xl" placeholder="Nhập đáp án...">
                    <button id="submitBlank" class="mt-3 rounded-xl bg-pink-500 text-white px-4 py-2">Trả lời</button>`;
@@ -166,9 +166,7 @@ function renderQuestion(){
     el("submitBlank").onclick=()=>{
       const ans=el("blankInput").value.trim();
       if(!ans){ alert("⚠️ Bạn cần nhập đáp án trước khi nộp!"); return; }
-      el("blankInput").setAttribute("disabled",true);
-      el("submitBlank").setAttribute("disabled",true);
-      el("nextBtn").disabled = false;
+      el("blankInput").disabled=true;el("submitBlank").disabled=true;el("nextBtn").disabled=false;
       if(ans===q.a){soundCorrect();showConfetti();STATE.score++;STATE.right++;}
       else{soundWrong();STATE.wrong++;
         el("explainBox").innerHTML=`❌ Sai rồi!<br>📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab<br>✅ Đáp án đúng: <b>${q.a}</b>`;
@@ -176,6 +174,7 @@ function renderQuestion(){
       updateHUD();
     };
   }
+
   if(q.type==="match"){ renderMatch(q); }
   STATE.timeLeft=STATE.duration;updateTimeBar();
 }
@@ -187,55 +186,28 @@ function chooseMC(btn,sel,cor){
   updateHUD();
 }
 
-// ======= MATCH (nối dây) =======
-let pending=null;let matches=[];
+// ===== MATCH (kéo–thả nối dây) =====
+let matches=[];
 function renderMatch(q){
-  const box=el("optionsBox");matches=[];pending=null;
+  const box=el("optionsBox");matches=[];
   box.innerHTML=`<div class="relative" id="matchArea" style="min-height:300px;">
     <canvas id="matchCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
     <div class="grid grid-cols-2 gap-12 relative z-10">
-      <div id="leftCol" class="space-y-6">${q.pairs.map((p,i)=>`<div class="matchItem" data-id="L${i}">${p[0]}</div>`).join("")}</div>
-      <div id="rightCol" class="space-y-6">${q.pairs.map((p,i)=>`<div class="matchItem" data-id="R${i}">${p[1]}</div>`).join("")}</div>
-    </div></div>
-    <button id="submitMatch" class="mt-4 bg-pink-500 text-white rounded-xl px-4 py-2">Nộp kết quả</button>`;
+      <div id="leftCol" class="space-y-6">
+        ${q.pairs.map((p,i)=>`<div class="matchItem matchLeft" draggable="true" data-id="L${i}">${p[0]}</div>`).join("")}
+      </div>
+      <div id="rightCol" class="space-y-6">
+        ${q.pairs.map((p,i)=>`<div class="matchItem matchRight" data-id="R${i}">${p[1]}</div>`).join("")}
+      </div>
+    </div>
+  </div>
+  <button id="submitMatch" class="mt-4 bg-pink-500 text-white rounded-xl px-4 py-2">Nộp kết quả</button>`;
   const canvas=document.getElementById("matchCanvas");canvas.width=box.clientWidth;canvas.height=300;canvas.classList.remove("hidden");
   const ctx=canvas.getContext("2d");
-  function drawLines(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    matches.forEach(m=>{
-      const l=document.querySelector(`[data-id='${m.left}']`).getBoundingClientRect();
-      const r=document.querySelector(`[data-id='${m.right}']`).getBoundingClientRect();
-      const area=box.getBoundingClientRect();
-      const x1=l.right-area.left,y1=l.top+l.height/2-area.top;
-      const x2=r.left-area.left,y2=r.top+r.height/2-area.top;
-      ctx.beginPath();ctx.moveTo(x1,y1);ctx.bezierCurveTo(x1+80,y1,x2-80,y2,x2,y2);
-      ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.stroke();
-    });
-  }
-  document.querySelectorAll(".matchItem").forEach(el=>{
-    el.onclick=()=>{
-      if(!pending){pending=el.dataset.id;el.classList.add("bg-pink-200");}
-      else{
-        if(pending[0]!==el.dataset.id[0]){
-          matches.push({left:pending.startsWith("L")?pending:el.dataset.id,
-                        right:pending.startsWith("R")?pending:el.dataset.id,
-                        color:`hsl(${Math.random()*360},70%,50%)`});
-          drawLines();
-        }
-        document.querySelectorAll(".matchItem").forEach(e=>e.classList.remove("bg-pink-200"));
-        pending=null;
-      }
-    };
-  });
-  document.getElementById("submitMatch").onclick=()=>{
-    matches.forEach(m=>{
-      const idx=m.left.slice(1);
-      const correct=`R${idx}`;
-      m.color=(m.right===correct)?"green":"red";
-      if(m.right===correct){STATE.score++;STATE.right++;}else{STATE.wrong++;}
-    });
-    drawLines();soundCorrect();showConfetti();updateHUD();
-  };
+  function drawLines(){ctx.clearRect(0,0,canvas.width,canvas.height);matches.forEach(m=>{const l=document.querySelector(`[data-id='${m.left}']`).getBoundingClientRect();const r=document.querySelector(`[data-id='${m.right}']`).getBoundingClientRect();const area=box.getBoundingClientRect();const x1=l.right-area.left,y1=l.top+l.height/2-area.top;const x2=r.left-area.left,y2=r.top+r.height/2-area.top;ctx.beginPath();ctx.moveTo(x1,y1);ctx.bezierCurveTo(x1+80,y1,x2-80,y2,x2,y2);ctx.strokeStyle=m.color;ctx.lineWidth=3;ctx.stroke();});}
+  document.querySelectorAll(".matchLeft").forEach(el=>{el.ondragstart=e=>{e.dataTransfer.setData("id",el.dataset.id);}});
+  document.querySelectorAll(".matchRight").forEach(el=>{el.ondragover=e=>e.preventDefault();el.ondrop=e=>{const leftId=e.dataTransfer.getData("id");matches.push({left:leftId,right:el.dataset.id,color:`hsl(${Math.random()*360},70%,50%)`});drawLines();};});
+  document.getElementById("submitMatch").onclick=()=>{matches.forEach(m=>{const idx=m.left.slice(1);const correct=`R${idx}`;m.color=(m.right===correct)?"green":"red";if(m.right===correct){STATE.score++;STATE.right++;}else{STATE.wrong++;}});drawLines();updateHUD();};
 }
 
 function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
