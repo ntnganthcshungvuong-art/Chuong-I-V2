@@ -86,7 +86,14 @@
 
     const STATE = { allData:{}, pool:[], quiz:[], idx:0, score:0, right:0, wrong:0, duration:30, timeLeft:30, timer:null };
 
-    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+    function shuffle(arr){ 
+      const a = [...arr];
+      for(let i=a.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
 
     async function loadQuestions(){
       const res = await fetch("questions.json");
@@ -103,12 +110,13 @@
       el("questionBox").innerHTML = formatPower(q.q);
 
       el("optionsBox").innerHTML = "";
-      (q.options||[]).forEach((opt,i)=>{
+      const ops = shuffle(q.options || []);
+      ops.forEach((opt,i)=>{
         const btn = document.createElement("button");
         btn.className = "btn bg-white hover:bg-indigo-50";
         btn.innerHTML = `
           <div class="flex items-start">
-            <span class="w-6 font-bold">${String.fromCharCode(65+i)}.</span>
+            <span class="w-7 font-bold">${String.fromCharCode(65+i)}.</span>
             <span class="flex-1">${formatPower(opt)}</span>
           </div>
         `;
@@ -139,7 +147,7 @@
 
     function chooseAnswer(btn, selected, correct){
       if(!STATE.timer) return;
-      stopTimer(); // ❌ dừng ngay khi chọn
+      stopTimer(); // dừng ngay khi chọn
       const buttons = [...el("optionsBox").children];
       buttons.forEach(b=>b.classList.add("disabled"));
       if(selected===correct){
@@ -176,7 +184,8 @@
 
     function finishGame(){
       stopTimer();
-      el("statusLine").textContent="🎉 Hoàn thành!";
+      el("statusLine").textContent = `🎉 Hoàn thành! Điểm: ${STATE.score}/10 | Đúng: ${STATE.right}, Sai: ${STATE.wrong}`;
+      el("nextBtn").style.display = "none"; // ẩn nút
     }
 
     function updateHUD(){
