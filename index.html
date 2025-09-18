@@ -12,10 +12,8 @@
 </head>
 <body class="bg-gradient-to-r from-yellow-100 to-green-200 min-h-screen flex flex-col items-center p-6">
 
-  <!-- Tiêu đề -->
   <h1 class="text-3xl font-bold mb-6">🔥 Quiz Toán 8 - Chương I 🔥</h1>
 
-  <!-- Menu chính -->
   <div id="menuScreen" class="text-center">
     <p class="mb-4 text-gray-700">Chọn chế độ chơi:</p>
     <div class="flex gap-6 justify-center">
@@ -24,7 +22,6 @@
     </div>
   </div>
 
-  <!-- Khu vực chơi đơn -->
   <div id="quizSingle" class="hidden w-full max-w-2xl mt-6">
     <h2 class="text-xl font-bold text-center text-green-700">🎯 Chế độ chơi đơn</h2>
     <p id="counterSingle" class="font-semibold">Câu 1/10</p>
@@ -33,9 +30,7 @@
     <button onclick="nextQ('single')" id="nextBtnSingle" class="hidden mt-3 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
   </div>
 
-  <!-- Khu vực đối kháng -->
   <div id="versusArea" class="hidden w-full grid grid-cols-2 gap-6 mt-6">
-    <!-- Cửa 1 -->
     <div class="border-2 border-red-400 rounded-xl p-4 bg-white">
       <h2 class="text-xl font-bold text-red-600">🔑 Cửa 1</h2>
       <p id="counter1" class="font-semibold">Câu 1/10</p>
@@ -43,7 +38,6 @@
       <div id="opts1" class="grid gap-2"></div>
       <button onclick="nextQ(1)" id="nextBtn1" class="hidden mt-2 bg-green-500 text-white px-4 py-2 rounded-lg">Câu tiếp</button>
     </div>
-    <!-- Cửa 2 -->
     <div class="border-2 border-blue-400 rounded-xl p-4 bg-white">
       <h2 class="text-xl font-bold text-blue-600">🔑 Cửa 2</h2>
       <p id="counter2" class="font-semibold">Câu 1/10</p>
@@ -53,7 +47,6 @@
     </div>
   </div>
 
-  <!-- Bảng điểm -->
   <div id="scoreBoard" class="hidden mt-6 bg-white shadow-lg rounded-xl p-4">
     <p class="text-lg font-bold">🏆 Bảng điểm</p>
     <p>Cửa 1: <span id="score1">0</span></p>
@@ -61,7 +54,6 @@
     <p>Chơi đơn: <span id="scoreSingle">0</span></p>
   </div>
 
-  <!-- Âm thanh -->
   <audio id="soundCorrect" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
   <audio id="soundWrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-buzz-950.mp3"></audio>
   <audio id="soundWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
@@ -72,130 +64,181 @@ let dataAll = {}, quizSingle=[], quizData1=[], quizData2=[];
 let idxSingle=0, idx1=0, idx2=0;
 let scoreSingle=0, score1=0, score2=0;
 
-// tải dữ liệu
 async function loadData(){
-  if(Object.keys(dataAll).length===0){
-    try {
+  try {
+    if(Object.keys(dataAll).length===0){
       const res = await fetch("./questions.json?_=" + Date.now());
-      if(!res.ok) throw new Error("Không tải được questions.json!");
+      if(!res.ok) throw new Error("HTTP error " + res.status);
       dataAll = await res.json();
-    } catch (err) {
-      alert(err.message);
+      console.log("🎯 questions.json loaded, tổng câu hỏi:", 
+        (dataAll.Bai1||[]).length + (dataAll.Bai2||[]).length + (dataAll.Bai3||[]).length + (dataAll.Bai4||[]).length
+      );
     }
+  } catch (err){
+    console.error("❌ fetch error:", err);
+    alert("❌ Lỗi khi tải dữ liệu: " + err.message);
   }
 }
 
-// khởi động game
 async function startGame(mode){
+  console.log("Clicked mode:", mode);
   await loadData();
-  const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
-  
+  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
+  if(allQs.length === 0){
+    alert("⚠️ Không có câu hỏi nào để chơi!");
+    return;
+  }
   document.getElementById('menuScreen').classList.add('hidden');
   document.getElementById('scoreBoard').classList.remove('hidden');
 
-  if(mode==='single'){
+  if(mode === 'single'){
     quizSingle = pick(allQs,10);
-    idxSingle=0; scoreSingle=0;
+    idxSingle = 0; scoreSingle = 0;
     document.getElementById('quizSingle').classList.remove('hidden');
     showQ('single');
   } else {
     quizData1 = pick(allQs,10);
     quizData2 = pick(allQs,10);
-    idx1=0; idx2=0; score1=0; score2=0;
+    idx1 = 0; idx2 = 0; score1 = 0; score2 = 0;
     document.getElementById('versusArea').classList.remove('hidden');
     showQ(1); showQ(2);
   }
 }
 
-// hiển thị câu hỏi
+window.onload = function(){
+  document.getElementById('btnSingle').onclick = () => startGame('single');
+  document.getElementById('btnVersus').onclick = () => startGame('versus');
+};
+
 function showQ(mode){
-  if(mode==='single'){
-    let q=quizSingle[idxSingle];
-    document.getElementById('counterSingle').innerText=`Câu ${idxSingle+1}/10`;
-    document.getElementById('qBoxSingle').innerHTML=`<span class="text-xl font-bold">${cleanQ(q.q)}</span>`;
-    let html='';
-    shuffle(q.options).forEach(opt=>{
-      html+=`<button onclick="answer('single',this,'${q.a}')" class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
+  if(mode === 'single'){
+    let q = quizSingle[idxSingle];
+    document.getElementById('counterSingle').innerText = `Câu ${idxSingle+1}/10`;
+    document.getElementById('qBoxSingle').innerHTML = `<span class="text-xl font-bold">${cleanQ(q.q)}</span>`;
+    let html = '';
+    shuffle(q.options).forEach(opt => {
+      html += `<button onclick="answer('single',this,'${q.a}')" class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
     });
-    document.getElementById('optsSingle').innerHTML=html;
+    document.getElementById('optsSingle').innerHTML = html;
     document.getElementById('nextBtnSingle').classList.add('hidden');
   } else {
-    let idx=(mode===1?idx1:idx2);
-    let q=(mode===1?quizData1[idx]:quizData2[idx]);
-    document.getElementById('counter'+mode).innerText=`Câu ${idx+1}/10`;
-    document.getElementById('qBox'+mode).innerHTML=`<span class="text-lg font-bold">${cleanQ(q.q)}</span>`;
-    let html='';
-    shuffle(q.options).forEach(opt=>{
-      html+=`<button onclick="answer(${mode},this,'${q.a}')" class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
+    let idx = (mode === 1 ? idx1 : idx2);
+    let q = (mode === 1 ? quizData1[idx] : quizData2[idx]);
+    document.getElementById('counter'+mode).innerText = `Câu ${idx+1}/10`;
+    document.getElementById('qBox'+mode).innerHTML = `<span class="text-lg font-bold">${cleanQ(q.q)}</span>`;
+    let html = '';
+    shuffle(q.options).forEach(opt => {
+      html += `<button onclick="answer(${mode},this,'${q.a}')" class="bg-white border p-2 rounded-lg hover:bg-yellow-100 text-lg">${opt}</button>`;
     });
-    document.getElementById('opts'+mode).innerHTML=html;
+    document.getElementById('opts'+mode).innerHTML = html;
     document.getElementById('nextBtn'+mode).classList.add('hidden');
   }
 }
 
-// xử lý trả lời
 function answer(mode,btn,correct){
-  let chosen=btn.innerText.trim();
-  let buttons=(mode==='single'?document.querySelectorAll('#optsSingle button'):document.querySelectorAll('#opts'+mode+' button'));
-  buttons.forEach(b=>b.disabled=true);
-  if(chosen===correct){
-    btn.classList.add('bg-green-300'); playSound("soundCorrect");
-    if(mode==='single'){scoreSingle+=10; updateScore();}
-    else if(mode===1){score1+=10; updateScore();}
-    else{score2+=10; updateScore();}
+  let chosen = btn.innerText.trim();
+  let buttons = (mode === 'single' ? document.querySelectorAll('#optsSingle button') : document.querySelectorAll('#opts'+mode+' button'));
+  buttons.forEach(b => b.disabled = true);
+  if(chosen === correct){
+    btn.classList.add('bg-green-300');
+    playSound("soundCorrect");
+    if(mode === 'single'){ scoreSingle += 10; updateScore(); }
+    else if(mode === 1){ score1 += 10; updateScore(); }
+    else{ score2 += 10; updateScore(); }
   } else {
-    btn.classList.add('bg-red-300'); playSound("soundWrong");
-    buttons.forEach(b=>{if(b.innerText.trim()===correct){b.classList.add('ring-2','ring-green-600')}})
+    btn.classList.add('bg-red-300');
+    playSound("soundWrong");
+    buttons.forEach(b => {
+      if(b.innerText.trim() === correct){
+        b.classList.add('ring-2','ring-green-600');
+      }
+    });
   }
-  if(mode==='single') document.getElementById('nextBtnSingle').classList.remove('hidden');
+  if(mode === 'single') document.getElementById('nextBtnSingle').classList.remove('hidden');
   else document.getElementById('nextBtn'+mode).classList.remove('hidden');
 }
 
-// next câu hỏi
 function nextQ(mode){
-  if(mode==='single'){
+  if(mode === 'single'){
     idxSingle++;
-    if(idxSingle<quizSingle.length){showQ('single');}else{endGame('single');}
-  }else if(mode===1){
-    idx1++; if(idx1<quizData1.length){showQ(1);}else{endGame('versus');}
-  }else{
-    idx2++; if(idx2<quizData2.length){showQ(2);}else{endGame('versus');}
+    if(idxSingle < quizSingle.length){
+      showQ('single');
+    } else {
+      endGame('single');
+    }
+  } else if(mode === 1){
+    idx1++;
+    if(idx1 < quizData1.length){
+      showQ(1);
+    } else {
+      endGame('versus');
+    }
+  } else {
+    idx2++;
+    if(idx2 < quizData2.length){
+      showQ(2);
+    } else {
+      endGame('versus');
+    }
   }
 }
 
-// kết thúc
 function endGame(mode){
-  if(mode==='single'){
-    alert(`🎉 Hoàn thành!\nĐiểm: ${scoreSingle}`);
+  if(mode === 'single'){
     playSound("soundWin");
+    alert(`🎉 Hoàn thành!\nĐiểm: ${scoreSingle}`);
     location.reload();
-  } else if(idx1>=10 && idx2>=10){
-    let msg=`🎉 Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
-    if(score1>score2){msg+="👉 Cửa 1 Thắng!"; playSound("soundWin");}
-    else if(score2>score1){msg+="👉 Cửa 2 Thắng!"; playSound("soundWin");}
-    else{msg+="🤝 Hòa!"; playSound("soundLose");}
-    alert(msg); location.reload();
+  } else if(idx1 >= 10 && idx2 >= 10){
+    let msg = `🎉 Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
+    if(score1 > score2){
+      msg += "👉 Cửa 1 Thắng!";
+      playSound("soundWin");
+    } else if(score2 > score1){
+      msg += "👉 Cửa 2 Thắng!";
+      playSound("soundWin");
+    } else {
+      msg += "🤝 Hòa!";
+      playSound("soundLose");
+    }
+    alert(msg);
+    location.reload();
   }
 }
 
-// cập nhật điểm
 function updateScore(){
-  document.getElementById('score1').innerText=score1;
-  document.getElementById('score2').innerText=score2;
-  document.getElementById('scoreSingle').innerText=scoreSingle;
+  document.getElementById('score1').innerText = score1;
+  document.getElementById('score2').innerText = score2;
+  document.getElementById('scoreSingle').innerText = scoreSingle;
 }
 
-// tiện ích
-function cleanQ(text){return text.replace(/^Câu\s*\d+:\s*/,'');}
-function playSound(id){document.getElementById(id).play();}
-function pick(arr,n){let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;}
-function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
-  
-// gán sự kiện khi DOM ready
-window.onload = ()=>{
-  document.getElementById('btnSingle').onclick=()=>startGame('single');
-  document.getElementById('btnVersus').onclick=()=>startGame('versus');
-};
+function cleanQ(text){
+  return text.replace(/^Câu\s*\d+:\s*/,'');
+}
+
+function playSound(id){
+  const audio = document.getElementById(id);
+  if(audio){
+    audio.currentTime = 0;
+    audio.play().catch(err => console.log("Âm thanh bị chặn:", err));
+  }
+}
+
+function pick(arr,n){
+  let out = [];
+  for(let i=0; i<n; i++){
+    out.push(arr[Math.floor(Math.random()*arr.length)]);
+  }
+  return out;
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1; i>0; i--){
+    let j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 </script>
+
 </body>
 </html>
