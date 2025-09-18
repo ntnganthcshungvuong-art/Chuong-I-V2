@@ -8,23 +8,30 @@
   <style>
     .btn { @apply w-full px-4 py-3 rounded-xl border font-semibold shadow-sm transition text-left; }
     .btn:hover { transform: translateY(-1px); }
-    .correct { background:#dcfce7 !important; border-color:#16a34a !important; color:#065f46 !important; }
-    .wrong { background:#fee2e2 !important; border-color:#dc2626 !important; color:#7f1d1d !important; }
-    .disabled { pointer-events:none; opacity:0.6; }
+    .correct {
+      background:#16a34a !important;
+      border-color:#15803d !important;
+      color:#fff !important;
+    }
+    .wrong {
+      background:#fca5a5 !important;
+      border-color:#dc2626 !important;
+      color:#7f1d1d !important;
+      font-weight:bold;
+    }
+    .disabled { pointer-events:none; opacity:0.9; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100 text-gray-800">
 
-  <!-- Header -->
   <header class="max-w-4xl mx-auto px-4 pt-6 pb-2">
     <h1 class="text-center text-3xl md:text-4xl font-extrabold tracking-tight">
       🔥 Quiz Toán 8 – Chương I 🔥
     </h1>
   </header>
 
-  <!-- Game area -->
   <main class="max-w-4xl mx-auto px-4 my-6 grid md:grid-cols-3 gap-4">
-    <!-- Question Card -->
+    <!-- Question -->
     <section class="md:col-span-2 bg-white/90 rounded-2xl p-6 shadow-lg border">
       <div class="flex items-center justify-between mb-4">
         <div>
@@ -40,7 +47,6 @@
       </div>
 
       <div id="questionBox" class="rounded-xl bg-gray-50 px-4 py-3 text-lg font-semibold min-h-[64px]"></div>
-
       <div id="optionsBox" class="mt-4 grid gap-2"></div>
 
       <div class="mt-4 flex items-center gap-3">
@@ -50,7 +56,7 @@
       </div>
     </section>
 
-    <!-- Score + Leaderboard -->
+    <!-- Score -->
     <aside class="bg-white/90 rounded-2xl p-6 shadow-lg border">
       <h3 class="text-xl font-extrabold mb-2">🏆 Bảng điểm</h3>
       <ul class="text-sm space-y-1">
@@ -59,18 +65,13 @@
         <li>Đúng/Sai: <span id="hudRightWrong" class="font-semibold">0 / 0</span></li>
         <li>Thời gian: <span id="hudTime" class="font-semibold">30s</span>/câu</li>
       </ul>
-
-      <hr class="my-4"/>
-
-      <h4 class="font-bold mb-2">🔥 Top 10 hôm nay</h4>
-      <ol id="leaderboard" class="text-sm list-decimal pl-5 space-y-1"></ol>
     </aside>
   </main>
 
   <script>
     const el = id => document.getElementById(id);
 
-    // --- Format lũy thừa ---
+    // chuyển ^n thành lũy thừa unicode
     function formatPower(text){
       if(!text) return "";
       const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
@@ -79,7 +80,6 @@
       });
     }
 
-    // --- State ---
     const STATE = { allData:{}, pool:[], quiz:[], idx:0, score:0, right:0, wrong:0, duration:30, timeLeft:30, timer:null };
 
     function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
@@ -125,21 +125,30 @@
       el("hudTime").textContent = STATE.timeLeft+"s";
     }
 
+    function stopTimer(){
+      if(STATE.timer){ clearInterval(STATE.timer); STATE.timer=null; }
+    }
+
     function chooseAnswer(btn, selected, correct){
       if(!STATE.timer) return;
-      clearInterval(STATE.timer); STATE.timer=null;
+      stopTimer(); // ❌ dừng ngay khi chọn
       const buttons = [...el("optionsBox").children];
       buttons.forEach(b=>b.classList.add("disabled"));
-      if(selected===correct){ btn.classList.add("correct"); STATE.score++; STATE.right++; }
-      else {
-        btn.classList.add("wrong"); STATE.wrong++;
-        buttons.forEach(b=>{ if(b.textContent.includes(correct)) b.classList.add("correct"); });
+      if(selected===correct){
+        btn.classList.add("correct");
+        STATE.score++; STATE.right++;
+      } else {
+        btn.classList.add("wrong");
+        STATE.wrong++;
+        buttons.forEach(b=>{
+          if(b.textContent.includes(correct)) b.classList.add("correct");
+        });
       }
       updateHUD();
     }
 
     function timeUp(q){
-      clearInterval(STATE.timer); STATE.timer=null;
+      stopTimer();
       const buttons = [...el("optionsBox").children];
       buttons.forEach(b=>{
         if(b.textContent.includes(q.a)) b.classList.add("correct");
@@ -150,8 +159,16 @@
     }
 
     function nextQuestion(){
-      if(STATE.idx<9){ STATE.idx++; renderQuestion(); }
-      else { el("statusLine").textContent="🎉 Hoàn thành!"; }
+      if(STATE.idx<9){
+        STATE.idx++; renderQuestion();
+      } else {
+        finishGame();
+      }
+    }
+
+    function finishGame(){
+      stopTimer();
+      el("statusLine").textContent="🎉 Hoàn thành!";
     }
 
     function updateHUD(){
