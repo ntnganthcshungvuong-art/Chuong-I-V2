@@ -3,81 +3,409 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toán 8 - Game Quiz</title>
+  <title>🔥 Quiz Toán 8 – Chương I</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --card: rgba(255,255,255,0.95); }
+    .glass{ background:var(--card); backdrop-filter:saturate(140%) blur(8px); }
+    .btn{ @apply w-full text-left px-4 py-3 rounded-xl border transition shadow-sm; }
+    .btn:hover{ transform: translateY(-1px); }
+    .correct{ background:#dcfce7 !important; border-color:#16a34a !important; color:#065f46 !important; }
+    .wrong{ background:#fee2e2 !important; border-color:#dc2626 !important; color:#7f1d1d !important; }
+    .disabled{ pointer-events:none; opacity:0.6; }
+    .pulse{ animation:pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse{ 0%{transform:scale(1)} 50%{transform:scale(1.02)} 100%{transform:scale(1)} }
+  </style>
 </head>
-<body class="bg-gray-100 font-sans">
-  <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold text-center text-blue-600 mb-6">🎮 Toán 8 - Leo Rank</h1>
+<body class="min-h-screen bg-gradient-to-br from-lime-100 via-emerald-100 to-cyan-100 text-gray-800">
 
-    <div id="status" class="text-center text-red-500 mb-4">⏳ Đang tải dữ liệu...</div>
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto px-4 pt-6 pb-2">
+    <h1 class="text-center text-3xl md:text-4xl font-extrabold tracking-tight">
+      🔥 Quiz Toán 8 – Chương I 🔥
+    </h1>
+    <p class="text-center mt-2 text-sm text-gray-600">Chọn tên, chọn bài, vào thi – 10 câu ngẫu nhiên / 30 giây mỗi câu.</p>
+  </header>
 
-    <div id="game" class="hidden">
-      <p id="question" class="text-xl font-semibold mb-4"></p>
-      <div id="options" class="space-y-2"></div>
-      <button id="nextBtn" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Câu tiếp</button>
+  <!-- Toolbar -->
+  <section class="max-w-6xl mx-auto px-4 mt-4 grid gap-3 md:grid-cols-3">
+    <div class="glass rounded-2xl p-4 shadow">
+      <label class="block text-sm font-semibold mb-1">👤 Tên người chơi</label>
+      <input id="playerName" type="text" placeholder="Nhập tên hiển thị"
+             class="w-full rounded-xl border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"/>
+      <p class="text-xs text-gray-500 mt-1">Tên sẽ dùng để lưu điểm & xếp hạng.</p>
     </div>
-  </div>
+
+    <div class="glass rounded-2xl p-4 shadow">
+      <label class="block text-sm font-semibold mb-1">📚 Chọn phạm vi</label>
+      <select id="scope" class="w-full rounded-xl border px-4 py-2">
+        <option value="ALL">Tất cả (random)</option>
+      </select>
+      <p class="text-xs text-gray-500 mt-1">Có thể chọn “Bai1, Bai2, …” sau khi dữ liệu tải xong.</p>
+    </div>
+
+    <div class="glass rounded-2xl p-4 flex items-end justify-between gap-3 shadow">
+      <button id="startBtn"
+        class="flex-1 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-3 shadow-lg pulse">
+        🚀 Bắt đầu làm 10 câu
+      </button>
+      <button id="exportBtn"
+        class="rounded-2xl bg-white hover:bg-gray-50 border font-semibold px-4 py-3 shadow">
+        ⬇️ Xuất CSV
+      </button>
+    </div>
+  </section>
+
+  <!-- Game area -->
+  <main class="max-w-6xl mx-auto px-4 my-6 grid md:grid-cols-3 gap-4">
+    <!-- Question Card -->
+    <section class="md:col-span-2 glass rounded-2xl p-5 shadow">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <div id="statusLine" class="text-sm text-gray-600">⏳ Đang tải dữ liệu…</div>
+          <div id="qCounter" class="text-lg font-bold">Câu 0/10</div>
+        </div>
+        <div class="w-44">
+          <div class="text-xs text-gray-500 mb-1">⏱️ Thời gian còn</div>
+          <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div id="timeBar" class="h-full bg-emerald-500" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="questionBox" class="rounded-xl bg-gray-50 px-4 py-3 text-lg font-semibold min-h-[64px]"></div>
+
+      <div id="optionsBox" class="mt-4 grid gap-2">
+        <!-- options injected here -->
+      </div>
+
+      <div class="mt-4 flex items-center gap-3">
+        <button id="nextBtn" class="rounded-xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 font-semibold shadow">
+          Câu tiếp ▶
+        </button>
+        <button id="reviewBtn" class="rounded-xl bg-white border px-5 py-2 font-semibold shadow hidden">
+          Xem lại đáp án
+        </button>
+      </div>
+    </section>
+
+    <!-- Score + Leaderboard -->
+    <aside class="glass rounded-2xl p-5 shadow">
+      <h3 class="text-xl font-extrabold mb-2">🏆 Bảng điểm</h3>
+      <ul class="text-sm space-y-1">
+        <li>Người chơi: <span id="hudName" class="font-semibold">—</span></li>
+        <li>Điểm hiện tại: <span id="hudScore" class="font-semibold">0</span></li>
+        <li>Đúng/Sai: <span id="hudRightWrong" class="font-semibold">0 / 0</span></li>
+        <li>Thời gian: <span id="hudTime" class="font-semibold">30s</span>/câu</li>
+      </ul>
+
+      <hr class="my-4"/>
+
+      <h4 class="font-bold mb-2">🔥 Top 10 hôm nay</h4>
+      <ol id="leaderboard" class="text-sm list-decimal pl-5 space-y-1">
+        <!-- leaderboard injected -->
+      </ol>
+      <button id="resetLB" class="mt-3 text-xs underline text-gray-500">Xóa bảng xếp hạng (máy này)</button>
+    </aside>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-4 pb-10 text-center text-xs text-gray-500">
+    Made for Toán 8 – chạy trên GitHub Pages. Dữ liệu: <code>questions.json</code>
+  </footer>
 
   <script>
-    let questions = [];
-    let currentIndex = 0;
+    /***********************
+     * State & Utilities
+     ***********************/
+    const STATE = {
+      allData: {}, pool: [], quiz: [], idx: 0,
+      score: 0, right:0, wrong:0, duration: 30, timer: null, timeLeft: 30,
+      player: "", scope: "ALL", history: []
+    };
 
-    async function loadQuestions() {
-      try {
-        const response = await fetch("questions.json"); // phải đúng tên file
-        if (!response.ok) throw new Error("Không tải được file JSON");
-        const data = await response.json();
+    const el = id => document.getElementById(id);
 
-        console.log("✅ Dữ liệu đã load:", data);
-        document.getElementById("status").textContent = "✅ Dữ liệu đã sẵn sàng!";
-
-        // gom tất cả câu hỏi thành một mảng duy nhất
-        Object.keys(data).forEach(key => {
-          questions = questions.concat(data[key]);
-        });
-
-        if (questions.length === 0) throw new Error("Không có câu hỏi nào!");
-
-        document.getElementById("game").classList.remove("hidden");
-        showQuestion();
-
-      } catch (err) {
-        console.error("❌ Lỗi khi tải dữ liệu:", err);
-        document.getElementById("status").textContent = "❌ Lỗi: " + err.message;
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]] = [arr[j],arr[i]];
       }
+      return arr;
     }
 
-    function showQuestion() {
-      const q = questions[currentIndex];
-      document.getElementById("question").textContent = q.q;
+    function pickN(arr, n){
+      return shuffle([...arr]).slice(0, n);
+    }
 
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.className = "block w-full px-4 py-2 border rounded hover:bg-blue-100";
-        btn.onclick = () => checkAnswer(opt, q.a);
-        optionsDiv.appendChild(btn);
+    function nowStr(){
+      const d = new Date();
+      const pad = x=>String(x).padStart(2,"0");
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    /***********************
+     * WebAudio: sounds
+     ***********************/
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep(freq=880, ms=140, type="sine", gain=0.07){
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type; osc.frequency.value = freq;
+      g.gain.value = gain;
+      osc.connect(g); g.connect(audioCtx.destination);
+      osc.start();
+      setTimeout(()=>{ osc.stop(); }, ms);
+    }
+    function soundCorrect(){
+      beep(1046,120,"triangle"); setTimeout(()=>beep(1318,120,"triangle"),110);
+    }
+    function soundWrong(){
+      beep(220,180,"sawtooth",0.08);
+    }
+
+    /***********************
+     * Leaderboard (localStorage)
+     ***********************/
+    const LB_KEY = "quiz8_top10";
+    function loadLB(){
+      try{ return JSON.parse(localStorage.getItem(LB_KEY)||"[]"); }catch(_){ return []; }
+    }
+    function saveLB(arr){
+      localStorage.setItem(LB_KEY, JSON.stringify(arr.slice(0,10)));
+    }
+    function pushLB(entry){
+      const lb = loadLB();
+      lb.push(entry);
+      lb.sort((a,b)=> b.score - a.score || a.time - b.time); // điểm desc, thời gian asc nếu cần
+      saveLB(lb);
+      renderLB();
+    }
+    function renderLB(){
+      const lb = loadLB();
+      el("leaderboard").innerHTML = lb.length ? lb.map((e,i)=>`
+        <li><span class="font-semibold">${e.name}</span> — ${e.score}đ (${e.right}/${e.wrong}) • <span class="text-gray-500">${e.timestamp}</span></li>
+      `).join("") : `<li>Chưa có dữ liệu.</li>`;
+    }
+
+    /***********************
+     * CSV Export
+     ***********************/
+    function exportCSV(){
+      // Kết quả lần chơi gần nhất + Top10 hiện tại
+      const lb = loadLB();
+      const rows = [
+        ["Tên","Điểm","Đúng","Sai","Phạm vi","Thời gian/câu","Thời điểm"],
+        ...lb.map(e=>[e.name,e.score,e.right,e.wrong,e.scope,e.duration,e.timestamp])
+      ];
+      const csv = rows.map(r=>r.map(x=>`"${String(x).replaceAll('"','""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = `quiz_toan8_top10_${Date.now()}.csv`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    /***********************
+     * Game Flow
+     ***********************/
+    async function loadQuestions(){
+      el("statusLine").textContent = "⏳ Đang tải dữ liệu…";
+      const res = await fetch("questions.json");
+      if(!res.ok) throw new Error("Không tải được questions.json");
+      const data = await res.json();
+      STATE.allData = data;
+
+      // Fill scope options
+      const keys = Object.keys(data);
+      const scopeSel = el("scope");
+      keys.forEach(k=>{
+        const opt = document.createElement("option");
+        opt.value = k; opt.textContent = k;
+        scopeSel.appendChild(opt);
+      });
+
+      // Create pool for ALL
+      STATE.pool = keys.flatMap(k => data[k]);
+      el("statusLine").textContent = `✅ Đã tải: ${STATE.pool.length} câu | Chọn phạm vi rồi nhấn Bắt đầu`;
+    }
+
+    function startGame(){
+      // Validate name
+      const name = el("playerName").value.trim();
+      if(!name){ alert("Vui lòng nhập TÊN người chơi."); el("playerName").focus(); return; }
+      STATE.player = name;
+      STATE.scope = el("scope").value || "ALL";
+      el("hudName").textContent = STATE.player;
+
+      // Build question source
+      const src = STATE.scope==="ALL" ? STATE.pool : (STATE.allData[STATE.scope]||[]);
+      if(src.length < 1){ alert("Phạm vi chọn chưa có dữ liệu."); return; }
+
+      STATE.quiz = pickN(src, 10);
+      STATE.idx = 0; STATE.score = 0; STATE.right = 0; STATE.wrong = 0; STATE.history = [];
+      renderHUD();
+      renderQuestion();
+      startTimer();
+    }
+
+    function renderHUD(){
+      el("hudScore").textContent = STATE.score;
+      el("hudRightWrong").textContent = `${STATE.right} / ${STATE.wrong}`;
+    }
+
+    function renderQuestion(){
+      const q = STATE.quiz[STATE.idx];
+      el("qCounter").textContent = `Câu ${STATE.idx+1}/10`;
+      el("questionBox").innerHTML = q.q || "(thiếu nội dung câu hỏi)";
+      // options
+      const ops = (q.options && q.options.length) ? q.options : [];
+      const box = el("optionsBox");
+      box.innerHTML = "";
+      ops.forEach(op=>{
+        const b = document.createElement("button");
+        b.className = "btn bg-white border hover:bg-emerald-50";
+        b.textContent = op;
+        b.onclick = ()=> chooseAnswer(b, op, q.a);
+        box.appendChild(b);
+      });
+      // reset time
+      STATE.timeLeft = STATE.duration;
+      el("hudTime").textContent = `${STATE.timeLeft}s`;
+      updateTimeBar();
+      el("reviewBtn").classList.add("hidden");
+    }
+
+    function disableOptions(){
+      [...el("optionsBox").children].forEach(c=> c.classList.add("disabled"));
+    }
+
+    function chooseAnswer(btn, selected, correct){
+      if(!STATE.timer) return; // avoid double
+      // evaluate
+      const isRight = selected === correct;
+      if(isRight){
+        btn.classList.add("correct");
+        STATE.score += 1;
+        STATE.right += 1;
+        soundCorrect();
+      }else{
+        btn.classList.add("wrong");
+        // highlight correct one
+        [...el("optionsBox").children].forEach(c=>{
+          if(c.textContent === correct) c.classList.add("correct");
+        });
+        STATE.wrong += 1;
+        soundWrong();
+      }
+      renderHUD();
+      disableOptions();
+      stopTimer();
+
+      // record
+      STATE.history.push({
+        i: STATE.idx+1, q: (STATE.quiz[STATE.idx].q||"").slice(0,180),
+        selected, correct, t: STATE.duration - STATE.timeLeft
       });
     }
 
-    function checkAnswer(selected, correct) {
-      if (selected === correct) {
-        alert("🎉 Đúng rồi!");
-      } else {
-        alert("❌ Sai. Đáp án đúng: " + correct);
+    function startTimer(){
+      stopTimer();
+      STATE.timeLeft = STATE.duration;
+      el("hudTime").textContent = `${STATE.timeLeft}s`;
+      updateTimeBar();
+      STATE.timer = setInterval(()=>{
+        STATE.timeLeft--;
+        el("hudTime").textContent = `${STATE.timeLeft}s`;
+        updateTimeBar();
+        if(STATE.timeLeft<=0){
+          timeUp();
+        }
+      }, 1000);
+    }
+
+    function stopTimer(){
+      if(STATE.timer){ clearInterval(STATE.timer); STATE.timer = null; }
+    }
+
+    function updateTimeBar(){
+      const pct = Math.max(0, Math.min(100, (STATE.timeLeft/STATE.duration)*100));
+      const bar = el("timeBar");
+      bar.style.width = pct + "%";
+      bar.style.background = pct>50? "#10b981" : (pct>25? "#f59e0b" : "#ef4444");
+    }
+
+    function timeUp(){
+      stopTimer();
+      // mark wrong & reveal correct
+      const q = STATE.quiz[STATE.idx];
+      [...el("optionsBox").children].forEach(c=>{
+        if(c.textContent === q.a) c.classList.add("correct");
+        else c.classList.add("wrong");
+      });
+      STATE.wrong += 1;
+      renderHUD();
+      soundWrong();
+      disableOptions();
+      // record
+      STATE.history.push({
+        i: STATE.idx+1, q:(q.q||"").slice(0,180),
+        selected: "(hết giờ)", correct: q.a, t: STATE.duration
+      });
+    }
+
+    function nextQuestion(){
+      if(STATE.idx < 9){
+        STATE.idx++;
+        renderQuestion();
+        startTimer();
+      }else{
+        finishGame();
       }
     }
 
-    document.getElementById("nextBtn").onclick = () => {
-      currentIndex = (currentIndex + 1) % questions.length;
-      showQuestion();
-    };
+    function finishGame(){
+      stopTimer();
+      el("statusLine").textContent = "🎉 Hoàn thành bài! Xem điểm & bảng xếp hạng bên phải.";
+      el("reviewBtn").classList.remove("hidden");
 
-    // chạy khi load trang
-    loadQuestions();
+      // push to leaderboard
+      const entry = {
+        name: STATE.player,
+        score: STATE.score, right: STATE.right, wrong: STATE.wrong,
+        scope: STATE.scope, duration: `${STATE.duration}s`,
+        timestamp: nowStr()
+      };
+      pushLB(entry);
+    }
+
+    function reviewAnswers(){
+      const lines = STATE.history.map(h=>`Câu ${h.i}: ${h.selected===h.correct?'✅':''} (Bạn: ${h.selected} | Đúng: ${h.correct}) [${h.t}s] - ${h.q}`);
+      alert(lines.join("\n"));
+    }
+
+    /***********************
+     * Events
+     ***********************/
+    el("startBtn").onclick = startGame;
+    el("nextBtn").onclick  = nextQuestion;
+    el("reviewBtn").onclick = reviewAnswers;
+    el("exportBtn").onclick = exportCSV;
+    el("resetLB").onclick = ()=>{ localStorage.removeItem(LB_KEY); renderLB(); };
+
+    /***********************
+     * Boot
+     ***********************/
+    (async ()=>{
+      try{
+        await loadQuestions();
+        renderLB();
+        el("statusLine").textContent += " | ✅ Sẵn sàng!";
+      }catch(err){
+        console.error(err);
+        el("statusLine").textContent = "❌ Lỗi tải dữ liệu: " + err.message;
+      }
+    })();
   </script>
 </body>
 </html>
