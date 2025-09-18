@@ -1,751 +1,642 @@
 {
   "Bai1": [
     {
-      "q": "Tính (x²+x+1)+(x+1)",
-      "a": "x²+2x+2",
-      "options": [
-        "x²+2x+2",
-        "x²+x+1",
-        "x+1",
-        "2x²+1"
-      ],
-      "level": "NB",
-      "hint": "Cộng đa thức: nhóm hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (2x²+2x+2)+(2x+2)",
-      "a": "2x²+4x+4",
-      "options": [
-        "2x²+4x+4",
-        "2x²+2x+2",
-        "2x+2",
-        "4x²+2"
-      ],
-      "level": "NB",
-      "hint": "Cộng đa thức: nhóm hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (3x²+3x+3)+(3x+3)",
-      "a": "3x²+6x+6",
-      "options": [
-        "3x²+6x+6",
-        "3x²+3x+3",
-        "3x+3",
-        "6x²+3"
-      ],
-      "level": "NB",
-      "hint": "Cộng đa thức: nhóm hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (4x²+4x+4)+(4x+4)",
-      "a": "4x²+8x+8",
-      "options": [
-        "4x²+8x+8",
-        "4x²+4x+4",
-        "4x+4",
-        "8x²+4"
-      ],
-      "level": "NB",
-      "hint": "Cộng đa thức: nhóm hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (5x²+5x+5)+(5x+5)",
-      "a": "5x²+10x+10",
-      "options": [
-        "5x²+10x+10",
-        "5x²+5x+5",
-        "5x+5",
-        "10x²+5"
-      ],
-      "level": "NB",
-      "hint": "Cộng đa thức: nhóm hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (x³+2x²+3)+(2x³+3x²+1)",
-      "a": "3x³+5x²+4",
-      "options": [
-        "3x³+5x²+4",
-        "x³+2x²+3",
-        "2x³+3x²+1",
-        "x³+3"
-      ],
-      "level": "TH",
-      "hint": "Cộng đa thức cùng bậc."
-    },
-    {
-      "q": "So sánh bậc của đa thức x³+2x²+1 và 5x²+2x+3",
-      "a": "Đa thức x³+2x²+1 bậc 3 lớn hơn",
-      "options": [
-        "Đa thức x³+2x²+1 bậc 3 lớn hơn",
-        "Đa thức 5x²+2x+3 bậc 2 lớn hơn",
-        "Hai đa thức cùng bậc",
-        "Không xác định"
-      ],
-      "level": "TH",
-      "hint": "Xác định bậc dựa theo số mũ lớn nhất."
-    },
-    {
-      "q": "Điền vào chỗ trống: Bậc của đa thức 7x⁵+3x²+1 là ...",
-      "a": "5",
-      "options": [
-        "5",
-        "2",
-        "7",
-        "1"
-      ],
-      "level": "NB",
-      "hint": "Bậc = số mũ cao nhất."
-    },
-    {
-      "q": "Tính giá trị của đa thức x²+2x+1 tại x=2",
-      "a": "9",
-      "options": [
-        "9",
-        "7",
-        "6",
-        "5"
-      ],
-      "level": "VD",
-      "hint": "Thay x=2 vào tính toán."
-    },
-    {
-      "q": "Chọn khẳng định đúng: x²+2x+1 là",
-      "a": "Một tam thức bậc hai",
-      "options": [
-        "Một tam thức bậc hai",
-        "Một đơn thức bậc hai",
-        "Một hằng số",
-        "Không phải đa thức"
-      ],
-      "level": "NB",
-      "hint": "Có 3 hạng tử, số mũ lớn nhất =2."
-    }
-  ]
-}
-{
-  "Bai1": [
-    {
-      "q": "Tính (6x²+6x+6)+(6x+6)",
-      "a": "6x²+12x+12",
-      "options": [
-        "6x²+12x+12",
-        "6x²+6x+6",
-        "6x+6",
-        "12x²+6"
-      ],
-      "level": "NB",
-      "hint": "Cộng các hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (7x²+7x+7)+(7x+7)",
-      "a": "7x²+14x+14",
-      "options": [
-        "7x²+14x+14",
-        "7x²+7x+7",
-        "7x+7",
-        "14x²+7"
-      ],
-      "level": "NB",
-      "hint": "Cộng các hạng tử đồng dạng."
-    },
-    {
-      "q": "Điền vào chỗ trống: Bậc của đa thức 9x⁴+3x²+2 là ...",
-      "a": "4",
-      "options": [
-        "4",
-        "2",
-        "9",
-        "3"
-      ],
-      "level": "NB",
-      "hint": "Số mũ cao nhất là 4."
-    },
-    {
-      "q": "So sánh bậc của đa thức x⁴+2x² và 5x³+2x+1",
-      "a": "x⁴+2x² bậc 4 lớn hơn",
-      "options": [
-        "x⁴+2x² bậc 4 lớn hơn",
-        "5x³+2x+1 bậc 3 lớn hơn",
-        "Hai đa thức cùng bậc",
-        "Không xác định"
-      ],
-      "level": "TH",
-      "hint": "So sánh số mũ cao nhất."
-    },
-    {
-      "q": "Tính giá trị đa thức x²+3x+2 tại x=1",
-      "a": "6",
-      "options": [
-        "6",
-        "5",
-        "4",
-        "3"
-      ],
-      "level": "NB",
-      "hint": "Thay x=1 vào đa thức."
-    },
-    {
-      "q": "Đa thức 2x³+3x²+4 có bao nhiêu hạng tử?",
-      "a": "3",
-      "options": [
-        "3",
-        "2",
-        "1",
-        "4"
-      ],
-      "level": "NB",
-      "hint": "Mỗi số hạng khác nhau tính là 1 hạng tử."
-    },
-    {
-      "q": "Tính (x²+2x)+(3x²+4x)",
-      "a": "4x²+6x",
-      "options": [
-        "4x²+6x",
-        "x²+2x",
-        "3x²+4x",
-        "7x²+2"
-      ],
-      "level": "NB",
-      "hint": "Cộng hạng tử cùng bậc."
-    },
-    {
-      "q": "Đa thức x³+2x có bậc là",
-      "a": "3",
-      "options": [
-        "3",
-        "2",
-        "1",
-        "Không phải đa thức"
-      ],
-      "level": "NB",
-      "hint": "Bậc là số mũ lớn nhất."
-    },
-    {
-      "q": "So sánh: 2x²+3x+1 và x²+5x+4 có cùng bậc?",
-      "a": "Đúng, cùng bậc 2",
-      "options": [
-        "Đúng, cùng bậc 2",
-        "Sai, bậc khác nhau",
-        "Cả hai bậc 1",
-        "Không xác định"
-      ],
-      "level": "TH",
-      "hint": "Số mũ lớn nhất =2."
-    },
-    {
-      "q": "Điền vào chỗ trống: Đa thức 7x+5 có bậc ...",
-      "a": "1",
-      "options": [
-        "1",
-        "2",
-        "0",
-        "5"
-      ],
-      "level": "NB",
-      "hint": "Số mũ cao nhất là 1."
-    }
-  ]
-}
-{
-  "Bai1": [
-    {
-      "q": "Tính (8x²+8x+8)+(8x+8)",
-      "a": "8x²+16x+16",
-      "options": [
-        "8x²+16x+16",
-        "8x²+8x+8",
-        "8x+8",
-        "16x²+8"
-      ],
-      "level": "NB",
-      "hint": "Cộng hạng tử đồng dạng."
-    },
-    {
-      "q": "Tính (9x²+9x+9)+(9x+9)",
-      "a": "9x²+18x+18",
-      "options": [
-        "9x²+18x+18",
-        "9x²+9x+9",
-        "9x+9",
-        "18x²+9"
-      ],
-      "level": "NB",
-      "hint": "Cộng hạng tử đồng dạng."
-    },
-    {
-      "q": "Bậc của đa thức 12x³+4x²+7x+1 là ...",
-      "a": "3",
-      "options": [
-        "3",
-        "2",
-        "4",
-        "1"
-      ],
-      "level": "NB",
-      "hint": "Số mũ cao nhất là 3."
-    },
-    {
-      "q": "So sánh bậc của đa thức 5x²+2 và 7x³+1",
-      "a": "7x³+1 có bậc 3 lớn hơn",
-      "options": [
-        "7x³+1 có bậc 3 lớn hơn",
-        "5x²+2 bậc 2 lớn hơn",
-        "Hai đa thức cùng bậc",
-        "Không xác định"
-      ],
-      "level": "TH",
-      "hint": "Số mũ cao nhất quyết định bậc."
-    },
-    {
-      "q": "Tính giá trị của đa thức x²+2x+1 tại x=2",
-      "a": "9",
-      "options": [
-        "9",
-        "6",
-        "7",
-        "8"
-      ],
-      "level": "NB",
-      "hint": "Thay x=2."
-    },
-    {
-      "q": "Đa thức 4x⁵+2x²+1 có bao nhiêu hạng tử?",
-      "a": "3",
-      "options": [
-        "3",
-        "2",
-        "4",
-        "5"
-      ],
-      "level": "NB",
-      "hint": "Mỗi số hạng là 1 hạng tử."
-    },
-    {
-      "q": "Tính (2x²+3x+1)+(x²+5x+2)",
-      "a": "3x²+8x+3",
-      "options": [
-        "3x²+8x+3",
-        "2x²+3x+1",
-        "x²+5x+2",
-        "7x²+2x+1"
-      ],
-      "level": "NB",
-      "hint": "Cộng hạng tử đồng dạng."
-    },
-    {
-      "q": "Bậc của đa thức 7x⁴+2x² là ...",
-      "a": "4",
-      "options": [
-        "4",
-        "2",
-        "7",
-        "Không xác định"
-      ],
-      "level": "NB",
-      "hint": "Số mũ cao nhất là 4."
-    },
-    {
-      "q": "So sánh: 3x⁴+2 và 5x³+7x có cùng bậc?",
-      "a": "Sai, bậc 4 lớn hơn bậc 3",
-      "options": [
-        "Sai, bậc 4 lớn hơn bậc 3",
-        "Đúng, cùng bậc 3",
-        "Đúng, cùng bậc 4",
-        "Không xác định"
-      ],
-      "level": "TH",
-      "hint": "So sánh số mũ cao nhất."
-    },
-    {
-      "q": "Điền vào chỗ trống: Đa thức 10x²+3 có bậc ...",
-      "a": "2",
-      "options": [
-        "2",
-        "3",
-        "1",
-        "0"
-      ],
-      "level": "NB",
-      "hint": "Số mũ cao nhất là 2."
-    }
-  ]
-}
-{
-  "Bai1": [
-    {
       "q": "Tính (x²+4x+3)+(2x²+3x+5)",
       "a": "3x²+7x+8",
-      "options": ["3x²+7x+8","x²+4x+3","2x²+3x+5","3x²+6x+15"],
+      "options": [
+        "3x²+7x+8",
+        "x²+4x+3",
+        "2x²+3x+5",
+        "3x²+6x+15"
+      ],
       "level": "NB",
       "hint": "Cộng hạng tử đồng dạng: x² với x², x với x, hằng với hằng."
     },
     {
       "q": "Tính (3x²+2x+1)−(x²+5x−2)",
       "a": "2x²−3x+3",
-      "options": ["2x²−3x+3","4x²+7x+1","2x²+7x−1","x²−3x−1"],
+      "options": [
+        "2x²−3x+3",
+        "4x²+7x+1",
+        "2x²+7x−1",
+        "x²−3x−1"
+      ],
       "level": "TH",
       "hint": "Trừ theo từng hạng tử: (3−1)x²,(2−5)x,(1−(−2))."
     },
     {
       "q": "Bậc của đa thức 7x⁴−3x²+5 là",
       "a": "4",
-      "options": ["4","2","5","0"],
+      "options": [
+        "4",
+        "2",
+        "5",
+        "0"
+      ],
       "level": "NB",
       "hint": "Bậc là số mũ lớn nhất xuất hiện."
     },
     {
       "q": "Số hạng tự do (hằng số) của đa thức 4x³−2x+9 là",
       "a": "9",
-      "options": ["9","−2","4","0"],
+      "options": [
+        "9",
+        "−2",
+        "4",
+        "0"
+      ],
       "level": "NB",
       "hint": "Số hạng không chứa x."
     },
     {
       "q": "Tính (2x)(x²+3x+4)",
       "a": "2x³+6x²+8x",
-      "options": ["2x³+6x²+8x","2x²+3x+4","2x³+3x","x³+6x²+8x"],
+      "options": [
+        "2x³+6x²+8x",
+        "2x²+3x+4",
+        "2x³+3x",
+        "x³+6x²+8x"
+      ],
       "level": "VD",
       "hint": "Nhân đơn thức với từng hạng tử trong đa thức."
     },
     {
       "q": "Tính (−3x)(2x²−x+5)",
       "a": "−6x³+3x²−15x",
-      "options": ["−6x³+3x²−15x","−6x²+3x−15","6x³−3x²+15x","−6x³−3x²+15x"],
+      "options": [
+        "−6x³+3x²−15x",
+        "−6x²+3x−15",
+        "6x³−3x²+15x",
+        "−6x³−3x²+15x"
+      ],
       "level": "VD",
       "hint": "Nhớ dấu âm: (−3x)·(−x)=+3x²."
     },
     {
       "q": "Thu gọn (x²+2x+1)+(x²−x+3)",
       "a": "2x²+x+4",
-      "options": ["2x²+x+4","x²+2x+1","x²−x+3","2x²+3x+4"],
+      "options": [
+        "2x²+x+4",
+        "x²+2x+1",
+        "x²−x+3",
+        "2x²+3x+4"
+      ],
       "level": "NB",
       "hint": "Cộng theo cột hạng tử."
     },
     {
       "q": "Tính (x+2)(x+3)",
       "a": "x²+5x+6",
-      "options": ["x²+5x+6","x²+6","x²+3x+2","x²+2x+3"],
+      "options": [
+        "x²+5x+6",
+        "x²+6",
+        "x²+3x+2",
+        "x²+2x+3"
+      ],
       "level": "TH",
       "hint": "Nhân nhị thức: FOIL."
     },
     {
       "q": "Tính (x−4)(x+1)",
       "a": "x²−3x−4",
-      "options": ["x²−3x−4","x²+5x−4","x²−4x+1","x²−x−4"],
+      "options": [
+        "x²−3x−4",
+        "x²+5x−4",
+        "x²−4x+1",
+        "x²−x−4"
+      ],
       "level": "TH",
       "hint": "(x−4)(x+1)=x²+x−4x−4."
     },
     {
       "q": "Điền số: (x+5)(x+2)=x²+__x+10",
       "a": "7",
-      "options": ["7","10","5","2"],
+      "options": [
+        "7",
+        "10",
+        "5",
+        "2"
+      ],
       "level": "NB",
       "hint": "Hệ số x là 5+2."
     },
     {
       "q": "Điền số: (x−3)(x−4)=x²−__x+12",
       "a": "7",
-      "options": ["7","−7","−1","1"],
+      "options": [
+        "7",
+        "−7",
+        "−1",
+        "1"
+      ],
       "level": "TH",
       "hint": "Tổng hai số là 7, tích 12."
     },
     {
       "q": "Tính (2x+1)(x+3)",
       "a": "2x²+7x+3",
-      "options": ["2x²+7x+3","2x²+4x+3","2x²+3x+6","x²+5x+3"],
+      "options": [
+        "2x²+7x+3",
+        "2x²+4x+3",
+        "2x²+3x+6",
+        "x²+5x+3"
+      ],
       "level": "VD",
       "hint": "Nhân từng hạng tử."
     },
     {
       "q": "Tính (x+2)(x²+x+1)",
       "a": "x³+3x²+3x+2",
-      "options": ["x³+3x²+3x+2","x³+2x²+2x+2","x³+x²+x+2","x³+3x+2"],
+      "options": [
+        "x³+3x²+3x+2",
+        "x³+2x²+2x+2",
+        "x³+x²+x+2",
+        "x³+3x+2"
+      ],
       "level": "VD",
       "hint": "Nhân x vào, rồi nhân 2 vào, cộng lại."
     },
     {
       "q": "Thu gọn (3x²−x+4)−(x²+2x−1)",
       "a": "2x²−3x+5",
-      "options": ["2x²−3x+5","4x²+x+3","2x²+x+3","2x²−x+3"],
+      "options": [
+        "2x²−3x+5",
+        "4x²+x+3",
+        "2x²+x+3",
+        "2x²−x+3"
+      ],
       "level": "TH",
       "hint": "Đổi dấu ngoặc thứ hai rồi cộng hạng tử."
     },
     {
       "q": "Bậc của 6x⁵−x³+2x là",
       "a": "5",
-      "options": ["5","3","1","6"],
+      "options": [
+        "5",
+        "3",
+        "1",
+        "6"
+      ],
       "level": "NB",
       "hint": "Số mũ lớn nhất là 5."
     },
     {
       "q": "Số hạng chứa x² trong đa thức 4x³+5x²−7x+9 có hệ số",
       "a": "5",
-      "options": ["5","4","−7","9"],
+      "options": [
+        "5",
+        "4",
+        "−7",
+        "9"
+      ],
       "level": "NB",
       "hint": "Hệ số đi kèm x²."
     },
     {
       "q": "Tính (x−2)(x²+2x+4)",
       "a": "x³−8",
-      "options": ["x³−8","x³+8","x³−2x²−8","x³−4x−8"],
+      "options": [
+        "x³−8",
+        "x³+8",
+        "x³−2x²−8",
+        "x³−4x−8"
+      ],
       "level": "VC",
       "hint": "Đây là hằng đẳng thức: (x−2)(x²+2x+4)=x³−2³."
     },
     {
       "q": "Tính (x+2)(x²−2x+4)",
       "a": "x³+8",
-      "options": ["x³+8","x³−8","x³+6x+8","x³+2x²+4"],
+      "options": [
+        "x³+8",
+        "x³−8",
+        "x³+6x+8",
+        "x³+2x²+4"
+      ],
       "level": "VC",
       "hint": "(x+a)(x²−ax+a³/x?) — chính xác là x³+a³ với a=2."
     },
     {
       "q": "Tính (2x−1)(x−3)",
       "a": "2x²−7x+3",
-      "options": ["2x²−7x+3","2x²−5x−3","2x²−x−3","x²−6x+3"],
+      "options": [
+        "2x²−7x+3",
+        "2x²−5x−3",
+        "2x²−x−3",
+        "x²−6x+3"
+      ],
       "level": "TH",
       "hint": "Nhân phân phối."
     },
     {
       "q": "Tính (x+1)(x+1)",
       "a": "x²+2x+1",
-      "options": ["x²+2x+1","x²+1","x²+2x","x²−1"],
+      "options": [
+        "x²+2x+1",
+        "x²+1",
+        "x²+2x",
+        "x²−1"
+      ],
       "level": "NB",
       "hint": "Bình phương nhị thức."
     },
     {
       "q": "Tính (x−1)(x−1)",
       "a": "x²−2x+1",
-      "options": ["x²−2x+1","x²+1","x²−1","x²−x+1"],
+      "options": [
+        "x²−2x+1",
+        "x²+1",
+        "x²−1",
+        "x²−x+1"
+      ],
       "level": "NB",
       "hint": "Bình phương nhị thức (dấu trừ)."
     },
     {
       "q": "Tính (3x+2)(x−4)",
       "a": "3x²−10x−8",
-      "options": ["3x²−10x−8","3x²−12x+2","3x²−2x−8","3x²+10x−8"],
+      "options": [
+        "3x²−10x−8",
+        "3x²−12x+2",
+        "3x²−2x−8",
+        "3x²+10x−8"
+      ],
       "level": "TH",
       "hint": "Nhân từng hạng tử rồi cộng."
     },
     {
       "q": "Điền số: (x+4)(x+6)=x²+__x+24",
       "a": "10",
-      "options": ["10","24","12","4"],
+      "options": [
+        "10",
+        "24",
+        "12",
+        "4"
+      ],
       "level": "NB",
       "hint": "Hệ số x là 4+6."
     },
     {
       "q": "Điền số: (x−5)(x−2)=x²−__x+10",
       "a": "7",
-      "options": ["7","−7","10","3"],
+      "options": [
+        "7",
+        "−7",
+        "10",
+        "3"
+      ],
       "level": "NB",
       "hint": "Tổng 5 và 2 là 7."
     },
     {
       "q": "Tính (x²+3x+2)−(2x²−x+1)",
       "a": "−x²+4x+1",
-      "options": ["−x²+4x+1","3x²+2x+1","x²+2x+3","−x²+2x+3"],
+      "options": [
+        "−x²+4x+1",
+        "3x²+2x+1",
+        "x²+2x+3",
+        "−x²+2x+3"
+      ],
       "level": "TH",
       "hint": "Đổi dấu rồi cộng hạng tử."
     },
     {
       "q": "Thu gọn (5x²−2x+7)+(−3x²+4x−5)",
       "a": "2x²+2x+2",
-      "options": ["2x²+2x+2","8x²+2x+2","2x²−6x+12","x²+2"],
+      "options": [
+        "2x²+2x+2",
+        "8x²+2x+2",
+        "2x²−6x+12",
+        "x²+2"
+      ],
       "level": "TH",
       "hint": "Cộng hệ số từng bậc."
     },
     {
       "q": "Bậc của (x+1)(x²+1) là",
       "a": "3",
-      "options": ["3","2","1","0"],
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0"
+      ],
       "level": "TH",
       "hint": "Bậc cộng khi nhân đa thức: 1+2=3."
     },
     {
       "q": "Số hạng bậc cao nhất khi nhân (2x²+1)(x+3) là",
       "a": "2x³",
-      "options": ["2x³","6x²","x²","2x⁴"],
+      "options": [
+        "2x³",
+        "6x²",
+        "x²",
+        "2x⁴"
+      ],
       "level": "VD",
       "hint": "Hạng tử bậc cao: 2x²·x=2x³."
     },
     {
       "q": "Tính (x²+2x+1)(x+2)",
       "a": "x³+4x²+5x+2",
-      "options": ["x³+4x²+5x+2","x³+2x²+2x+2","x³+2x²+5x+2","x³+3x²+4x+2"],
+      "options": [
+        "x³+4x²+5x+2",
+        "x³+2x²+2x+2",
+        "x³+2x²+5x+2",
+        "x³+3x²+4x+2"
+      ],
       "level": "VD",
       "hint": "Nhân phân phối rồi cộng."
     },
     {
       "q": "Tính (2x²−x+3)(x−1)",
       "a": "2x³−3x²+4x−3",
-      "options": ["2x³−3x²+4x−3","2x³−x²+3x−3","2x³+x²−x−3","2x³−2x²+x−3"],
+      "options": [
+        "2x³−3x²+4x−3",
+        "2x³−x²+3x−3",
+        "2x³+x²−x−3",
+        "2x³−2x²+x−3"
+      ],
       "level": "VD",
       "hint": "Nhân từng hạng tử với (x−1)."
     },
     {
       "q": "Điền số: (x+a)(x+b)=x²+__x+ab (với a=3,b=−2)",
       "a": "1",
-      "options": ["1","−1","5","−6"],
+      "options": [
+        "1",
+        "−1",
+        "5",
+        "−6"
+      ],
       "level": "TH",
       "hint": "a+b=3+(−2)=1."
     },
     {
       "q": "So sánh bậc: (x+2)(x+3) và (x²+1)",
       "a": "Bằng nhau (cùng bậc 2)",
-      "options": ["Bằng nhau (cùng bậc 2)","(x²+1) bậc lớn hơn","(x+2)(x+3) bậc lớn hơn","Không xác định"],
+      "options": [
+        "Bằng nhau (cùng bậc 2)",
+        "(x²+1) bậc lớn hơn",
+        "(x+2)(x+3) bậc lớn hơn",
+        "Không xác định"
+      ],
       "level": "TH",
       "hint": "Cả hai đều bậc 2."
     },
     {
       "q": "Tính (3x−2)(x+4)",
       "a": "3x²+10x−8",
-      "options": ["3x²+10x−8","3x²+12x−2","3x²+2x−8","3x²−10x−8"],
+      "options": [
+        "3x²+10x−8",
+        "3x²+12x−2",
+        "3x²+2x−8",
+        "3x²−10x−8"
+      ],
       "level": "TH",
       "hint": "Nhân từng hạng tử."
     },
     {
       "q": "Tính (x²−4)(x+1)",
       "a": "x³+x²−4x−4",
-      "options": ["x³+x²−4x−4","x³−x²−4x+4","x³−4x−4","x³+x²+4x+4"],
+      "options": [
+        "x³+x²−4x−4",
+        "x³−x²−4x+4",
+        "x³−4x−4",
+        "x³+x²+4x+4"
+      ],
       "level": "VD",
       "hint": "Nhân x² với (x+1) và −4 với (x+1)."
     },
     {
       "q": "Tính (x²+4x+4)−(x²+2x+1)",
       "a": "2x+3",
-      "options": ["2x+3","x²+2x+3","2x²+3x+3","x+3"],
+      "options": [
+        "2x+3",
+        "x²+2x+3",
+        "2x²+3x+3",
+        "x+3"
+      ],
       "level": "NB",
       "hint": "Trừ theo từng bậc."
     },
     {
       "q": "Bậc của 5 là",
       "a": "0",
-      "options": ["0","1","−∞","Không xác định"],
+      "options": [
+        "0",
+        "1",
+        "−∞",
+        "Không xác định"
+      ],
       "level": "NB",
       "hint": "Hằng số có bậc 0."
     },
     {
       "q": "Số hạng chứa x trong 7x+9 là",
       "a": "7x",
-      "options": ["7x","9","x","7"],
+      "options": [
+        "7x",
+        "9",
+        "x",
+        "7"
+      ],
       "level": "NB",
       "hint": "Hệ số của x là 7."
     },
     {
       "q": "Tính (2x+3)(2x−3)",
       "a": "4x²−9",
-      "options": ["4x²−9","4x²+9","4x²−6x+9","4x²+6x−9"],
+      "options": [
+        "4x²−9",
+        "4x²+9",
+        "4x²−6x+9",
+        "4x²+6x−9"
+      ],
       "level": "TH",
       "hint": "Hiệu hai bình phương: (a+b)(a−b)=a²−b²."
     },
     {
       "q": "Tính (x+4)(x−4)",
       "a": "x²−16",
-      "options": ["x²−16","x²+16","x²−8x+16","x²+8x−16"],
+      "options": [
+        "x²−16",
+        "x²+16",
+        "x²−8x+16",
+        "x²+8x−16"
+      ],
       "level": "TH",
       "hint": "Hiệu hai bình phương."
     },
     {
       "q": "Tính (x+3)(x²−x+1)",
       "a": "x³+2x²−2x+3",
-      "options": ["x³+2x²−2x+3","x³+x²+x+3","x³−x²+x+3","x³+3x²−x+3"],
+      "options": [
+        "x³+2x²−2x+3",
+        "x³+x²+x+3",
+        "x³−x²+x+3",
+        "x³+3x²−x+3"
+      ],
       "level": "VD",
       "hint": "Nhân phân phối: x·(...) + 3·(...)."
     },
     {
       "q": "Tính (2x²+5x+2)+(x²−3x+4)",
       "a": "3x²+2x+6",
-      "options": ["3x²+2x+6","2x²+5x+2","x²−3x+4","3x²+8x+6"],
+      "options": [
+        "3x²+2x+6",
+        "2x²+5x+2",
+        "x²−3x+4",
+        "3x²+8x+6"
+      ],
       "level": "NB",
       "hint": "Cộng theo từng bậc."
     },
     {
       "q": "Thu gọn (x²+6x+9)−(x²+4x+4)",
       "a": "2x+5",
-      "options": ["2x+5","x²+2x+5","2x²+5x+5","x+5"],
+      "options": [
+        "2x+5",
+        "x²+2x+5",
+        "2x²+5x+5",
+        "x+5"
+      ],
       "level": "NB",
       "hint": "Trừ hạng tử đồng dạng."
     },
     {
       "q": "Điền số: (x+1)(x+7)=x²+__x+7",
       "a": "8",
-      "options": ["8","7","6","9"],
+      "options": [
+        "8",
+        "7",
+        "6",
+        "9"
+      ],
       "level": "NB",
       "hint": "Hệ số x là 1+7."
     },
     {
       "q": "Tính (3x²−x+2)(x+2)",
       "a": "3x³+5x²+0x+4",
-      "options": ["3x³+5x²+0x+4","3x³+6x²+2x+4","3x³+x²+2x+4","3x³+5x²+4"],
+      "options": [
+        "3x³+5x²+0x+4",
+        "3x³+6x²+2x+4",
+        "3x³+x²+2x+4",
+        "3x³+5x²+4"
+      ],
       "level": "VD",
       "hint": "Viết 0x để thấy rõ hạng tử bậc 1 bị triệt."
     },
     {
       "q": "Bậc của (x+1)³ là",
       "a": "3",
-      "options": ["3","2","1","0"],
+      "options": [
+        "3",
+        "2",
+        "1",
+        "0"
+      ],
       "level": "TH",
       "hint": "Bậc bằng mũ của x lớn nhất sau khai triển."
     },
     {
       "q": "So sánh bậc: 2x⁵+1 và (x²+1)(x³+1)",
       "a": "Bằng nhau (cùng bậc 5)",
-      "options": ["Bằng nhau (cùng bậc 5)","2x⁵+1 lớn hơn","(x²+1)(x³+1) lớn hơn","Không xác định"],
+      "options": [
+        "Bằng nhau (cùng bậc 5)",
+        "2x⁵+1 lớn hơn",
+        "(x²+1)(x³+1) lớn hơn",
+        "Không xác định"
+      ],
       "level": "TH",
       "hint": "Bậc nhân = tổng bậc."
     },
     {
       "q": "Tính (x²+2x+3)−(−x²+x−1)",
       "a": "2x²+x+4",
-      "options": ["2x²+x+4","0","x²+x+2","2x²+3x+4"],
+      "options": [
+        "2x²+x+4",
+        "0",
+        "x²+x+2",
+        "2x²+3x+4"
+      ],
       "level": "TH",
       "hint": "Trừ số âm thành cộng."
     },
     {
       "q": "Tính (4x²−3x+1)+(−x²+5x−2)",
       "a": "3x²+2x−1",
-      "options": ["3x²+2x−1","5x²+2x−1","3x²−8x+3","x²+2x−1"],
+      "options": [
+        "3x²+2x−1",
+        "5x²+2x−1",
+        "3x²−8x+3",
+        "x²+2x−1"
+      ],
       "level": "NB",
       "hint": "Cộng theo từng bậc."
     },
     {
       "q": "Điền số: (x−a)(x−b)=x²−(a+b)x+__",
       "a": "ab",
-      "options": ["ab","a−b","a²+b²","(a−b)²"],
+      "options": [
+        "ab",
+        "a−b",
+        "a²+b²",
+        "(a−b)²"
+      ],
       "level": "TH",
       "hint": "Hệ số tự do là tích ab."
     },
     {
       "q": "Tính (x+2)(2x²−x+1)",
       "a": "2x³+3x²−x+2",
-      "options": ["2x³+3x²−x+2","2x³−x²+x+2","2x³+x²+2x+2","x³+3x²−x+2"],
+      "options": [
+        "2x³+3x²−x+2",
+        "2x³−x²+x+2",
+        "2x³+x²+2x+2",
+        "x³+3x²−x+2"
+      ],
       "level": "VD",
       "hint": "Nhân phân phối."
     },
     {
       "q": "Tính (−x+3)(x+4)",
       "a": "−x²−x+12",
-      "options": ["−x²−x+12","−x²+7x+12","x²−x−12","−x²+12"],
+      "options": [
+        "−x²−x+12",
+        "−x²+7x+12",
+        "x²−x−12",
+        "−x²+12"
+      ],
       "level": "TH",
       "hint": "(−x)·x=−x², (−x)·4=−4x, 3·x=3x."
     },
     {
       "q": "Tính (x²+1)(x²+1)",
       "a": "x⁴+2x²+1",
-      "options": ["x⁴+2x²+1","x⁴+1","x⁴+2x+1","x⁴+2x³+1"],
+      "options": [
+        "x⁴+2x²+1",
+        "x⁴+1",
+        "x⁴+2x+1",
+        "x⁴+2x³+1"
+      ],
       "level": "TH",
       "hint": "(a+b)²=a²+2ab+b² với a=x²,b=1."
     },
     {
       "q": "Tính (x²−1)(x²+1)",
       "a": "x⁴−1",
-      "options": ["x⁴−1","x⁴+1","x⁴−2x²+1","x⁴+2x²−1"],
+      "options": [
+        "x⁴−1",
+        "x⁴+1",
+        "x⁴−2x²+1",
+        "x⁴+2x²−1"
+      ],
       "level": "TH",
       "hint": "Hiệu hai bình phương theo x²."
     }
-  ]
-}
-{
+  ],
   "Bai2": [
     {
       "q": "Câu 201: Bậc của đa thức 7x^2+2",
@@ -3147,9 +3038,7 @@
       "level": "VC",
       "hint": "Trừ đa thức: đổi dấu ngoặc thứ hai rồi cộng."
     }
-  ]
-}
-{
+  ],
   "Bai3": [
     {
       "q": "Câu 401: Bậc của đa thức 4x^4+2",
@@ -5551,9 +5440,7 @@
       "level": "VC",
       "hint": "Hệ số x = tổng hai số."
     }
-  ]
-}
-{
+  ],
   "Bai4": [
     {
       "q": "Câu 601: Tính (1x³+1x²+1x+1)+(1x²+1x+1)",
