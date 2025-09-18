@@ -19,6 +19,8 @@
   .wrong{ background:#ef4444!important; color:#fff!important; }
   .disabled{ pointer-events:none; opacity:.9; }
   .explainBox{ margin-top:1rem; padding:.75rem 1rem; border-radius:.75rem; background:#fef9c3; color:#854d0e; font-size:1rem; }
+  .dragItem{padding:.5rem 1rem;margin:.25rem;background:#fce7f3;border:1px solid #f9a8d4;border-radius:.5rem;cursor:grab;}
+  .dropZone{padding:.75rem;margin:.25rem;border:2px dashed #ddd;border-radius:.75rem;min-height:2.5rem;display:flex;align-items:center;}
 </style>
 </head>
 <body class="min-h-screen flex flex-col justify-center items-center text-gray-800">
@@ -34,16 +36,10 @@
         <input id="playerName" type="text" placeholder="Nhập tên của bạn"
           class="w-full rounded-xl border px-4 py-2 mt-1 text-lg focus:ring-2 focus:ring-pink-400">
       </div>
-      <div>
-        <label class="font-semibold">📚 Phạm vi</label>
-        <select id="scope" class="w-full rounded-xl border px-4 py-2 mt-1 text-lg">
-          <option value="ALL">Tất cả (random)</option>
-        </select>
-      </div>
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="font-semibold">🧩 Số câu</label>
-          <input id="numQ" type="number" min="5" max="20" value="10"
+          <input id="numQ" type="number" min="5" max="15" value="8"
             class="w-full rounded-xl border px-4 py-2 mt-1 text-lg">
         </div>
         <div>
@@ -58,7 +54,6 @@
         🚀 Bắt đầu
       </button>
     </div>
-    <p id="loadInfo" class="text-sm text-gray-500 mt-4">⏳ Đang tải dữ liệu…</p>
   </div>
 </section>
 
@@ -77,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div id="questionBox" class="rounded-xl bg-pink-50 px-4 py-3 text-3xl font-bold min-h-[72px]"></div>
+    <div id="questionBox" class="rounded-xl bg-pink-50 px-4 py-3 text-2xl font-bold min-h-[72px]"></div>
     <div id="optionsBox" class="mt-4 grid gap-3"></div>
     <div id="explainBox" class="hidden explainBox"></div>
     <div class="mt-6 flex gap-3">
@@ -112,95 +107,107 @@
 <script>
 const el=id=>document.getElementById(id);
 
-// Superscript + beautify
-function formatPower(t){if(!t)return"";const m={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};return t.replace(/\^(\d+)/g,(_,e)=>[...e].map(d=>m[d]||d).join("")); }
-function beautifyMath(text){return text.replace(/(^|[^0-9])1x([⁰¹²³⁴⁵⁶⁷⁸⁹]*)/g,"$1x$2").replace(/\+\s*-/g,"- "); }
+// Fake dữ liệu demo
+const pool=[
+ {q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3","2x²+4"],type:"mc"},
+ {q:"(x+2)(x+3)=x²+__x+6",a:"5",type:"fill"},
+ {q:"Ghép biểu thức với kết quả đúng",pairs:[
+    ["(x+1)²","x²+2x+1"],
+    ["(x+2)(x+3)","x²+5x+6"],
+    ["(x-1)(x+4)","x²+3x-4"]
+ ],type:"drag"}
+];
+
+const STATE={quiz:[],idx:0,score:0,right:0,wrong:0,duration:30,timeLeft:30,timer:null,nQuestions:8,player:""};
+
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-// Âm thanh
-function beep(freq,type="sine",dur=0.15){const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const g=ctx.createGain();osc.type=type;osc.frequency.value=freq;osc.connect(g);g.connect(ctx.destination);osc.start();setTimeout(()=>osc.stop(),dur*1000);}
-function soundCorrect(){beep(880,"triangle");setTimeout(()=>beep(1320,"triangle"),120);}
+function beep(f,t="sine",d=0.15){const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const g=ctx.createGain();osc.type=t;osc.frequency.value=f;osc.connect(g);g.connect(ctx.destination);osc.start();setTimeout(()=>osc.stop(),d*1000);}
+function soundCorrect(){beep(880,"triangle");}
 function soundWrong(){beep(200,"sawtooth",0.25);}
-function showConfetti(){confetti({ particleCount: 80, spread: 70, origin:{ y:0.8 }, scalar:0.9 });}
-
-// State
-const STATE={allData:{},pool:[],quiz:[],idx:0,score:0,right:0,wrong:0,duration:30,timeLeft:30,timer:null,nQuestions:10,player:"",scope:"ALL"};
-
-async function loadQuestions(){
-  const r=await fetch("questions.json");
-  const d=await r.json();
-  STATE.allData=d;
-  STATE.pool=Object.values(d).flat();
-  Object.keys(d).forEach(k=>{
-    const o=document.createElement("option");
-    o.value=k;o.textContent=k.replace("Bai","Bài ");el("scope").appendChild(o);
-  });
-  el("loadInfo").textContent=`✅ Đã tải: ${STATE.pool.length} câu hợp lệ`;
-}
-
-function goHome(){el("home").classList.remove("hidden");el("quiz").classList.add("hidden");el("result").classList.add("hidden");}
-function goQuiz(){el("home").classList.add("hidden");el("quiz").classList.remove("hidden");el("result").classList.add("hidden");}
-function goResult(){el("home").classList.add("hidden");el("quiz").classList.add("hidden");el("result").classList.remove("hidden");}
+function showConfetti(){confetti({ particleCount: 70, spread: 70, origin:{ y:0.8 } });}
 
 function startGame(){
-  const name=el("playerName").value.trim();
-  if(!name){alert("Nhập tên!");return;}
-  STATE.player=name;STATE.scope=el("scope").value;
-  STATE.nQuestions=parseInt(el("numQ").value||10);
+  STATE.player=el("playerName").value||"Khách";
+  STATE.nQuestions=parseInt(el("numQ").value||8);
   STATE.duration=parseInt(el("secPerQ").value||30);
-  el("hudName").textContent=STATE.player;
-  const src=STATE.scope==="ALL"?STATE.pool:(STATE.allData[STATE.scope]||[]);
-  STATE.quiz=shuffle(src).slice(0,STATE.nQuestions);
+  STATE.quiz=shuffle(pool).slice(0,STATE.nQuestions);
   STATE.idx=0;STATE.score=0;STATE.right=0;STATE.wrong=0;
+  el("hudName").textContent=STATE.player;
   goQuiz();renderQuestion();startTimer();
 }
 
 function renderQuestion(){
   const q=STATE.quiz[STATE.idx];
   el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;
-  el("questionBox").innerHTML=beautifyMath(formatPower(q.q));
-  const box=el("optionsBox");box.innerHTML="";el("explainBox").classList.add("hidden");
-  shuffle(q.options||[]).forEach((opt,i)=>{
-    const b=document.createElement("button");
-    b.className="btn";
-    b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${beautifyMath(formatPower(opt))}</span></div>`;
-    b.onclick=()=>chooseAnswer(b,opt,q.a,q.explain);
-    box.appendChild(b);
-  });
+  el("questionBox").innerHTML=q.q;
+  const box=el("optionsBox");box.innerHTML="";
+  el("explainBox").classList.add("hidden");
+
+  if(q.type==="mc"){
+    shuffle(q.options).forEach((opt,i)=>{
+      const b=document.createElement("button");
+      b.className="btn";
+      b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${opt}</span></div>`;
+      b.onclick=()=>chooseMC(b,opt,q.a);
+      box.appendChild(b);
+    });
+  }
+  if(q.type==="fill"){
+    box.innerHTML=`<input id="blankInput" class="w-full border rounded-xl px-4 py-2 text-xl" placeholder="Nhập đáp án...">
+                   <button id="submitBlank" class="mt-3 rounded-xl bg-pink-500 text-white px-4 py-2">Trả lời</button>`;
+    el("submitBlank").onclick=()=>{
+      const ans=el("blankInput").value.trim();
+      if(ans===q.a){soundCorrect();showConfetti();STATE.score++;STATE.right++;}
+      else{soundWrong();STATE.wrong++;el("explainBox").textContent="📘 Nhớ công thức (x+a)(x+b)=x²+(a+b)x+ab";el("explainBox").classList.remove("hidden");}
+      updateHUD();};
+  }
+  if(q.type==="drag"){
+    let html=`<div class="grid grid-cols-2 gap-4">`;
+    html+=`<div>`;q.pairs.forEach(p=>{html+=`<div class="dropZone" data-ans="${p[1]}">${p[0]}</div>`;});html+=`</div>`;
+    html+=`<div>`;shuffle(q.pairs).forEach(p=>{html+=`<div draggable="true" data-val="${p[1]}" class="dragItem">${p[1]}</div>`;});html+=`</div></div>`;
+    box.innerHTML=html;enableDragDrop();
+  }
   STATE.timeLeft=STATE.duration;updateTimeBar();
 }
-function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
 
+function chooseMC(btn,sel,cor){
+  const btns=[...el("optionsBox").children];btns.forEach(b=>b.classList.add("disabled"));
+  if(sel===cor){btn.classList.add("correct");soundCorrect();showConfetti();STATE.score++;STATE.right++;}
+  else{btn.classList.add("wrong");soundWrong();STATE.wrong++;btns.forEach(b=>{if(b.innerText.includes(cor))b.classList.add("correct");});}
+  updateHUD();
+}
+
+function enableDragDrop(){
+  document.querySelectorAll(".dragItem").forEach(el=>{
+    el.ondragstart=e=>{e.dataTransfer.setData("text",el.dataset.val);};
+  });
+  document.querySelectorAll(".dropZone").forEach(zone=>{
+    zone.ondragover=e=>e.preventDefault();
+    zone.ondrop=e=>{
+      const val=e.dataTransfer.getData("text");
+      if(val===zone.dataset.ans){zone.style.background="#bbf7d0";soundCorrect();showConfetti();STATE.score++;STATE.right++;}
+      else{zone.style.background="#fecaca";soundWrong();STATE.wrong++;}
+      updateHUD();
+    };
+  });
+}
+
+function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
 function startTimer(){stopTimer();STATE.timer=setInterval(()=>{STATE.timeLeft--;updateTimeBar();if(STATE.timeLeft<=0)nextQuestion();},1000);}
 function stopTimer(){if(STATE.timer){clearInterval(STATE.timer);STATE.timer=null;}}
 function updateTimeBar(){const pct=(STATE.timeLeft/STATE.duration)*100;el("timeBar").style.width=pct+"%";el("hudTime").textContent=`${STATE.timeLeft}s`;}
-
-function chooseAnswer(btn,sel,cor,explain){
-  if(!STATE.timer)return;stopTimer();
-  const btns=[...el("optionsBox").children];
-  btns.forEach(b=>b.classList.add("disabled"));
-  if(sel===cor){
-    btn.classList.add("correct");STATE.score++;STATE.right++;soundCorrect();showConfetti();
-  } else {
-    btn.classList.add("wrong");STATE.wrong++;soundWrong();
-    btns.forEach(b=>{if(b.innerText.includes(cor))b.classList.add("correct");});
-    el("explainBox").innerHTML=`📘 Gợi ý: ${explain||"Hãy nhớ (x+a)(x+b)=x²+(a+b)x+ab"}`;
-    el("explainBox").classList.remove("hidden");
-  }
-  updateHUD();
-  if(STATE.idx>=STATE.nQuestions-1)finishGame();
-}
-
 function nextQuestion(){if(STATE.idx<STATE.nQuestions-1){STATE.idx++;renderQuestion();startTimer();}else finishGame();}
 function finishGame(){stopTimer();el("rsScore").textContent=STATE.score;el("rsTotal").textContent=STATE.nQuestions;el("rsRight").textContent=STATE.right;el("rsWrong").textContent=STATE.wrong;goResult();}
 
-// Events
+function goHome(){el("home").classList.remove("hidden");el("quiz").classList.add("hidden");el("result").classList.add("hidden");}
+function goQuiz(){el("home").classList.add("hidden");el("quiz").classList.remove("hidden");el("result").classList.add("hidden");}
+function goResult(){el("home").classList.add("hidden");el("quiz").classList.add("hidden");el("result").classList.remove("hidden");}
+
 el("startBtn").onclick=startGame;
 el("nextBtn").onclick=nextQuestion;
 el("prevBtn").onclick=()=>{if(STATE.idx>0){STATE.idx--;renderQuestion();startTimer();}};
 el("againBtn").onclick=()=>goHome();
 el("backHome").onclick=()=>goHome();
-loadQuestions();
 </script>
 </body>
 </html>
