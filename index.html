@@ -15,6 +15,9 @@
     transition:.2s; text-align:left; font-size:1.25rem;
   }
   .btn:hover { transform:scale(1.02); background:#fdf2f8; }
+  .btn div { display:flex; align-items:center; }
+  .btn span:first-child { width:2.5rem; display:inline-block; font-weight:bold; }
+  .btn span:last-child { flex:1; text-align:left; padding-left:.25rem; }
   .correct{ background:#16a34a!important; color:#fff!important; }
   .wrong{ background:#ef4444!important; color:#fff!important; }
   .disabled{ pointer-events:none; opacity:.9; }
@@ -107,10 +110,10 @@
 <script>
 const el=id=>document.getElementById(id);
 
-// Fake dữ liệu demo
+// Demo dữ liệu
 const pool=[
- {q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3","2x²+4"],type:"mc"},
- {q:"(x+2)(x+3)=x²+__x+6",a:"5",type:"fill"},
+ {q:"Tính (2x+3)(x+1)",a:"2x²+5x+3",options:["2x²+5x+3","2x²+3x+1","x²+2x+3","..."],type:"mc"},
+ {q:"(x+2)(x+3)=x²+__x+6",a:"5",options:[],type:"fill"},
  {q:"Ghép biểu thức với kết quả đúng",pairs:[
     ["(x+1)²","x²+2x+1"],
     ["(x+2)(x+3)","x²+5x+6"],
@@ -125,6 +128,10 @@ function beep(f,t="sine",d=0.15){const ctx=new (window.AudioContext||window.webk
 function soundCorrect(){beep(880,"triangle");}
 function soundWrong(){beep(200,"sawtooth",0.25);}
 function showConfetti(){confetti({ particleCount: 70, spread: 70, origin:{ y:0.8 } });}
+
+function cleanOptions(opts){
+  return (opts||[]).filter(o=>o && !o.includes("...") && o.trim().length>0);
+}
 
 function startGame(){
   STATE.player=el("playerName").value||"Khách";
@@ -144,7 +151,9 @@ function renderQuestion(){
   el("explainBox").classList.add("hidden");
 
   if(q.type==="mc"){
-    shuffle(q.options).forEach((opt,i)=>{
+    let options=cleanOptions(q.options||[]);
+    while(options.length<4) options.push("—"); // luôn đủ 4
+    shuffle(options).forEach((opt,i)=>{
       const b=document.createElement("button");
       b.className="btn";
       b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${opt}</span></div>`;
