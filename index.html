@@ -15,6 +15,9 @@
     box-shadow:0 2px 6px rgba(0,0,0,.08); transition:.2s;
   }
   .btn:hover { transform:scale(1.02); background:#fdf2f8; }
+  .btn div { display:flex; align-items:center; }
+  .btn span:first-child { width:2rem; font-weight:bold; }
+  .btn span:last-child { flex:1; text-align:left; }
   .correct{ background:#16a34a!important; border-color:#15803d!important; color:#fff!important; animation:pulseC .5s ease; }
   .wrong{ background:#ef4444!important; border-color:#b91c1c!important; color:#fff!important; font-weight:700; animation:shakeW .35s ease; }
   .disabled{ pointer-events:none; opacity:.92; }
@@ -68,7 +71,6 @@
 
 <!-- ================== QUIZ ================== -->
 <main id="quiz" class="hidden w-full max-w-5xl px-4 my-6 grid md:grid-cols-3 gap-6">
-  <!-- Question -->
   <section class="md:col-span-2 card p-6">
     <div class="flex items-center justify-between mb-4">
       <div>
@@ -84,10 +86,12 @@
     </div>
     <div id="questionBox" class="rounded-xl bg-pink-50 px-4 py-3 text-2xl font-semibold min-h-[72px]"></div>
     <div id="optionsBox" class="mt-4 grid gap-3"></div>
-    <div class="mt-6"><button id="nextBtn" class="rounded-xl bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 font-semibold shadow-lg text-lg">Câu tiếp ▶</button></div>
+    <div class="mt-6 flex gap-3">
+      <button id="prevBtn" class="rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 font-semibold shadow-lg text-lg">⬅️ Câu trước</button>
+      <button id="nextBtn" class="rounded-xl bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 font-semibold shadow-lg text-lg">Câu tiếp ▶</button>
+    </div>
   </section>
 
-  <!-- Score -->
   <aside class="card p-6">
     <h3 class="text-xl font-extrabold mb-2 text-pink-700">🏆 Bảng điểm</h3>
     <ul class="text-sm space-y-1">
@@ -120,7 +124,7 @@ function formatPower(t){if(!t)return"";const m={"0":"⁰","1":"¹","2":"²","3":
 // Shuffle
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 // Clean data
-function cleanData(pool){return pool.filter(q=>q.q && !q.q.includes("...") && !q.q.includes("__") && q.a && !q.a.includes("...") && !q.a.includes("__") && q.options && q.options.length>=2 && !q.options.some(opt=>!opt||opt.includes("...")||opt.includes("__")));}
+function cleanData(pool){return pool.filter(q=>q.q && q.q.length>5 && !q.q.includes("...") && !q.q.includes("__") && q.a && q.a.length>0 && !q.a.includes("...") && !q.a.includes("__") && q.options && q.options.length>=2 && !q.options.some(opt=>!opt||opt.includes("...")||opt.includes("__")||opt.length<1));}
 // Audio
 function beep(freq,type="sine",dur=0.15){const ctx=new (window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const g=ctx.createGain();osc.type=type;osc.frequency.value=freq;osc.connect(g);g.connect(ctx.destination);osc.start();setTimeout(()=>osc.stop(),dur*1000);}
 function soundCorrect(){beep(880,"triangle");setTimeout(()=>beep(1320,"triangle"),120);}
@@ -143,7 +147,7 @@ const src=STATE.scope==="ALL"?STATE.pool:(STATE.allData[STATE.scope]||[]);STATE.
 STATE.idx=0;STATE.score=0;STATE.right=0;STATE.wrong=0;goQuiz();renderQuestion();startTimer();}
 
 // Render
-function renderQuestion(){const q=STATE.quiz[STATE.idx];el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;el("questionBox").innerHTML=formatPower(q.q);const box=el("optionsBox");box.innerHTML="";shuffle(q.options||[]).forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.innerHTML=`<div class="flex items-start"><span class="w-7 font-bold">${String.fromCharCode(65+i)}.</span><span class="flex-1">${formatPower(opt)}</span></div>`;b.onclick=()=>chooseAnswer(b,opt,q.a);box.appendChild(b);});STATE.timeLeft=STATE.duration;updateTimeBar();}
+function renderQuestion(){const q=STATE.quiz[STATE.idx];el("qCounter").textContent=`Câu ${STATE.idx+1}/${STATE.nQuestions}`;el("questionBox").innerHTML=formatPower(q.q);const box=el("optionsBox");box.innerHTML="";shuffle(q.options||[]).forEach((opt,i)=>{const b=document.createElement("button");b.className="btn";b.innerHTML=`<div><span>${String.fromCharCode(65+i)}.</span><span>${formatPower(opt)}</span></div>`;b.onclick=()=>chooseAnswer(b,opt,q.a);box.appendChild(b);});STATE.timeLeft=STATE.duration;updateTimeBar();}
 function updateHUD(){el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=`${STATE.right} / ${STATE.wrong}`;}
 
 // Timer
@@ -159,7 +163,8 @@ function finishGame(){stopTimer();el("rsScore").textContent=STATE.score;el("rsTo
 
 // Events
 el("startBtn").onclick=startGame;el("tryBtn").onclick=()=>{el("playerName").value="Khách";el("numQ").value=1;el("secPerQ").value=25;startGame();};
-el("nextBtn").onclick=nextQuestion;el("againBtn").onclick=()=>goHome();el("backHome").onclick=()=>goHome();
+el("nextBtn").onclick=nextQuestion;el("prevBtn").onclick=()=>{if(STATE.idx>0){STATE.idx--;renderQuestion();startTimer();}};
+el("againBtn").onclick=()=>goHome();el("backHome").onclick=()=>goHome();
 loadQuestions();
 </script>
 </body>
