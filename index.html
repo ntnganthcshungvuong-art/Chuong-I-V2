@@ -73,15 +73,24 @@ let idxSingle=0, idx1=0, idx2=0;
 let scoreSingle=0, score1=0, score2=0;
 
 async function loadData(){
-  if(Object.keys(dataAll).length===0){
-    const res = await fetch("./questions.json?_="+Date.now());
-    dataAll = await res.json();
+  try {
+    if(Object.keys(dataAll).length===0){
+      const res = await fetch("./questions.json?_=" + Date.now());
+      if(!res.ok) throw new Error("Không tải được file questions.json!");
+      dataAll = await res.json();
+    }
+  } catch (err) {
+    alert("❌ Lỗi: " + err.message);
   }
 }
 
 async function startGame(mode){
   await loadData();
-  const allQs = [...dataAll.Bai1, ...dataAll.Bai2, ...dataAll.Bai3, ...dataAll.Bai4];
+  if(!dataAll || !dataAll.Bai1){ 
+    alert("⚠️ Không có dữ liệu câu hỏi!"); 
+    return; 
+  }
+  const allQs = [...(dataAll.Bai1||[]), ...(dataAll.Bai2||[]), ...(dataAll.Bai3||[]), ...(dataAll.Bai4||[])];
   
   document.getElementById('menuScreen').classList.add('hidden');
   document.getElementById('scoreBoard').classList.remove('hidden');
@@ -155,8 +164,8 @@ function nextQ(mode){
 
 function endGame(mode){
   if(mode==='single'){
-    alert(`🎉 Hoàn thành!\nĐiểm: ${scoreSingle}`);
     playSound("soundWin");
+    alert(`🎉 Hoàn thành!\nĐiểm: ${scoreSingle}`);
     location.reload();
   } else if(idx1>=10 && idx2>=10){
     let msg=`🎉 Trận đấu kết thúc!\nCửa 1: ${score1} điểm\nCửa 2: ${score2} điểm\n`;
@@ -174,13 +183,18 @@ function updateScore(){
 }
 
 function cleanQ(text){
-  return text.replace(/^Câu\s*\d+:\s*/,''); // bỏ chữ "Câu xx:"
+  return text.replace(/^Câu\s*\d+:\s*/,''); 
 }
-
-function playSound(id){document.getElementById(id).play();}
-
-function pick(arr,n){let out=[];for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);}return out;}
-function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function playSound(id){
+  let sound=document.getElementById(id);
+  if(sound){ sound.currentTime=0; sound.play(); }
+}
+function pick(arr,n){
+  let out=[]; for(let i=0;i<n;i++){out.push(arr[Math.floor(Math.random()*arr.length)]);} return out;
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr;
+}
 </script>
 </body>
 </html>
