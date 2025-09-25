@@ -7,62 +7,106 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bgMusic");
   const toggleMusicBtn = document.getElementById("toggleMusic");
   const shuffleBtn = document.getElementById("shuffleBtn");
+  const statusClass = document.getElementById("statusClass");
+  const statusStudent = document.getElementById("statusStudent");
+  const statusProgress = document.getElementById("statusProgress");
+  const questionBox = document.getElementById("questionBox");
+  const nextBtn = document.getElementById("nextBtn");
+  const restartBtn = document.getElementById("restartBtn");
 
   let selectedClass = null;
   let selectedSubject = null;
+  let selectedStudent = null;
   let shuffle = false;
-  let currentStudents = [];
+  let questions = [];
+  let current = 0;
+  let score = 0;
 
-  // Chọn lớp → load danh sách HS từ JSON
-  classSelect.addEventListener("change", e => {
-    selectedClass = e.target.value.toLowerCase();
-    fetch(`data/students_${selectedClass}.json`)
-      .then(res => res.json())
-      .then(data => {
-        currentStudents = data;
-        studentName.textContent = `✅ Đã tải danh sách lớp ${e.target.value}`;
-      })
-      .catch(err => {
-        currentStudents = [];
-        studentName.textContent = "❌ Không tải được danh sách lớp!";
-      });
+  // Load học sinh từ file JSON
+  async function loadStudents(classId) {
+    try {
+      const res = await fetch(`data/students_${classId}.json`);
+      return await res.json();
+    } catch (err) {
+      return [];
+    }
+  }
+
+  // Chọn lớp
+  classSelect.addEventListener("change", (e) => {
+    selectedClass = e.target.value;
+    statusClass.textContent = "Lớp: " + selectedClass.toUpperCase();
   });
 
   // Gọi tên HS
-  callNameBtn.addEventListener("click", () => {
-    if (currentStudents.length > 0) {
-      const name = currentStudents[Math.floor(Math.random() * currentStudents.length)];
-      studentName.textContent = name;
+  callNameBtn.addEventListener("click", async () => {
+    if (!selectedClass) {
+      studentName.textContent = "Chưa chọn lớp!";
+      return;
+    }
+    const list = await loadStudents(selectedClass);
+    if (list.length > 0) {
+      selectedStudent = list[Math.floor(Math.random() * list.length)];
+      studentName.textContent = selectedStudent;
+      statusStudent.textContent = "Học sinh: " + selectedStudent;
     } else {
       studentName.textContent = "Chưa có dữ liệu học sinh!";
     }
   });
 
   // Chọn bài
-  subjectBtns.forEach(btn => {
+  subjectBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      subjectBtns.forEach(b => b.classList.remove("active"));
+      subjectBtns.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       selectedSubject = btn.dataset.file;
       startBtn.disabled = false;
     });
   });
 
-  // Nút bắt đầu
-  startBtn.addEventListener("click", () => {
-    if (selectedSubject) {
-      fetch("data/" + selectedSubject)
-        .then(res => res.json())
-        .then(data => {
-          let questions = data;
-          if (shuffle) questions = questions.sort(() => Math.random() - 0.5);
-          alert(`📘 Lớp: ${selectedClass.toUpperCase()} | Bài: ${selectedSubject}\nTải được ${questions.length} câu hỏi`);
-        })
-        .catch(err => alert("❌ Lỗi tải dữ liệu: " + err));
+  // Bắt đầu
+  startBtn.addEventListener("click", async () => {
+    if (!selectedSubject) return;
+    try {
+      const res = await fetch("data/" + selectedSubject);
+      questions = await res.json();
+      if (shuffle) {
+        questions = questions.sort(() => Math.random() - 0.5);
+      }
+      current = 0;
+      score = 0;
+      statusProgress.textContent = `Câu: 0/10 • Điểm: 0`;
+      showQuestion();
+      nextBtn.disabled = false;
+    } catch (err) {
+      alert("Lỗi tải dữ liệu: " + err);
     }
   });
 
-  // Bật/tắt nhạc
+  // Hiển thị câu hỏi
+  function showQuestion() {
+    if (current < 10 && current < questions.length) {
+      const q = questions[current];
+      questionBox.innerHTML = `<p><b>Câu ${current + 1}:</b> ${q.q}</p>`;
+      statusProgress.textContent = `Câu: ${current + 1}/10 • Điểm: ${score}`;
+    } else {
+      questionBox.innerHTML = `<h3>🎉 Hoàn thành! Điểm: ${score}/10</h3>`;
+      nextBtn.disabled = true;
+    }
+  }
+
+  // Câu tiếp
+  nextBtn.addEventListener("click", () => {
+    current++;
+    showQuestion();
+  });
+
+  // Chơi lại
+  restartBtn.addEventListener("click", () => {
+    location.reload();
+  });
+
+  // Toggle nhạc
   toggleMusicBtn.addEventListener("click", () => {
     if (bgMusic.paused) {
       bgMusic.play();
@@ -73,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Trộn câu
+  // Trộn bài
   shuffleBtn.addEventListener("click", () => {
     shuffle = !shuffle;
     shuffleBtn.textContent = "Trộn câu: " + (shuffle ? "ON" : "OFF");
