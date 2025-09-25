@@ -2,54 +2,77 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Ôn luyện Toán 8 - Chương I</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn Luyện Toán 8 - Chương I</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Thanh trạng thái -->
-  <div class="topbar">
-    <div>Lớp: <span id="statusClass">--</span></div>
-    <div>Học sinh: <span id="statusStudent">--</span></div>
-    <div>Bài: <span id="statusSubjects">--</span></div>
-    <div>Câu: <span id="statusCount">0/10</span></div>
-  </div>
-
   <div class="container">
     <!-- Cột trái -->
     <div class="sidebar">
-      <h2>1) Chọn lớp & Gọi tên</h2>
-      <select id="classSelect">
-        <option value="">-- Chọn lớp --</option>
-        <option value="8a5">8A5</option>
-        <option value="8a6">8A6</option>
-        <option value="8a7">8A7</option>
-      </select>
-      <button id="callName">🎤 Gọi tên HS</button>
-      <button id="toggleMusic">Âm thanh: ON</button>
-      <button id="shuffleBtn">Trộn câu: OFF</button>
+      <h1 class="title">ÔN LUYỆN • <br>Chương I – Toán 8</h1>
 
-      <h2>2) Chọn bài</h2>
-      <div class="subjects">
-        <button class="subject" data-file="questions_b1.json">Bài 1</button>
-        <button class="subject" data-file="questions_b2.json">Bài 2</button>
-        <button class="subject" data-file="questions_b3.json">Bài 3</button>
-        <button class="subject" data-file="questions_b4.json">Bài 4</button>
-        <button class="subject" data-file="questions_b5.json">Bài 5</button>
-        <button class="subject" data-file="questions_chuong1.json">Chương I</button>
+      <div class="section">
+        <h2>1) Chọn lớp & Gọi tên</h2>
+        <select id="classSelect">
+          <option value="">-- Chọn lớp --</option>
+          <option value="8a1">8A1</option>
+          <option value="8a2">8A2</option>
+          <option value="8a3">8A3</option>
+          <option value="8a4">8A4</option>
+          <option value="8a5">8A5</option>
+          <option value="8a6">8A6</option>
+          <option value="8a7">8A7</option>
+        </select>
+        <button id="callName">🎤 Gọi tên HS</button>
+        <button id="toggleMusic">Âm thanh: ON</button>
+        <button id="shuffleBtn">🔀 Trộn câu</button>
+        <div id="studentDisplay"></div>
       </div>
 
-      <h2>3) Bắt đầu</h2>
-      <button id="startBtn" disabled>🚀 BẮT ĐẦU</button>
+      <div class="section">
+        <h2>2) Chọn bài</h2>
+        <div class="subjects">
+          <button class="subject" data-file="questions_b1.json">Bài 1</button>
+          <button class="subject" data-file="questions_b2.json">Bài 2</button>
+          <button class="subject" data-file="questions_b3.json">Bài 3</button>
+          <button class="subject" data-file="questions_b4.json">Bài 4</button>
+          <button class="subject" data-file="questions_b5.json">Bài 5</button>
+          <button class="subject" data-file="questions_chuong1.json">Chương I</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>3) Bắt đầu</h2>
+        <button id="startBtn" disabled>🚀 BẮT ĐẦU</button>
+      </div>
     </div>
 
     <!-- Cột phải -->
     <div class="main">
-      <div id="bigName"></div>
-      <div id="questionsBox">👉 Câu hỏi hiển thị ở đây</div>
+      <div class="header">
+        <span id="classInfo">Lớp: --</span>
+        <span id="studentInfo">Học sinh: --</span>
+        <span id="subjectInfo">Bài: --</span>
+        <span id="progressInfo">Câu: 0/10 • Điểm: 0</span>
+      </div>
+      <div class="question-area">
+        <div id="questionText">👉 Câu hỏi hiển thị ở đây</div>
+        <div id="answers"></div>
+      </div>
+      <div class="footer">
+        <button id="nextBtn" disabled>➡️ Câu tiếp</button>
+        <button id="restartBtn">🔄 Chơi lại</button>
+      </div>
     </div>
   </div>
 
-  <audio id="bgMusic" src="audio/bg.mp3" loop autoplay></audio>
+  <!-- Nhạc -->
+  <audio id="bgMusic" src="audio/bg.mp3" loop></audio>
+  <audio id="shuffleSound" src="audio/shuffle.mp3"></audio>
+  <audio id="correctSound" src="audio/correct.mp3"></audio>
+  <audio id="wrongSound" src="audio/wrong.mp3"></audio>
+
   <script src="js/app.js"></script>
 </body>
 </html>
