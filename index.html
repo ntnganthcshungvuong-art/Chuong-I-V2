@@ -4,22 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ôn luyện Toán 8 - Chương I</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="container">
     <h1>ÔN LUYỆN TOÁN 8 • CHƯƠNG I</h1>
+
+    <!-- Chọn lớp -->
     <div class="controls">
       <select id="classSelect">
         <option value="">-- Chọn lớp --</option>
+        <option value="8a1">Lớp 8A1</option>
+        <option value="8a2">Lớp 8A2</option>
+        <option value="8a3">Lớp 8A3</option>
+        <option value="8a4">Lớp 8A4</option>
         <option value="8a5">Lớp 8A5</option>
         <option value="8a6">Lớp 8A6</option>
+        <option value="8a7">Lớp 8A7</option>
       </select>
-      <button id="callName">📢 Gọi tên HS</button>
+      <button id="callName">🎤 Gọi tên HS</button>
       <button id="toggleMusic">Âm thanh: ON</button>
       <button id="shuffleBtn">Trộn câu: OFF</button>
     </div>
+
+    <!-- Hiển thị học sinh -->
     <div id="studentName" class="student-box"></div>
+
+    <!-- Chọn bài -->
     <div class="subjects">
       <button class="subject" data-file="questions_b1.json">Bài 1</button>
       <button class="subject" data-file="questions_b2.json">Bài 2</button>
@@ -28,10 +39,14 @@
       <button class="subject" data-file="questions_b5.json">Bài 5</button>
       <button class="subject" data-file="questions_chuong1.json">Chương I</button>
     </div>
+
+    <!-- Nút bắt đầu -->
     <button id="startBtn" disabled>🚀 Bắt đầu 10 câu</button>
-    <div id="questionBox"></div>
   </div>
-  <audio id="bgMusic" src="assets/audio/bg.mp3" loop autoplay></audio>
-  <script src="assets/js/app.js"></script>
+
+  <!-- Nhạc nền -->
+  <audio id="bgMusic" src="audio/bg.mp3" loop autoplay></audio>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
