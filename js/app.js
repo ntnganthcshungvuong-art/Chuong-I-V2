@@ -1,125 +1,87 @@
 document.addEventListener("DOMContentLoaded", () => {
   const classSelect = document.getElementById("classSelect");
   const callNameBtn = document.getElementById("callName");
-  const studentName = document.getElementById("studentName");
+  const studentNameBox = document.getElementById("statusStudent");
+  const bigName = document.getElementById("bigName");
   const subjectBtns = document.querySelectorAll(".subject");
   const startBtn = document.getElementById("startBtn");
-  const bgMusic = document.getElementById("bgMusic");
-  const toggleMusicBtn = document.getElementById("toggleMusic");
   const shuffleBtn = document.getElementById("shuffleBtn");
-  const statusClass = document.getElementById("statusClass");
-  const statusStudent = document.getElementById("statusStudent");
-  const statusProgress = document.getElementById("statusProgress");
-  const questionBox = document.getElementById("questionBox");
-  const nextBtn = document.getElementById("nextBtn");
-  const restartBtn = document.getElementById("restartBtn");
+  const statusSubjects = document.getElementById("statusSubjects");
+  const questionsBox = document.getElementById("questionsBox");
 
   let selectedClass = null;
-  let selectedSubject = null;
-  let selectedStudent = null;
+  let selectedSubjects = [];
   let shuffle = false;
-  let questions = [];
-  let current = 0;
-  let score = 0;
 
-  // Load học sinh từ file JSON
-  async function loadStudents(classId) {
-    try {
-      const res = await fetch(`data/students_${classId}.json`);
-      return await res.json();
-    } catch (err) {
-      return [];
-    }
+  // Load học sinh từ JSON
+  async function loadStudents(cls) {
+    const res = await fetch(`data/students_${cls}.json`);
+    return await res.json();
   }
 
-  // Chọn lớp
-  classSelect.addEventListener("change", (e) => {
+  classSelect.addEventListener("change", e => {
     selectedClass = e.target.value;
-    statusClass.textContent = "Lớp: " + selectedClass.toUpperCase();
+    document.getElementById("statusClass").textContent = selectedClass.toUpperCase();
   });
 
-  // Gọi tên HS
   callNameBtn.addEventListener("click", async () => {
-    if (!selectedClass) {
-      studentName.textContent = "Chưa chọn lớp!";
-      return;
-    }
-    const list = await loadStudents(selectedClass);
-    if (list.length > 0) {
-      selectedStudent = list[Math.floor(Math.random() * list.length)];
-      studentName.textContent = selectedStudent;
-      statusStudent.textContent = "Học sinh: " + selectedStudent;
-    } else {
-      studentName.textContent = "Chưa có dữ liệu học sinh!";
-    }
+    if (!selectedClass) return;
+    const students = await loadStudents(selectedClass);
+    if (students.length === 0) return;
+
+    let idx = 0;
+    bigName.style.display = "block";
+
+    const interval = setInterval(() => {
+      bigName.textContent = students[Math.floor(Math.random() * students.length)];
+      idx++;
+      if (idx > 20) { // ~4 giây
+        clearInterval(interval);
+        const finalName = bigName.textContent;
+        setTimeout(() => {
+          bigName.style.display = "none";
+          studentNameBox.textContent = finalName;
+        }, 500);
+      }
+    }, 200);
   });
 
-  // Chọn bài
-  subjectBtns.forEach((btn) => {
+  subjectBtns.forEach(btn => {
     btn.addEventListener("click", () => {
-      subjectBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      selectedSubject = btn.dataset.file;
-      startBtn.disabled = false;
+      btn.classList.toggle("active");
+      updateSubjects();
     });
   });
 
-  // Bắt đầu
-  startBtn.addEventListener("click", async () => {
-    if (!selectedSubject) return;
-    try {
-      const res = await fetch("data/" + selectedSubject);
-      questions = await res.json();
-      if (shuffle) {
-        questions = questions.sort(() => Math.random() - 0.5);
-      }
-      current = 0;
-      score = 0;
-      statusProgress.textContent = `Câu: 0/10 • Điểm: 0`;
-      showQuestion();
-      nextBtn.disabled = false;
-    } catch (err) {
-      alert("Lỗi tải dữ liệu: " + err);
-    }
-  });
+  function updateSubjects() {
+    selectedSubjects = Array.from(subjectBtns)
+      .filter(b => b.classList.contains("active"))
+      .map(b => b.dataset.file);
 
-  // Hiển thị câu hỏi
-  function showQuestion() {
-    if (current < 10 && current < questions.length) {
-      const q = questions[current];
-      questionBox.innerHTML = `<p><b>Câu ${current + 1}:</b> ${q.q}</p>`;
-      statusProgress.textContent = `Câu: ${current + 1}/10 • Điểm: ${score}`;
-    } else {
-      questionBox.innerHTML = `<h3>🎉 Hoàn thành! Điểm: ${score}/10</h3>`;
-      nextBtn.disabled = true;
-    }
+    statusSubjects.textContent =
+      selectedSubjects.length ? selectedSubjects.join(", ") : "--";
+
+    startBtn.disabled = selectedSubjects.length === 0;
   }
 
-  // Câu tiếp
-  nextBtn.addEventListener("click", () => {
-    current++;
-    showQuestion();
-  });
-
-  // Chơi lại
-  restartBtn.addEventListener("click", () => {
-    location.reload();
-  });
-
-  // Toggle nhạc
-  toggleMusicBtn.addEventListener("click", () => {
-    if (bgMusic.paused) {
-      bgMusic.play();
-      toggleMusicBtn.textContent = "Âm thanh: ON";
-    } else {
-      bgMusic.pause();
-      toggleMusicBtn.textContent = "Âm thanh: OFF";
-    }
-  });
-
-  // Trộn bài
   shuffleBtn.addEventListener("click", () => {
     shuffle = !shuffle;
     shuffleBtn.textContent = "Trộn câu: " + (shuffle ? "ON" : "OFF");
+  });
+
+  startBtn.addEventListener("click", async () => {
+    let allQuestions = [];
+    for (let f of selectedSubjects) {
+      try {
+        const res = await fetch(`data/${f}`);
+        const data = await res.json();
+        allQuestions = allQuestions.concat(data);
+      } catch (err) {
+        console.error("Lỗi tải", f, err);
+      }
+    }
+    if (shuffle) allQuestions.sort(() => Math.random() - 0.5);
+    questionsBox.textContent =
+      "Đã tải " + allQuestions.length + " câu hỏi từ " + selectedSubjects.length + " bài.";
   });
 });
