@@ -11,26 +11,30 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedClass = null;
   let selectedSubject = null;
   let shuffle = false;
+  let currentStudents = [];
 
-  // Chọn lớp
+  // Chọn lớp → load danh sách HS từ JSON
   classSelect.addEventListener("change", e => {
-    selectedClass = e.target.value;
+    selectedClass = e.target.value.toLowerCase();
+    fetch(`data/students_${selectedClass}.json`)
+      .then(res => res.json())
+      .then(data => {
+        currentStudents = data;
+        studentName.textContent = `✅ Đã tải danh sách lớp ${e.target.value}`;
+      })
+      .catch(err => {
+        currentStudents = [];
+        studentName.textContent = "❌ Không tải được danh sách lớp!";
+      });
   });
 
-  // Gọi tên học sinh
+  // Gọi tên HS
   callNameBtn.addEventListener("click", () => {
-    if (selectedClass) {
-      fetch(`data/students_${selectedClass}.json`)
-        .then(res => res.json())
-        .then(arr => {
-          const name = arr[Math.floor(Math.random() * arr.length)];
-          studentName.textContent = name;
-        })
-        .catch(err => {
-          studentName.textContent = "⚠️ Không tải được danh sách lớp " + selectedClass;
-        });
+    if (currentStudents.length > 0) {
+      const name = currentStudents[Math.floor(Math.random() * currentStudents.length)];
+      studentName.textContent = name;
     } else {
-      studentName.textContent = "⚠️ Chưa chọn lớp!";
+      studentName.textContent = "Chưa có dữ liệu học sinh!";
     }
   });
 
@@ -44,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Nút Bắt đầu
+  // Nút bắt đầu
   startBtn.addEventListener("click", () => {
     if (selectedSubject) {
       fetch("data/" + selectedSubject)
@@ -52,13 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
           let questions = data;
           if (shuffle) questions = questions.sort(() => Math.random() - 0.5);
-          alert(`📘 Lớp: ${selectedClass || "?"}\n📖 Bài: ${selectedSubject}\n✅ Tải được ${questions.length} câu hỏi`);
+          alert(`📘 Lớp: ${selectedClass.toUpperCase()} | Bài: ${selectedSubject}\nTải được ${questions.length} câu hỏi`);
         })
         .catch(err => alert("❌ Lỗi tải dữ liệu: " + err));
     }
   });
 
-  // Bật / tắt nhạc
+  // Bật/tắt nhạc
   toggleMusicBtn.addEventListener("click", () => {
     if (bgMusic.paused) {
       bgMusic.play();
@@ -69,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Bật / tắt trộn câu
+  // Trộn câu
   shuffleBtn.addEventListener("click", () => {
     shuffle = !shuffle;
     shuffleBtn.textContent = "Trộn câu: " + (shuffle ? "ON" : "OFF");
