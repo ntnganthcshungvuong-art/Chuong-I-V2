@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ôn Luyện Tập Toán 8 - Chương I</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -16,27 +16,27 @@
                 <div class="class-selection-container">
                     <select id="class-dropdown" class="dropdown">
                         <option value="" disabled selected>-- Chọn lớp --</option>
-                        <option value="8A1">8A1</option>
-                        <option value="8A2">8A2</option>
-                        <option value="8A3">8A3</option>
-                        <option value="8A4">8A4</option>
-                        <option value="8A5">8A5</option>
-                        <option value="8A6">8A6</option>
-                        <option value="8A7">8A7</option>
+                        <option value="8a1">8A1</option>
+                        <option value="8a2">8A2</option>
+                        <option value="8a3">8A3</option>
+                        <option value="8a4">8A4</option>
+                        <option value="8a5">8A5</option>
+                        <option value="8a6">8A6</option>
+                        <option value="8a7">8A7</option>
                     </select>
                 </div>
-                <button id="random-student-btn" class="btn btn-yellow">Gọi tên học sinh</button>
+                <button id="random-student-btn" class="btn btn-yellow" disabled>Gọi tên học sinh</button>
             </div>
             
             <div class="sidebar-item" id="menu-2">
                 <h2>2) Chọn bài</h2>
                 <div class="subject-buttons-container">
-                    <button class="btn subject-btn" data-file="questions_b1.json">B1</button>
-                    <button class="btn subject-btn" data-file="questions_b2.json">B2</button>
-                    <button class="btn subject-btn" data-file="questions_b3.json">B3</button>
-                    <button class="btn subject-btn" data-file="questions_b4.json">B4</button>
-                    <button class="btn subject-btn" data-file="questions_b5.json">B5</button>
-                    <button class="btn subject-btn" data-file="questions_chuong1.json">Chương I</button>
+                    <button class="btn subject-btn" data-subject="b1">B1</button>
+                    <button class="btn subject-btn" data-subject="b2">B2</button>
+                    <button class="btn subject-btn" data-subject="b3">B3</button>
+                    <button class="btn subject-btn" data-subject="b4">B4</button>
+                    <button class="btn subject-btn" data-subject="b5">B5</button>
+                    <button class="btn subject-btn" data-subject="chuong1">Chương I</button>
                 </div>
                 <button id="shuffle-btn" class="btn btn-green">Trộn bài</button>
             </div>
@@ -83,6 +83,6 @@
         </div>
     </div>
 
-    <script src="assets/js/app.js"></script>
+    <script src="/assets/js/app.js"></script>
 </body>
 </html>
