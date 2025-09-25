@@ -1,95 +1,37 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width,initial-scale=1,maximum-scale=1"
-  />
-  <title>Ôn luyện Toán 8 • Chương I</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn luyện Toán 8 - Chương I</title>
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <main class="shell">
-    <header class="hero">
-      <h1 class="title">
-        <span>ÔN LUYỆN TOÁN 8 • CHƯƠNG</span>
-        <i>I</i>
-      </h1>
-      <div class="toolbar">
-        <div class="field">
-          <label>Chọn lớp:</label>
-          <select id="classSelect">
-            <option value="">-- Chọn lớp --</option>
-            <option value="8a1">Lớp 8A1</option>
-            <option value="8a2">Lớp 8A2</option>
-            <option value="8a3">Lớp 8A3</option>
-            <option value="8a4">Lớp 8A4</option>
-            <option value="8a5">Lớp 8A5</option>
-            <option value="8a6">Lớp 8A6</option>
-            <option value="8a7">Lớp 8A7</option>
-          </select>
-        </div>
-
-        <button id="btnCall" class="btn ghost">
-          🎲 Gọi tên HS
-        </button>
-
-        <div class="field">
-          <label>Âm thanh:</label>
-          <button id="btnSound" class="btn pill">ON</button>
-        </div>
-
-        <div class="field">
-          <label>Trộn câu:</label>
-          <button id="btnShuffle" class="btn pill alt">OFF</button>
-        </div>
-      </div>
-
-      <div id="studentBox" class="student hidden">—</div>
-    </header>
-
-    <section class="card">
-      <h2 class="section-title">Chọn bài</h2>
-      <div class="lessons">
-        <button class="btn lesson" data-lesson="b1">Bài 1</button>
-        <button class="btn lesson" data-lesson="b2">Bài 2</button>
-        <button class="btn lesson" data-lesson="b3">Bài 3</button>
-        <button class="btn lesson" data-lesson="b4">Bài 4</button>
-        <button class="btn lesson" data-lesson="b5">Bài 5</button>
-        <button class="btn lesson" data-lesson="chuong1">Chương I</button>
-      </div>
-
-      <p id="status" class="status">Chưa chọn lớp • Chưa chọn bài</p>
-
-      <button id="btnStart" class="btn primary big" disabled>
-        🚀 Bắt đầu 10 câu
-      </button>
-    </section>
-
-    <!-- Khu chơi quiz -->
-    <section id="quiz" class="quiz hidden">
-      <div class="quiz-head">
-        <div class="pill small" id="quizClass">Lớp: —</div>
-        <div class="pill small" id="quizLesson">Bài: —</div>
-        <div class="pill small" id="quizProgress">Câu 0/10</div>
-      </div>
-
-      <h3 id="qText" class="q-text">Câu hỏi hiển thị ở đây</h3>
-      <div id="answers" class="answers"></div>
-
-      <div class="quiz-foot">
-        <button id="btnNext" class="btn">➡️ Câu tiếp</button>
-        <button id="btnRestart" class="btn ghost">🔁 Chơi lại</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Âm thanh -->
-  <audio id="bgm" src="assets/audio/bg.mp3" loop preload="auto"></audio>
-  <audio id="sCorrect" src="assets/audio/correct.mp3" preload="auto"></audio>
-  <audio id="sWrong" src="assets/audio/wrong.mp3" preload="auto"></audio>
-
+  <div class="container">
+    <h1>ÔN LUYỆN TOÁN 8 • CHƯƠNG I</h1>
+    <div class="controls">
+      <select id="classSelect">
+        <option value="">-- Chọn lớp --</option>
+        <option value="8a5">Lớp 8A5</option>
+        <option value="8a6">Lớp 8A6</option>
+      </select>
+      <button id="callName">📢 Gọi tên HS</button>
+      <button id="toggleMusic">Âm thanh: ON</button>
+      <button id="shuffleBtn">Trộn câu: OFF</button>
+    </div>
+    <div id="studentName" class="student-box"></div>
+    <div class="subjects">
+      <button class="subject" data-file="questions_b1.json">Bài 1</button>
+      <button class="subject" data-file="questions_b2.json">Bài 2</button>
+      <button class="subject" data-file="questions_b3.json">Bài 3</button>
+      <button class="subject" data-file="questions_b4.json">Bài 4</button>
+      <button class="subject" data-file="questions_b5.json">Bài 5</button>
+      <button class="subject" data-file="questions_chuong1.json">Chương I</button>
+    </div>
+    <button id="startBtn" disabled>🚀 Bắt đầu 10 câu</button>
+    <div id="questionBox"></div>
+  </div>
+  <audio id="bgMusic" src="assets/audio/bg.mp3" loop autoplay></audio>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
