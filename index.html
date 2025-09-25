@@ -1,318 +1,53 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn Luyện Tập Chương I - Toán 8</title>
-    <style>
-        /* CSS nội tuyến để chạy offline */
-        /* Thiết lập chung cho toàn bộ trang */
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            color: white;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        /* Màu nền gradient và tối ưu hóa không gian */
-        body {
-            background: linear-gradient(135deg, #5E35B1, #42A5F5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Định dạng container chính của game */
-        .game-container {
-            width: 90%; /* Tối ưu cho màn hình rộng */
-            max-width: 1200px;
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-
-        /* Tiêu đề chính của game */
-        .main-title {
-            font-size: 5vw;
-            text-transform: uppercase;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
-            margin-bottom: 5rem;
-            font-weight: bold;
-            color: #FFD700;
-        }
-
-        /* Phần chọn lớp và học sinh */
-        .selection-section {
-            margin-bottom: 4rem;
-        }
-
-        .selection-label {
-            font-size: 2.5vw;
-            font-weight: bold;
-            margin-right: 1rem;
-        }
-
-        .class-selection {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .dropdown {
-            font-size: 2vw;
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            border: 3px solid white;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
-
-        .dropdown option {
-            background-color: #5E35B1;
-        }
-        
-        .action-btn {
-            font-size: 2vw;
-            padding: 0.5rem 2rem;
-            margin-left: 1.5rem;
-            border-radius: 15px;
-            border: none;
-            background-color: #f1c40f;
-            color: #34495e;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            background-color: #f39c12;
-        }
-        
-        .student-display-box {
-            font-size: 4vw;
-            font-weight: bold;
-            height: 6vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 1rem;
-            margin-top: 1rem;
-            transition: opacity 0.5s ease;
-        }
-        
-        .hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        /* Phần chọn bài */
-        .subject-buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .subject-btn {
-            font-size: 2.5vw;
-            padding: 1rem 3rem;
-            border-radius: 25px;
-            border: none;
-            background-color: #e74c3c;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .subject-btn:hover {
-            transform: translateY(-3px);
-            background-color: #c0392b;
-        }
-
-        .subject-btn.active {
-            background-color: #2ecc71;
-            border: 3px solid white;
-        }
-
-        /* Nút Bắt đầu */
-        .start-btn {
-            font-size: 3.5vw;
-            padding: 1.5rem 5rem;
-            margin-top: 5rem;
-            border-radius: 30px;
-            border: none;
-            background-color: #3498db;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .start-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            background-color: #2980b9;
-        }
-
-        .start-btn:disabled {
-            background-color: #7f8c8d;
-            cursor: not-allowed;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ôn Luyện Toán 8 - Chương I</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="game-container">
-        <h1 class="main-title">ÔN LUYỆN TẬP CHƯƠNG I - TOÁN 8</h1>
+  <div class="game-container">
+    <h1 class="main-title">Ôn luyện Toán 8 • Chương I</h1>
 
-        <div class="selection-section">
-            <div class="class-selection">
-                <label for="class-dropdown" class="selection-label">Chọn lớp:</label>
-                <select id="class-dropdown" class="dropdown">
-                    <option value="" disabled selected>-- Chọn lớp --</option>
-                    <option value="8A1">8A1</option>
-                    <option value="8A2">8A2</option>
-                    <option value="8A3">8A3</option>
-                    <option value="8A4">8A4</option>
-                    <option value="8A5">8A5</option>
-                    <option value="8A6">8A6</option>
-                    <option value="8A7">8A7</option>
-                </select>
-                <button id="random-student-btn" class="action-btn">Random học sinh</button>
-            </div>
-            
-            <div id="student-display" class="student-display-box hidden">
-                </div>
-        </div>
-
-        <div class="subject-selection">
-            <h2 class="selection-label">Chọn bài:</h2>
-            <div class="subject-buttons">
-                <button class="subject-btn" data-subject="Bài 1">Bài 1</button>
-                <button class="subject-btn" data-subject="Bài 2">Bài 2</button>
-                <button class="subject-btn" data-subject="Bài 3">Bài 3</button>
-                <button class="subject-btn" data-subject="Bài 4">Bài 4</button>
-                <button class="subject-btn" data-subject="Bài 5">Bài 5</button>
-                <button class="subject-btn" data-subject="Chương I">Chương I</button>
-            </div>
-        </div>
-
-        <button id="start-btn" class="start-btn" disabled>Bắt đầu</button>
+    <!-- Chọn lớp -->
+    <div class="selection-section">
+      <label for="class-dropdown">Chọn lớp:</label>
+      <select id="class-dropdown">
+        <option value="" disabled selected>-- Chọn lớp --</option>
+        <option value="8a1">Lớp 8A1</option>
+        <option value="8a2">Lớp 8A2</option>
+        <option value="8a3">Lớp 8A3</option>
+        <option value="8a4">Lớp 8A4</option>
+        <option value="8a5">Lớp 8A5</option>
+        <option value="8a6">Lớp 8A6</option>
+        <option value="8a7">Lớp 8A7</option>
+      </select>
+      <button id="random-student-btn">🎲 Gọi tên HS</button>
+      <button id="toggle-sound">Âm thanh: ON</button>
     </div>
 
-    <audio id="bg-music" src="assets/bg_music.mp3" loop autoplay></audio>
-    <audio id="correct-sound" src="assets/correct.mp3"></audio>
-    <audio id="wrong-sound" src="assets/wrong.mp3"></audio>
-    <audio id="timeout-sound" src="assets/timeout.mp3"></audio>
+    <div id="student-display" class="student-display"></div>
 
-    <script>
-        // JavaScript nội tuyến để chạy offline
-        document.addEventListener('DOMContentLoaded', () => {
-            // Lấy các phần tử DOM cần thiết
-            const classDropdown = document.getElementById('class-dropdown');
-            const randomStudentBtn = document.getElementById('random-student-btn');
-            const studentDisplay = document.getElementById('student-display');
-            const subjectButtons = document.querySelectorAll('.subject-btn');
-            const startBtn = document.getElementById('start-btn');
-            const bgMusic = document.getElementById('bg-music');
+    <!-- Chọn bài -->
+    <div class="subject-buttons">
+      <button class="subject-btn" data-subject="b1">Bài 1</button>
+      <button class="subject-btn" data-subject="b2">Bài 2</button>
+      <button class="subject-btn" data-subject="b3">Bài 3</button>
+      <button class="subject-btn" data-subject="b4">Bài 4</button>
+      <button class="subject-btn" data-subject="b5">Bài 5</button>
+      <button class="subject-btn" data-subject="chuong1">Chương I</button>
+    </div>
 
-            // Mẫu dữ liệu học sinh (cần được thay thế bằng dữ liệu thực tế)
-            const studentsByClass = {
-                '8A1': ['Nguyễn T. Hà', 'Trần M. Nam', 'Lý C. Hùng'],
-                '8A2': ['Phạm A. Vỹ', 'Lê B. An', 'Hoàng V. Khánh'],
-                '8A3': ['Đỗ V. Thanh', 'Trần B. Mai', 'Lý V. Tùng'],
-                '8A4': ['Nguyễn V. Cường', 'Đặng T. Oanh', 'Phan A. Duy'],
-                '8A5': ['Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C'],
-                '8A6': ['Phạm Văn D', 'Hoàng Thị E', 'Đỗ Văn F'],
-                '8A7': ['Nguyễn T. Thảo', 'Trần H. Phát', 'Lê V. Phúc'],
-            };
-            
-            // Map các nút chọn bài với tên tệp dữ liệu tương ứng
-            const subjectFiles = {
-                'Bài 1': 'questions_b1.json',
-                'Bài 2': 'questions_b2.json',
-                'Bài 3': 'questions_b3.json',
-                'Bài 4': 'questions_b4.json',
-                'Bài 5': 'questions_b5.json',
-                'Chương I': 'questions_chuong1.json'
-            };
+    <button id="start-btn" disabled>🚀 Bắt đầu 10 câu</button>
+  </div>
 
-            let selectedClass = null;
-            let selectedSubject = null;
-            let selectedStudent = null;
+  <!-- Audio -->
+  <audio id="bg-music" src="audio/bg_music.mp3" loop></audio>
+  <audio id="correct-sound" src="audio/correct.mp3"></audio>
+  <audio id="wrong-sound" src="audio/wrong.mp3"></audio>
+  <audio id="timeout-sound" src="audio/timeout.mp3"></audio>
 
-            // Tự động phát nhạc nền khi người dùng tương tác
-            bgMusic.volume = 0.5;
-            document.body.addEventListener('click', () => {
-                if(bgMusic.paused) {
-                    bgMusic.play().catch(e => console.log("Lỗi tự động phát nhạc:", e));
-                }
-            }, { once: true });
-
-
-            // Xử lý sự kiện khi chọn lớp
-            classDropdown.addEventListener('change', (e) => {
-                selectedClass = e.target.value;
-                randomStudentBtn.disabled = false;
-                checkIfReadyToStart();
-            });
-
-            // Xử lý sự kiện khi bấm nút Random học sinh
-            randomStudentBtn.addEventListener('click', () => {
-                const students = studentsByClass[selectedClass];
-                if (selectedClass && students) {
-                    const randomIndex = Math.floor(Math.random() * students.length);
-                    selectedStudent = students[randomIndex];
-
-                    studentDisplay.textContent = selectedStudent;
-                    studentDisplay.classList.remove('hidden');
-                } else {
-                    studentDisplay.textContent = 'Chưa có dữ liệu học sinh!';
-                    studentDisplay.classList.remove('hidden');
-                }
-            });
-
-            // Xử lý sự kiện khi bấm nút chọn bài
-            subjectButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    subjectButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    selectedSubject = btn.dataset.subject;
-                    checkIfReadyToStart();
-                });
-            });
-
-            // Kiểm tra và bật/tắt nút Bắt đầu
-            function checkIfReadyToStart() {
-                if (selectedClass && selectedSubject) {
-                    startBtn.disabled = false;
-                } else {
-                    startBtn.disabled = true;
-                }
-            }
-
-            // Xử lý sự kiện khi bấm nút Bắt đầu
-            startBtn.addEventListener('click', () => {
-                if (selectedClass && selectedSubject) {
-                    // Logic chuyển sang màn hình chơi game
-                    alert(`Sẵn sàng bắt đầu game!\nLớp: ${selectedClass}\nBài: ${selectedSubject}\nHọc sinh: ${selectedStudent || 'Chưa random'}`);
-                    
-                    // TODO: Ở đây, bạn có thể thêm logic để tải câu hỏi và bắt đầu game.
-                    // Ví dụ: window.location.href = 'game.html';
-                    // Để tải dữ liệu câu hỏi, bạn sẽ sử dụng `fetch(assets/data/${subjectFiles[selectedSubject]})`
-                }
-            });
-        });
-    </script>
+  <script src="js/app.js"></script>
 </body>
 </html>
