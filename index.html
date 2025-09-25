@@ -1,137 +1,88 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Quiz Toán 8 – Nhân đa thức</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<style>
-  body{background:linear-gradient(135deg,#fdf2f8,#fae8ff);font-family:ui-sans-serif,system-ui;}
-  .card{background:#fff;border-radius:1rem;box-shadow:0 10px 20px rgba(0,0,0,.1)}
-  .btn{width:100%;padding:1rem;border-radius:.75rem;border:1px solid #e5e7eb;font-weight:600;text-align:left;transition:.15s}
-  .btn:hover{background:#fce7f3}
-  .correct{background:#16a34a!important;color:#fff!important}
-  .wrong{background:#dc2626!important;color:#fff!important}
-  .disabled{pointer-events:none;opacity:.7}
-  .explain{background:#fef9c3;color:#854d0e;border-radius:.75rem;padding:.5rem .75rem}
-  .step{width:2rem;height:2rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:700}
-  .step-pending{background:#e5e7eb}
-  .step-right{background:#bbf7d0}
-  .step-wrong{background:#fecaca}
-  .step-locked{background:#f3f4f6;border:2px dashed #d1d5db}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Luyện Tập Toán 8 - Chương I</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="flex flex-col items-center min-h-screen">
+<body>
+    <div class="game-wrapper">
+        <aside class="sidebar">
+            <h1 class="sidebar-title">ÔN LUYỆN</h1>
+            <div class="sidebar-item active" id="menu-1">
+                <h2>1) Chọn lớp & Gọi tên</h2>
+                <div class="class-selection-container">
+                    <select id="class-dropdown" class="dropdown">
+                        <option value="" disabled selected>-- Chọn lớp --</option>
+                        <option value="8A1">8A1</option>
+                        <option value="8A2">8A2</option>
+                        <option value="8A3">8A3</option>
+                        <option value="8A4">8A4</option>
+                        <option value="8A5">8A5</option>
+                        <option value="8A6">8A6</option>
+                        <option value="8A7">8A7</option>
+                    </select>
+                </div>
+                <button id="random-student-btn" class="btn btn-yellow">Gọi tên học sinh</button>
+            </div>
+            
+            <div class="sidebar-item" id="menu-2">
+                <h2>2) Chọn bài</h2>
+                <div class="subject-buttons-container">
+                    <button class="btn subject-btn" data-file="questions_b1.json">B1</button>
+                    <button class="btn subject-btn" data-file="questions_b2.json">B2</button>
+                    <button class="btn subject-btn" data-file="questions_b3.json">B3</button>
+                    <button class="btn subject-btn" data-file="questions_b4.json">B4</button>
+                    <button class="btn subject-btn" data-file="questions_b5.json">B5</button>
+                    <button class="btn subject-btn" data-file="questions_chuong1.json">Chương I</button>
+                </div>
+                <button id="shuffle-btn" class="btn btn-green">Trộn bài</button>
+            </div>
+            
+            <div class="sidebar-item" id="menu-3">
+                <h2>3) Bắt đầu</h2>
+                <button id="start-btn" class="btn btn-blue" disabled>BẮT ĐẦU</button>
+                <div class="status-box hidden" id="status-box">Yêu cầu: Chọn lớp + HS + bài</div>
+            </div>
+            
+            <div class="sidebar-controls">
+                <button id="export-btn" class="btn">Xuất</button>
+                <button id="confetti-btn" class="btn">Test pháo hoa</button>
+            </div>
+        </aside>
 
-<!-- HOME -->
-<section id="home" class="w-full max-w-xl p-6">
-  <div class="card p-8 text-center bg-gradient-to-br from-pink-50 to-purple-50">
-    <h1 class="text-4xl font-bold text-pink-600 mb-4">🔥 Toán 8</h1>
-    <p class="text-lg mb-6">Chinh phục kiến thức – <b>Nhân đa thức</b></p>
-    <div class="space-y-4 text-left">
-      <div>
-        <label>👤 Tên người chơi</label>
-        <input id="playerName" class="w-full border rounded-lg px-3 py-2"/>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label>🧩 Số câu</label>
-          <input id="numQ" type="number" value="8" min="5" max="20" class="w-full border rounded-lg px-3 py-2"/>
+        <main class="main-content">
+            <header class="main-header">
+                <span class="status-message">Chúc các em học tốt! • Thi thử hàng tuần • Cố lên!</span>
+                <div class="header-right">
+                    <span id="quiz-timer" class="timer">22:10:47</span>
+                    <i class="fa-solid fa-volume-up" id="volume-btn"></i>
+                </div>
+            </header>
+            
+            <section class="info-bar">
+                <div class="info-box">Lớp: <span id="class-name-display">...</span></div>
+                <div class="info-box">Học sinh: <span id="student-name-display">...</span></div>
+                <div class="info-box">Câu: <span id="question-count-display">0/10</span> • Điểm: <span id="score-display">0/10</span></div>
+            </section>
+            
+            <section class="quiz-area" id="quiz-area">
+                <div id="quiz-content" class="quiz-content">
+                    <div id="student-name-on-screen" class="student-name-on-screen"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="custom-modal" class="modal">
+        <div class="modal-content">
+            <p id="modal-text"></p>
+            <button id="modal-ok-btn" class="btn btn-blue">OK</button>
         </div>
-        <div>
-          <label>⏱️ Thời gian/câu</label>
-          <input id="secPerQ" type="number" value="30" min="10" max="120" class="w-full border rounded-lg px-3 py-2"/>
-        </div>
-      </div>
     </div>
-    <button id="startBtn" class="mt-6 w-full py-3 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold text-lg">🚀 Bắt đầu</button>
-  </div>
-</section>
 
-<!-- QUIZ -->
-<main id="quiz" class="hidden w-full max-w-5xl p-4 grid md:grid-cols-3 gap-6">
-  <section class="md:col-span-2 card p-6">
-    <div id="steps" class="flex gap-2 mb-4 flex-wrap"></div>
-    <div class="flex items-center justify-between mb-2">
-      <div id="qCounter" class="text-xl font-bold">Câu 0/0</div>
-      <div class="w-40 h-3 bg-gray-200 rounded-full overflow-hidden">
-        <div id="timeBar" class="h-full bg-pink-500"></div>
-      </div>
-    </div>
-    <div id="questionBox" class="rounded bg-pink-50 p-3 text-lg font-bold mb-2"></div>
-    <div id="optionsBox" class="mt-3 space-y-2"></div>
-    <div id="explainBox" class="hidden explain mt-3"></div>
-    <div id="timeUpBox" class="hidden text-red-600 font-semibold mt-3">⛔ Hết giờ!</div>
-    <div class="mt-6 flex gap-3">
-      <button id="prevBtn" class="bg-gray-200 px-4 py-2 rounded">⬅ Câu trước</button>
-      <button id="nextBtn" class="bg-pink-500 text-white px-4 py-2 rounded">Câu tiếp ▶</button>
-    </div>
-  </section>
-  <aside class="card p-6">
-    <h3 class="font-bold text-pink-600 text-xl mb-2">🏆 Bảng điểm</h3>
-    <p>Người chơi: <span id="hudName">—</span></p>
-    <p>Điểm: <span id="hudScore">0</span></p>
-    <p>Đúng/Sai: <span id="hudRightWrong">0/0</span></p>
-  </aside>
-</main>
-
-<!-- RESULT -->
-<section id="result" class="hidden w-full max-w-xl p-6">
-  <div class="card p-8 text-center">
-    <h2 class="text-3xl font-bold text-pink-600">🎉 Hoàn thành!</h2>
-    <p class="mt-2 text-xl">Điểm: <span id="rsScore"></span> / <span id="rsTotal"></span></p>
-    <p class="text-gray-600">Đúng: <span id="rsRight"></span> • Sai: <span id="rsWrong"></span></p>
-    <button id="againBtn" class="mt-6 bg-pink-500 text-white px-6 py-2 rounded">🔁 Chơi lại</button>
-  </div>
-</section>
-
-<script>
-const el=id=>document.getElementById(id);
-const POOL=[
-  {type:"mc",q:"(x+4)(x+2)",a:"x²+6x+8",options:["x²+6x+8","x²+4x+2","x²+8x+4"]},
-  {type:"mc",q:"(3x+2)(x+1)",a:"3x²+5x+2",options:["3x²+5x+2","x²+3x+2","3x²+2x+1"]},
-  {type:"fill",q:"(x+2)(x+3)=x²+__x+6",a:"5"},
-];
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function beep(f,d=0.1){const c=new (window.AudioContext||window.webkitAudioContext)();const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);o.start();setTimeout(()=>o.stop(),d*1000);}
-function sRight(){beep(900);confetti({particleCount:60,spread:60,origin:{y:.8}});}function sWrong(){beep(200,0.2);}
-
-const STATE={quiz:[],idx:0,nQuestions:0,duration:30,timer:null,timeLeft:0,score:0,right:0,wrong:0,player:"",perQ:[]};
-function reset(){STATE.idx=0;STATE.score=0;STATE.right=0;STATE.wrong=0;STATE.perQ=[];}
-function startGame(){
-  STATE.player=el("playerName").value||"Khách";STATE.nQuestions=parseInt(el("numQ").value)||5;STATE.duration=parseInt(el("secPerQ").value)||30;
-  reset();STATE.quiz=shuffle(POOL).slice(0,STATE.nQuestions);
-  goQuiz();renderSteps();renderQ();
-}
-function goHome(){el("home").classList.remove("hidden");el("quiz").classList.add("hidden");el("result").classList.add("hidden");}
-function goQuiz(){el("home").classList.add("hidden");el("quiz").classList.remove("hidden");el("result").classList.add("hidden");}
-function goResult(){el("home").classList.add("hidden");el("quiz").classList.add("hidden");el("result").classList.remove("hidden");}
-function renderSteps(){el("steps").innerHTML="";for(let i=0;i<STATE.nQuestions;i++){let d=document.createElement("div");d.id="step-"+i;d.className="step step-pending";d.textContent=i+1;el("steps").appendChild(d);}}
-function colorStep(i,st){const d=el("step-"+i);if(!d)return;d.className="step "+(st.answered?(st.correct?"step-right":"step-wrong"):(st.locked?"step-locked":"step-pending"));}
-function stopTimer(){if(STATE.timer){clearInterval(STATE.timer);STATE.timer=null;}}
-function startTimer(st){stopTimer();if(st.answered||st.locked){el("timeBar").style.width="0%";return;}
-  STATE.timeLeft=STATE.duration;tick();STATE.timer=setInterval(()=>{STATE.timeLeft--;tick();if(STATE.timeLeft<=0){stopTimer();st.locked=true;colorStep(STATE.idx,st);el("timeUpBox").classList.remove("hidden");el("nextBtn").disabled=false;}},1000);}
-function tick(){el("timeBar").style.width=(STATE.timeLeft/STATE.duration*100)+"%";}
-function ensureStatus(i){if(!STATE.perQ[i])STATE.perQ[i]={answered:false,correct:false,locked:false,data:{}};return STATE.perQ[i];}
-function renderQ(){stopTimer();const q=STATE.quiz[STATE.idx];const st=ensureStatus(STATE.idx);
-  el("hudName").textContent=STATE.player;el("hudScore").textContent=STATE.score;el("hudRightWrong").textContent=STATE.right+"/"+STATE.wrong;
-  el("qCounter").textContent="Câu "+(STATE.idx+1)+"/"+STATE.nQuestions;
-  el("questionBox").textContent=(q.type==="mc"?"Nhân hai đa thức ":"Điền số: ")+q.q;
-  el("optionsBox").innerHTML="";el("explainBox").classList.add("hidden");el("timeUpBox").classList.add("hidden");
-  el("nextBtn").disabled=!(st.answered||st.locked);
-  if(q.type==="mc"){let opts=[...q.options];
-    while(opts.length<4){let wrong=q.a.replace(/\d+/,m=>parseInt(m)+Math.floor(Math.random()*3+1));if(!opts.includes(wrong))opts.push(wrong);}
-    shuffle(opts).forEach((opt,i)=>{let b=document.createElement("button");b.className="btn";b.textContent=String.fromCharCode(65+i)+". "+opt;
-      b.onclick=()=>{if(st.answered||st.locked)return;st.answered=true;if(opt===q.a){b.classList.add("correct");sRight();STATE.score++;STATE.right++;st.correct=true;}else{b.classList.add("wrong");sWrong();STATE.wrong++;st.correct=false;}el("nextBtn").disabled=false;colorStep(STATE.idx,st);};
-      if(st.answered||st.locked)b.classList.add("disabled");el("optionsBox").appendChild(b);});}
-  if(q.type==="fill"){let inp=document.createElement("input");inp.className="w-full border rounded px-3 py-2";let btn=document.createElement("button");btn.textContent="Trả lời";btn.className="mt-2 bg-pink-500 text-white px-3 py-1 rounded";el("optionsBox").appendChild(inp);el("optionsBox").appendChild(btn);
-    if(st.answered||st.locked){inp.disabled=true;btn.disabled=true;el("nextBtn").disabled=false;if(st.data.ans)inp.value=st.data.ans;if(!st.correct){el("explainBox").innerHTML="❌ Sai! Đáp án: "+q.a;el("explainBox").classList.remove("hidden");}}else{el("nextBtn").disabled=true;btn.onclick=()=>{const ans=inp.value.trim();if(!ans)return;st.answered=true;st.data.ans=ans;if(ans===q.a){sRight();STATE.score++;STATE.right++;st.correct=true;}else{sWrong();STATE.wrong++;st.correct=false;el("explainBox").innerHTML="❌ Sai! Đáp án: "+q.a;el("explainBox").classList.remove("hidden");}inp.disabled=true;btn.disabled=true;el("nextBtn").disabled=false;colorStep(STATE.idx,st);};}}
-  startTimer(st);}
-el("nextBtn").onclick=()=>{if(STATE.idx<STATE.nQuestions-1){STATE.idx++;renderQ();}else finish();};
-el("prevBtn").onclick=()=>{if(STATE.idx>0){STATE.idx--;renderQ();}};
-function finish(){stopTimer();el("rsScore").textContent=STATE.score;el("rsTotal").textContent=STATE.nQuestions;el("rsRight").textContent=STATE.right;el("rsWrong").textContent=STATE.wrong;goResult();}
-el("startBtn").onclick=startGame;el("againBtn").onclick=()=>goHome();goHome();
-</script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

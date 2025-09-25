@@ -1,0 +1,1202 @@
+[
+  {
+    "q": "Quy tắc cộng hai đa thức là:",
+    "a": "Nối các đa thức bằng dấu '+' rồi thu gọn",
+    "options": [
+      "Nối các đa thức bằng dấu '+' rồi thu gọn",
+      "Nhân các đa thức",
+      "Cộng cả hệ số và số mũ",
+      "Chia hệ số và số mũ"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong phép cộng đa thức, hạng tử đồng dạng là những hạng tử:",
+    "a": "Có cùng phần biến",
+    "options": [
+      "Có cùng phần biến",
+      "Có cùng hệ số",
+      "Có cùng bậc",
+      "Có hệ số đối nhau"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Tính chất giao hoán của phép cộng đa thức phát biểu:",
+    "a": "A + B = B + A",
+    "options": [
+      "A + B = B + A",
+      "A + B = A - B",
+      "A + B = AB",
+      "A + B = (A+B)^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Tính chất kết hợp của phép cộng đa thức phát biểu:",
+    "a": "(A+B)+C = A+(B+C)",
+    "options": [
+      "(A+B)+C = A+(B+C)",
+      "A+(B-C)=C+(A-B)",
+      "A+(B+C)=AB+C",
+      "(A+B)C=A(BC)"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong phép trừ đa thức A - B, ta có thể viết lại thành:",
+    "a": "A + (-B)",
+    "options": [
+      "A + (-B)",
+      "B - A",
+      "A/B",
+      "-(A+B)"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 2x^2 + 3x - 1, hạng tử tự do là:",
+    "a": "-1",
+    "options": [
+      "-1",
+      "2x^2",
+      "3x",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức Q = 5x^3 - 2x^2 + 7, hạng tử bậc cao nhất là:",
+    "a": "5x^3",
+    "options": [
+      "5x^3",
+      "-2x^2",
+      "7",
+      "x^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Hệ số của hạng tử -4xy trong đa thức R = -4xy + 3 là:",
+    "a": "-4",
+    "options": [
+      "-4",
+      "3",
+      "1",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong các cặp hạng tử sau, cặp nào đồng dạng?",
+    "a": "2x^2 và -3x^2",
+    "options": [
+      "2x^2 và -3x^2",
+      "x^2 và xy",
+      "y và x",
+      "3 và 3x"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức P = 4x^2y - 3xy + 5 có bao nhiêu hạng tử?",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "4",
+      "1"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức T = 7x^4 - 3x^2y + y là:",
+    "a": "4",
+    "options": [
+      "4",
+      "3",
+      "2",
+      "1"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 9x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "9x^2",
+    "options": [
+      "9x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 10x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "10x^2",
+    "options": [
+      "10x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 11x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "11x^2",
+    "options": [
+      "11x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 12x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "12x^2",
+    "options": [
+      "12x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 13x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "13x^2",
+    "options": [
+      "13x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 14x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "14x^2",
+    "options": [
+      "14x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 15x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "15x^2",
+    "options": [
+      "15x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 16x^2 + 3x - 1, hạng tử đồng dạng với -5x^2 là:",
+    "a": "16x^2",
+    "options": [
+      "16x^2",
+      "3x",
+      "-1",
+      "-5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (x^2 + 2x + 1) + (2x^2 - x + 3)",
+    "a": "3x^2 + x + 4",
+    "options": [
+      "3x^2 + x + 4",
+      "3x^2 + x + 2",
+      "x^2 + x + 4",
+      "2x^2 - x + 4"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (2x^2 + 3x - 1) - (x^2 - 2x + 4)",
+    "a": "x^2 + 5x - 5",
+    "options": [
+      "x^2 + 5x - 5",
+      "x^2 + x - 5",
+      "x^2 + 5x + 3",
+      "3x^2 - 5"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (3x^2 - x) + (5x^2 + 2x)",
+    "a": "8x^2 + x",
+    "options": [
+      "8x^2 + x",
+      "2x^2 + x",
+      "8x^2 - x",
+      "2x^2 - x"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (x^2 + 4x) - (2x^2 - x)",
+    "a": "-x^2 + 5x",
+    "options": [
+      "-x^2 + 5x",
+      "-x^2 + 3x",
+      "x^2 + 5x",
+      "-x^2 - 5x"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (1x^2 + x) + (2x^2 - x)",
+    "a": "3x^2",
+    "options": [
+      "3x^2",
+      "1x^2",
+      "2x^2",
+      "3x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (2x^2 + x) + (3x^2 - x)",
+    "a": "5x^2",
+    "options": [
+      "5x^2",
+      "2x^2",
+      "3x^2",
+      "4x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (3x^2 + x) + (4x^2 - x)",
+    "a": "7x^2",
+    "options": [
+      "7x^2",
+      "3x^2",
+      "4x^2",
+      "5x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (4x^2 + x) + (5x^2 - x)",
+    "a": "9x^2",
+    "options": [
+      "9x^2",
+      "4x^2",
+      "5x^2",
+      "6x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (5x^2 + x) + (6x^2 - x)",
+    "a": "11x^2",
+    "options": [
+      "11x^2",
+      "5x^2",
+      "6x^2",
+      "7x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (6x^2 + x) + (7x^2 - x)",
+    "a": "13x^2",
+    "options": [
+      "13x^2",
+      "6x^2",
+      "7x^2",
+      "8x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (7x^2 + x) + (8x^2 - x)",
+    "a": "15x^2",
+    "options": [
+      "15x^2",
+      "7x^2",
+      "8x^2",
+      "9x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (8x^2 + x) + (9x^2 - x)",
+    "a": "17x^2",
+    "options": [
+      "17x^2",
+      "8x^2",
+      "9x^2",
+      "10x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (9x^2 + x) + (10x^2 - x)",
+    "a": "19x^2",
+    "options": [
+      "19x^2",
+      "9x^2",
+      "10x^2",
+      "11x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (10x^2 + x) + (11x^2 - x)",
+    "a": "21x^2",
+    "options": [
+      "21x^2",
+      "10x^2",
+      "11x^2",
+      "12x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (11x^2 + x) + (12x^2 - x)",
+    "a": "23x^2",
+    "options": [
+      "23x^2",
+      "11x^2",
+      "12x^2",
+      "13x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (12x^2 + x) + (13x^2 - x)",
+    "a": "25x^2",
+    "options": [
+      "25x^2",
+      "12x^2",
+      "13x^2",
+      "14x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (13x^2 + x) + (14x^2 - x)",
+    "a": "27x^2",
+    "options": [
+      "27x^2",
+      "13x^2",
+      "14x^2",
+      "15x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (14x^2 + x) + (15x^2 - x)",
+    "a": "29x^2",
+    "options": [
+      "29x^2",
+      "14x^2",
+      "15x^2",
+      "16x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (15x^2 + x) + (16x^2 - x)",
+    "a": "31x^2",
+    "options": [
+      "31x^2",
+      "15x^2",
+      "16x^2",
+      "17x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (16x^2 + x) + (17x^2 - x)",
+    "a": "33x^2",
+    "options": [
+      "33x^2",
+      "16x^2",
+      "17x^2",
+      "18x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (x^3 + 2x^2 - x + 1) + (2x^3 - x^2 + 3)",
+    "a": "3x^3 + x^2 - x + 4",
+    "options": [
+      "3x^3 + x^2 - x + 4",
+      "3x^3 + x^2 - x + 3",
+      "x^3 + x^2 - x + 4",
+      "2x^3 - x^2 - x + 4"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (2x^2y - 3xy + 1) - (x^2y - 5xy - 2)",
+    "a": "x^2y + 2xy + 3",
+    "options": [
+      "x^2y + 2xy + 3",
+      "x^2y + 2xy - 1",
+      "x^2y - 8xy + 3",
+      "3x^2y + 2xy + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Cộng: (3x^2y - 2xy + 1) + (x^2y + 5xy - 2)",
+    "a": "4x^2y + 3xy - 1",
+    "options": [
+      "4x^2y + 3xy - 1",
+      "4x^2y + 7xy - 1",
+      "2x^2y + 3xy - 1",
+      "4x^2y - 3xy - 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Sắp xếp theo lũy thừa giảm dần của x: (2 - 3x + 4x^3 - x^2)",
+    "a": "4x^3 - x^2 - 3x + 2",
+    "options": [
+      "4x^3 - x^2 - 3x + 2",
+      "2 - 3x - x^2 + 4x^3",
+      "4x^3 - 3x + 2 - x^2",
+      "-x^2 + 4x^3 - 3x + 2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (3x^2 + 1x) - (1x^2 - 2x)",
+    "a": "2x^2 + 3x",
+    "options": [
+      "2x^2 + 3x",
+      "2x^2 + 3x",
+      "2x^2 - 3x",
+      "3x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (4x^2 + 2x) - (2x^2 - 3x)",
+    "a": "2x^2 + 5x",
+    "options": [
+      "2x^2 + 5x",
+      "3x^2 + 4x",
+      "2x^2 - 4x",
+      "5x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (5x^2 + 3x) - (3x^2 - 4x)",
+    "a": "2x^2 + 7x",
+    "options": [
+      "2x^2 + 7x",
+      "4x^2 + 5x",
+      "2x^2 - 5x",
+      "7x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (6x^2 + 4x) - (4x^2 - 5x)",
+    "a": "2x^2 + 9x",
+    "options": [
+      "2x^2 + 9x",
+      "5x^2 + 6x",
+      "2x^2 - 6x",
+      "9x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (7x^2 + 5x) - (5x^2 - 6x)",
+    "a": "2x^2 + 11x",
+    "options": [
+      "2x^2 + 11x",
+      "6x^2 + 7x",
+      "2x^2 - 7x",
+      "11x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (8x^2 + 6x) - (6x^2 - 7x)",
+    "a": "2x^2 + 13x",
+    "options": [
+      "2x^2 + 13x",
+      "7x^2 + 8x",
+      "2x^2 - 8x",
+      "13x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (9x^2 + 7x) - (7x^2 - 8x)",
+    "a": "2x^2 + 15x",
+    "options": [
+      "2x^2 + 15x",
+      "8x^2 + 9x",
+      "2x^2 - 9x",
+      "15x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (10x^2 + 8x) - (8x^2 - 9x)",
+    "a": "2x^2 + 17x",
+    "options": [
+      "2x^2 + 17x",
+      "9x^2 + 10x",
+      "2x^2 - 10x",
+      "17x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (11x^2 + 9x) - (9x^2 - 10x)",
+    "a": "2x^2 + 19x",
+    "options": [
+      "2x^2 + 19x",
+      "10x^2 + 11x",
+      "2x^2 - 11x",
+      "19x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (12x^2 + 10x) - (10x^2 - 11x)",
+    "a": "2x^2 + 21x",
+    "options": [
+      "2x^2 + 21x",
+      "11x^2 + 12x",
+      "2x^2 - 12x",
+      "21x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (13x^2 + 11x) - (11x^2 - 12x)",
+    "a": "2x^2 + 23x",
+    "options": [
+      "2x^2 + 23x",
+      "12x^2 + 13x",
+      "2x^2 - 13x",
+      "23x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (14x^2 + 12x) - (12x^2 - 13x)",
+    "a": "2x^2 + 25x",
+    "options": [
+      "2x^2 + 25x",
+      "13x^2 + 14x",
+      "2x^2 - 14x",
+      "25x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (15x^2 + 13x) - (13x^2 - 14x)",
+    "a": "2x^2 + 27x",
+    "options": [
+      "2x^2 + 27x",
+      "14x^2 + 15x",
+      "2x^2 - 15x",
+      "27x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (16x^2 + 14x) - (14x^2 - 15x)",
+    "a": "2x^2 + 29x",
+    "options": [
+      "2x^2 + 29x",
+      "15x^2 + 16x",
+      "2x^2 - 16x",
+      "29x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (17x^2 + 15x) - (15x^2 - 16x)",
+    "a": "2x^2 + 31x",
+    "options": [
+      "2x^2 + 31x",
+      "16x^2 + 17x",
+      "2x^2 - 17x",
+      "31x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (18x^2 + 16x) - (16x^2 - 17x)",
+    "a": "2x^2 + 33x",
+    "options": [
+      "2x^2 + 33x",
+      "17x^2 + 18x",
+      "2x^2 - 18x",
+      "33x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (19x^2 + 17x) - (17x^2 - 18x)",
+    "a": "2x^2 + 35x",
+    "options": [
+      "2x^2 + 35x",
+      "18x^2 + 19x",
+      "2x^2 - 19x",
+      "35x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (20x^2 + 18x) - (18x^2 - 19x)",
+    "a": "2x^2 + 37x",
+    "options": [
+      "2x^2 + 37x",
+      "19x^2 + 20x",
+      "2x^2 - 20x",
+      "37x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (21x^2 + 19x) - (19x^2 - 20x)",
+    "a": "2x^2 + 39x",
+    "options": [
+      "2x^2 + 39x",
+      "20x^2 + 21x",
+      "2x^2 - 21x",
+      "39x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (22x^2 + 20x) - (20x^2 - 21x)",
+    "a": "2x^2 + 41x",
+    "options": [
+      "2x^2 + 41x",
+      "21x^2 + 22x",
+      "2x^2 - 22x",
+      "41x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (23x^2 + 21x) - (21x^2 - 22x)",
+    "a": "2x^2 + 43x",
+    "options": [
+      "2x^2 + 43x",
+      "22x^2 + 23x",
+      "2x^2 - 23x",
+      "43x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (24x^2 + 22x) - (22x^2 - 23x)",
+    "a": "2x^2 + 45x",
+    "options": [
+      "2x^2 + 45x",
+      "23x^2 + 24x",
+      "2x^2 - 24x",
+      "45x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (25x^2 + 23x) - (23x^2 - 24x)",
+    "a": "2x^2 + 47x",
+    "options": [
+      "2x^2 + 47x",
+      "24x^2 + 25x",
+      "2x^2 - 25x",
+      "47x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (26x^2 + 24x) - (24x^2 - 25x)",
+    "a": "2x^2 + 49x",
+    "options": [
+      "2x^2 + 49x",
+      "25x^2 + 26x",
+      "2x^2 - 26x",
+      "49x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (27x^2 + 25x) - (25x^2 - 26x)",
+    "a": "2x^2 + 51x",
+    "options": [
+      "2x^2 + 51x",
+      "26x^2 + 27x",
+      "2x^2 - 27x",
+      "51x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trừ: (28x^2 + 26x) - (26x^2 - 27x)",
+    "a": "2x^2 + 53x",
+    "options": [
+      "2x^2 + 53x",
+      "27x^2 + 28x",
+      "2x^2 - 28x",
+      "53x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Cho A=2x^3+4x^2y-3y^2+x^2-5y+7, B=2x^3+y^2-1. Tìm C để A+C=B.",
+    "a": "-4x^2y+3y^2-5y-8",
+    "options": [
+      "-4x^2y+3y^2-5y-8",
+      "-4x^2y+4y^2-5y+6",
+      "-4x^2y-3y^2-5y+8",
+      "-4x^2y+3y^2-5y+6"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=3x^2y-0.8xy^2+2y^2-1, N=-3x^2y-0.2xy^2+2. So sánh bậc của M và M+N.",
+    "a": "Bậc M=3, bậc M+N=2",
+    "options": [
+      "Bậc M=3, bậc M+N=2",
+      "Bậc M=3, bậc M+N=3",
+      "Bậc M=2, bậc M+N=2",
+      "Bậc M=2, bậc M+N=3"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm U biết: U-3x^2y+2xy^2-5y^3=2xy^2-xy+1.",
+    "a": "3x^2y-xy+1",
+    "options": [
+      "3x^2y-xy+1",
+      "3x^2y+2xy^2-xy+1",
+      "3x^2y-2xy^2-xy+1",
+      "3x^2y-2xy^2+xy+1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm V biết: V+4y^2-2xy^2+x^2y-9=4y^2-3.",
+    "a": "-2xy^2+x^2y+6",
+    "options": [
+      "-2xy^2+x^2y+6",
+      "-2xy^2+x^2y-6",
+      "-2xy^2+x^2y+12",
+      "-2xy^2-x^2y+6"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=1x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=2x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=3x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=4x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=5x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=6x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=7x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=8x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=9x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=10x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=11x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=12x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=13x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=14x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=15x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=16x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=17x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=18x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=19x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=20x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=21x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=22x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=23x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=24x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=25x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M=26x^3-5x^2y+5x-3y, N=4xy-4x+y, P=3x^3+x^2y+x+1. Tính M+N-P.",
+    "a": "(k-2)x^3-6x^2y+9x-3y+y-1",
+    "options": [
+      "(k-2)x^3-6x^2y+9x-3y+y-1",
+      "(k+1)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+9x-3y+y-1",
+      "(k-2)x^3-5x^2y+5x-3y+y-1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = x^3 - 2x^2 + x - 5, hạng tử tự do là:",
+    "a": "-5",
+    "options": [
+      "-5",
+      "x^3",
+      "-2x^2",
+      "x"
+    ],
+    "level": "NB",
+    "hint": ""
+  }
+]

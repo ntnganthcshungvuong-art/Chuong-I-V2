@@ -1,0 +1,1202 @@
+[
+  {
+    "q": "Thực hiện: \\\\((59x)( 60x+58)\\\\)",
+    "a": "3540x^2+3422x",
+    "options": [
+      "119x^2+58x",
+      "3540x+3422",
+      "3540x^2+3422x",
+      "3540x^2+58"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((22x)( 23x+21)\\\\)",
+    "a": "506x^2+462x",
+    "options": [
+      "506x+462",
+      "506x^2+21",
+      "506x^2+462x",
+      "45x^2+21x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Tính giá trị tại x=2 của (x+1)(x-1)",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((33x)( 34x+32)\\\\)",
+    "a": "1122x^2+1056x",
+    "options": [
+      "1122x^2+1056x",
+      "67x^2+32x",
+      "1122x+1056",
+      "1122x^2+32"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Hệ số của đơn thức thu được khi nhân -3xy với 4x^2y là:",
+    "a": "-12",
+    "options": [
+      "-12",
+      "12",
+      "-7",
+      "7"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((26x)( 27x+25)\\\\)",
+    "a": "702x^2+650x",
+    "options": [
+      "53x^2+25x",
+      "702x+650",
+      "702x^2+25",
+      "702x^2+650x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (11x+1)(x+1)",
+    "a": "11x^2+12x+1",
+    "options": [
+      "11x^2+12x+1",
+      "11x^2+11x+1",
+      "12x^2+11x+1",
+      "11x^2+13x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Khi nhân (x+1) với 0, kết quả là:",
+    "a": "0",
+    "options": [
+      "0",
+      "x+1",
+      "1",
+      "x"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((81x)( 82x+80)\\\\)",
+    "a": "6642x^2+6480x",
+    "options": [
+      "163x^2+80x",
+      "6642x^2+80",
+      "6642x+6480",
+      "6642x^2+6480x"
+    ],
+    "level": "VC",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Khi nhân đơn thức x^0 (hằng 1) với 5x^2, ta được:",
+    "a": "5x^2",
+    "options": [
+      "5x^2",
+      "x^2",
+      "5x^3",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((70x)( 71x+69)\\\\)",
+    "a": "4970x^2+4830x",
+    "options": [
+      "4970x+4830",
+      "141x^2+69x",
+      "4970x^2+69",
+      "4970x^2+4830x"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+3)(x+4)",
+    "a": "x^2+7x+12",
+    "options": [
+      "x^2+7x+12",
+      "x^2+6x+12",
+      "x^2+3x+4",
+      "x^2+4x+3"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((76x)( 77x+75)\\\\)",
+    "a": "5852x^2+5700x",
+    "options": [
+      "5852x^2+5700x",
+      "5852x^2+75",
+      "153x^2+75x",
+      "5852x+5700"
+    ],
+    "level": "VC",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+14)(x-14)",
+    "a": "1-196",
+    "options": [
+      "1-196",
+      "195",
+      "0",
+      "14"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Trong tích (−2x)·(−3x^2), kết quả là:",
+    "a": "6x^3",
+    "options": [
+      "6x^3",
+      "-6x^3",
+      "6x^2",
+      "-6x^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((40x)( 41x+39)\\\\)",
+    "a": "1640x^2+1560x",
+    "options": [
+      "1640x^2+1560x",
+      "81x^2+39x",
+      "1640x^2+39",
+      "1640x+1560"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+16)(x+17)",
+    "a": "x^2+33x+272",
+    "options": [
+      "x^2+33x+272",
+      "x^2+32x+272",
+      "x^2+16x+17",
+      "x^2+17x+16"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((24x)( 25x+23)\\\\)",
+    "a": "600x^2+552x",
+    "options": [
+      "600x^2+552x",
+      "600x^2+23",
+      "49x^2+23x",
+      "600x+552"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((58x)( 59x+57)\\\\)",
+    "a": "3422x^2+3306x",
+    "options": [
+      "117x^2+57x",
+      "3422x^2+3306x",
+      "3422x^2+57",
+      "3422x+3306"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (2x)(x+3)",
+    "a": "2x^2+6x",
+    "options": [
+      "2x^2+6x",
+      "2x^2+3",
+      "2x+3x",
+      "2x^2+9"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+22)(x+23)",
+    "a": "x^2+45x+506",
+    "options": [
+      "x^2+45x+506",
+      "x^2+44x+506",
+      "x^2+22x+23",
+      "x^2+23x+22"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (2x+1)(x+1)",
+    "a": "2x^2+3x+1",
+    "options": [
+      "2x^2+3x+1",
+      "2x^2+2x+1",
+      "3x^2+2x+1",
+      "2x^2+4x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+15)(x+16)",
+    "a": "x^2+31x+240",
+    "options": [
+      "x^2+31x+240",
+      "x^2+30x+240",
+      "x^2+15x+16",
+      "x^2+16x+15"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Phát biểu nào đúng về giao hoán của phép nhân đa thức?",
+    "a": "A·B = B·A",
+    "options": [
+      "A·B = B·A",
+      "A·B = A+B",
+      "A·B = A-B",
+      "A·B = (A+B)^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (1x+1)(x+1)",
+    "a": "1x^2+2x+1",
+    "options": [
+      "1x^2+2x+1",
+      "1x^2+1x+1",
+      "2x^2+1x+1",
+      "1x^2+3x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((15x)( 16x+14)\\\\)",
+    "a": "240x^2+210x",
+    "options": [
+      "240x+210",
+      "240x^2+14",
+      "31x^2+14x",
+      "240x^2+210x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+8)(x+9)",
+    "a": "x^2+17x+72",
+    "options": [
+      "x^2+17x+72",
+      "x^2+16x+72",
+      "x^2+8x+9",
+      "x^2+9x+8"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+11)(x-11)",
+    "a": "1-121",
+    "options": [
+      "1-121",
+      "120",
+      "0",
+      "11"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((42x)( 43x+41)\\\\)",
+    "a": "1806x^2+1722x",
+    "options": [
+      "1806x^2+41",
+      "1806x+1722",
+      "1806x^2+1722x",
+      "85x^2+41x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+17)(x+18)",
+    "a": "x^2+35x+306",
+    "options": [
+      "x^2+35x+306",
+      "x^2+34x+306",
+      "x^2+17x+18",
+      "x^2+18x+17"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((52x)( 53x+51)\\\\)",
+    "a": "2756x^2+2652x",
+    "options": [
+      "2756x^2+51",
+      "2756x^2+2652x",
+      "2756x+2652",
+      "105x^2+51x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Khi nhân đơn thức 2x với 3x^2, kết quả là:",
+    "a": "6x^3",
+    "options": [
+      "6x^3",
+      "6x^2",
+      "2x^3",
+      "2x^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((61x)( 62x+60)\\\\)",
+    "a": "3782x^2+3660x",
+    "options": [
+      "3782x+3660",
+      "3782x^2+3660x",
+      "3782x^2+60",
+      "123x^2+60x"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((38x)( 39x+37)\\\\)",
+    "a": "1482x^2+1406x",
+    "options": [
+      "77x^2+37x",
+      "1482x+1406",
+      "1482x^2+37",
+      "1482x^2+1406x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((39x)( 40x+38)\\\\)",
+    "a": "1560x^2+1482x",
+    "options": [
+      "1560x^2+38",
+      "1560x^2+1482x",
+      "1560x+1482",
+      "79x^2+38x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+5)(x+6)",
+    "a": "x^2+11x+30",
+    "options": [
+      "x^2+11x+30",
+      "x^2+10x+30",
+      "x^2+5x+6",
+      "x^2+6x+5"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (3x+1)(x+1)",
+    "a": "3x^2+4x+1",
+    "options": [
+      "3x^2+4x+1",
+      "3x^2+3x+1",
+      "4x^2+3x+1",
+      "3x^2+5x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((2x)( 3x+1)\\\\)",
+    "a": "6x^2+2x",
+    "options": [
+      "5x^2+1x",
+      "6x+2",
+      "6x^2+2x",
+      "6x^2+1"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+12)(x+13)",
+    "a": "x^2+25x+156",
+    "options": [
+      "x^2+25x+156",
+      "x^2+24x+156",
+      "x^2+12x+13",
+      "x^2+13x+12"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đơn thức thu được khi nhân 3x^2y^2 với 2xy là:",
+    "a": "5",
+    "options": [
+      "5",
+      "4",
+      "3",
+      "6"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((60x)( 61x+59)\\\\)",
+    "a": "3660x^2+3540x",
+    "options": [
+      "121x^2+59x",
+      "3660x^2+59",
+      "3660x+3540",
+      "3660x^2+3540x"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+24)(x+25)",
+    "a": "x^2+49x+600",
+    "options": [
+      "x^2+49x+600",
+      "x^2+48x+600",
+      "x^2+24x+25",
+      "x^2+25x+24"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+15)(x-15)",
+    "a": "1-225",
+    "options": [
+      "1-225",
+      "224",
+      "0",
+      "15"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+9)(x-9)",
+    "a": "1-81",
+    "options": [
+      "1-81",
+      "80",
+      "0",
+      "9"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((28x)( 29x+27)\\\\)",
+    "a": "812x^2+756x",
+    "options": [
+      "812x^2+756x",
+      "812x+756",
+      "57x^2+27x",
+      "812x^2+27"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+8)(x-8)",
+    "a": "1-64",
+    "options": [
+      "1-64",
+      "63",
+      "0",
+      "8"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((67x)( 68x+66)\\\\)",
+    "a": "4556x^2+4422x",
+    "options": [
+      "4556x+4422",
+      "4556x^2+66",
+      "4556x^2+4422x",
+      "135x^2+66x"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((56x)( 57x+55)\\\\)",
+    "a": "3192x^2+3080x",
+    "options": [
+      "113x^2+55x",
+      "3192x^2+55",
+      "3192x+3080",
+      "3192x^2+3080x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((45x)( 46x+44)\\\\)",
+    "a": "2070x^2+1980x",
+    "options": [
+      "91x^2+44x",
+      "2070x^2+1980x",
+      "2070x^2+44",
+      "2070x+1980"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+2y)(x-2y)",
+    "a": "x^2-4y^2",
+    "options": [
+      "x^2-4y^2",
+      "x^2+4y^2",
+      "x^2-2y^2",
+      "x^2+y^2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((35x)( 36x+34)\\\\)",
+    "a": "1260x^2+1190x",
+    "options": [
+      "1260x^2+34",
+      "1260x^2+1190x",
+      "71x^2+34x",
+      "1260x+1190"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Phát biểu nào đúng về tính chất phân phối của phép nhân?",
+    "a": "A(B+C)=AB+AC",
+    "options": [
+      "A(B+C)=AB+AC",
+      "A(B+C)=AB-AC",
+      "A(B+C)=A+B+C",
+      "A(B+C)=AB*AC"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x-1)(x+1)",
+    "a": "x^2-1",
+    "options": [
+      "x^2-1",
+      "x^2+1",
+      "x^2-2",
+      "x^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((34x)( 35x+33)\\\\)",
+    "a": "1190x^2+1122x",
+    "options": [
+      "1190x^2+1122x",
+      "69x^2+33x",
+      "1190x+1122",
+      "1190x^2+33"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+4)(x+5)",
+    "a": "x^2+9x+20",
+    "options": [
+      "x^2+9x+20",
+      "x^2+8x+20",
+      "x^2+4x+5",
+      "x^2+5x+4"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((14x)( 15x+13)\\\\)",
+    "a": "210x^2+182x",
+    "options": [
+      "29x^2+13x",
+      "210x^2+13",
+      "210x^2+182x",
+      "210x+182"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((11x)( 12x+10)\\\\)",
+    "a": "132x^2+110x",
+    "options": [
+      "132x^2+110x",
+      "23x^2+10x",
+      "132x+110",
+      "132x^2+10"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((18x)( 19x+17)\\\\)",
+    "a": "342x^2+306x",
+    "options": [
+      "342x^2+306x",
+      "342x^2+17",
+      "342x+306",
+      "37x^2+17x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (13x+1)(x+1)",
+    "a": "13x^2+14x+1",
+    "options": [
+      "13x^2+14x+1",
+      "13x^2+13x+1",
+      "14x^2+13x+1",
+      "13x^2+15x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((4x)( 5x+3)\\\\)",
+    "a": "20x^2+12x",
+    "options": [
+      "20x^2+12x",
+      "9x^2+3x",
+      "20x^2+3",
+      "20x+12"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((20x)( 21x+19)\\\\)",
+    "a": "420x^2+380x",
+    "options": [
+      "420x+380",
+      "41x^2+19x",
+      "420x^2+19",
+      "420x^2+380x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((6x)( 7x+5)\\\\)",
+    "a": "42x^2+30x",
+    "options": [
+      "42x+30",
+      "42x^2+30x",
+      "42x^2+5",
+      "13x^2+5x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((29x)( 30x+28)\\\\)",
+    "a": "870x^2+812x",
+    "options": [
+      "870x^2+812x",
+      "870x^2+28",
+      "59x^2+28x",
+      "870x+812"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((48x)( 49x+47)\\\\)",
+    "a": "2352x^2+2256x",
+    "options": [
+      "2352x+2256",
+      "2352x^2+47",
+      "2352x^2+2256x",
+      "97x^2+47x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Chứng minh: (x+y)(x-y)=x^2-y^2",
+    "a": "Đúng với mọi x,y",
+    "options": [
+      "Đúng với mọi x,y",
+      "Đúng với x=y",
+      "Sai",
+      "Chỉ đúng khi x=0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Khi nhân đơn thức x với đơn thức x^2y, bậc của tích là:",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+23)(x-23)",
+    "a": "1-529",
+    "options": [
+      "1-529",
+      "528",
+      "0",
+      "23"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((10x)( 11x+9)\\\\)",
+    "a": "110x^2+90x",
+    "options": [
+      "21x^2+9x",
+      "110x+90",
+      "110x^2+90x",
+      "110x^2+9"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Khi nhân đơn thức 0 với bất kỳ đa thức nào, kết quả là đa thức:",
+    "a": "0 (đa thức 0)",
+    "options": [
+      "0 (đa thức 0)",
+      "đa thức ban đầu",
+      "1",
+      "không xác định"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((27x)( 28x+26)\\\\)",
+    "a": "756x^2+702x",
+    "options": [
+      "55x^2+26x",
+      "756x+702",
+      "756x^2+702x",
+      "756x^2+26"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+13)(x+14)",
+    "a": "x^2+27x+182",
+    "options": [
+      "x^2+27x+182",
+      "x^2+26x+182",
+      "x^2+13x+14",
+      "x^2+14x+13"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (9x+1)(x+1)",
+    "a": "9x^2+10x+1",
+    "options": [
+      "9x^2+10x+1",
+      "9x^2+9x+1",
+      "10x^2+9x+1",
+      "9x^2+11x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Khi nhân đơn thức (3/4)x với (8x^2), hệ số tích là:",
+    "a": "6",
+    "options": [
+      "6",
+      "4",
+      "24",
+      "2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((7x)( 8x+6)\\\\)",
+    "a": "56x^2+42x",
+    "options": [
+      "15x^2+6x",
+      "56x^2+42x",
+      "56x^2+6",
+      "56x+42"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (x+1)(x+2)",
+    "a": "x^2+3x+2",
+    "options": [
+      "x^2+3x+2",
+      "x^2+2x+2",
+      "x^2+1x+2",
+      "x^2+2x+1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((17x)( 18x+16)\\\\)",
+    "a": "306x^2+272x",
+    "options": [
+      "35x^2+16x",
+      "306x^2+16",
+      "306x^2+272x",
+      "306x+272"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((63x)( 64x+62)\\\\)",
+    "a": "4032x^2+3906x",
+    "options": [
+      "4032x^2+62",
+      "127x^2+62x",
+      "4032x^2+3906x",
+      "4032x+3906"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((78x)( 79x+77)\\\\)",
+    "a": "6162x^2+6006x",
+    "options": [
+      "6162x^2+6006x",
+      "6162x+6006",
+      "157x^2+77x",
+      "6162x^2+77"
+    ],
+    "level": "VC",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (5x+1)(x+1)",
+    "a": "5x^2+6x+1",
+    "options": [
+      "5x^2+6x+1",
+      "5x^2+5x+1",
+      "6x^2+5x+1",
+      "5x^2+7x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+10)(x+11)",
+    "a": "x^2+21x+110",
+    "options": [
+      "x^2+21x+110",
+      "x^2+20x+110",
+      "x^2+10x+11",
+      "x^2+11x+10"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((75x)( 76x+74)\\\\)",
+    "a": "5700x^2+5550x",
+    "options": [
+      "5700x^2+74",
+      "151x^2+74x",
+      "5700x+5550",
+      "5700x^2+5550x"
+    ],
+    "level": "VC",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((19x)( 20x+18)\\\\)",
+    "a": "380x^2+342x",
+    "options": [
+      "39x^2+18x",
+      "380x^2+342x",
+      "380x+342",
+      "380x^2+18"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Nhân (−1)·(x^2) cho kết quả:",
+    "a": "-x^2",
+    "options": [
+      "-x^2",
+      "x^2",
+      "1",
+      "-1"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+24)(x-24)",
+    "a": "1-576",
+    "options": [
+      "1-576",
+      "575",
+      "0",
+      "24"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((3x)( 4x+2)\\\\)",
+    "a": "12x^2+6x",
+    "options": [
+      "12x^2+2",
+      "7x^2+2x",
+      "12x+6",
+      "12x^2+6x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+18)(x-18)",
+    "a": "1-324",
+    "options": [
+      "1-324",
+      "323",
+      "0",
+      "18"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((64x)( 65x+63)\\\\)",
+    "a": "4160x^2+4032x",
+    "options": [
+      "4160x+4032",
+      "4160x^2+63",
+      "4160x^2+4032x",
+      "129x^2+63x"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (14x+1)(x+1)",
+    "a": "14x^2+15x+1",
+    "options": [
+      "14x^2+15x+1",
+      "14x^2+14x+1",
+      "15x^2+14x+1",
+      "14x^2+16x+1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((25x)( 26x+24)\\\\)",
+    "a": "650x^2+600x",
+    "options": [
+      "650x+600",
+      "51x^2+24x",
+      "650x^2+24",
+      "650x^2+600x"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+13)(x-13)",
+    "a": "1-169",
+    "options": [
+      "1-169",
+      "168",
+      "0",
+      "13"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+22)(x-22)",
+    "a": "1-484",
+    "options": [
+      "1-484",
+      "483",
+      "0",
+      "22"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+25)(x+26)",
+    "a": "x^2+51x+650",
+    "options": [
+      "x^2+51x+650",
+      "x^2+50x+650",
+      "x^2+25x+26",
+      "x^2+26x+25"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+12)(x-12)",
+    "a": "1-144",
+    "options": [
+      "1-144",
+      "143",
+      "0",
+      "12"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((43x)( 44x+42)\\\\)",
+    "a": "1892x^2+1806x",
+    "options": [
+      "87x^2+42x",
+      "1892x^2+1806x",
+      "1892x+1806",
+      "1892x^2+42"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((72x)( 73x+71)\\\\)",
+    "a": "5256x^2+5112x",
+    "options": [
+      "5256x^2+71",
+      "5256x^2+5112x",
+      "145x^2+71x",
+      "5256x+5112"
+    ],
+    "level": "VD",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: \\\\((32x)( 33x+31)\\\\)",
+    "a": "1056x^2+992x",
+    "options": [
+      "1056x^2+31",
+      "1056x^2+992x",
+      "65x^2+31x",
+      "1056x+992"
+    ],
+    "level": "NB",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  },
+  {
+    "q": "Thực hiện: (2x+y)(2x-y)",
+    "a": "4x^2-y^2",
+    "options": [
+      "4x^2-y^2",
+      "4x^2+y^2",
+      "2x^2-y^2",
+      "2x^2+y^2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính giá trị tại x=1 của (x+20)(x-20)",
+    "a": "1-400",
+    "options": [
+      "1-400",
+      "399",
+      "0",
+      "20"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+6)(x+7)",
+    "a": "x^2+13x+42",
+    "options": [
+      "x^2+13x+42",
+      "x^2+12x+42",
+      "x^2+6x+7",
+      "x^2+7x+6"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: (x+18)(x+19)",
+    "a": "x^2+37x+342",
+    "options": [
+      "x^2+37x+342",
+      "x^2+36x+342",
+      "x^2+18x+19",
+      "x^2+19x+18"
+    ],
+    "level": "VD",
+    "hint": ""
+  }
+]

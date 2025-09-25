@@ -1,0 +1,1202 @@
+[
+  {
+    "q": "Trong các biểu thức sau, đâu là đa thức một biến x?",
+    "a": "3x^2 - 2x + 1",
+    "options": [
+      "3x^2 - 2x + 1",
+      "1/x + 2",
+      "√x + 1",
+      "(x+y)^2 - 1"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong các biểu thức sau, đâu KHÔNG phải là đa thức hai biến x,y?",
+    "a": "x/y + 1",
+    "options": [
+      "x^2 + xy + y^2",
+      "x/y + 1",
+      "3x - 2y + 5",
+      "x^3y + y"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "hạng tử nào trong đa thức P = 2x^3 - 5x + 7 có hệ số âm?",
+    "a": "-5x",
+    "options": [
+      "-5x",
+      "2x^3",
+      "7",
+      "-7x^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức P = -x^3 + 2x^2 - 5 là:",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "0",
+      "1"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức Q(x,y) = 3x^2y + 2xy^2 - 1 là:",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức thu gọn là đa thức mà:",
+    "a": "không còn các hạng tử đồng dạng",
+    "options": [
+      "không còn các hạng tử đồng dạng",
+      "có các hạng tử đồng dạng",
+      "các hạng tử chưa được sắp xếp",
+      "chỉ gồm một hạng tử"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức 4x^2y - 3xy + 5, hạng tử tự do là:",
+    "a": "5",
+    "options": [
+      "5",
+      "4x^2y",
+      "-3xy",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức 7x^3 + ax^2 + 1, hệ số của x^2 là:",
+    "a": "a",
+    "options": [
+      "a",
+      "7",
+      "1",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức một biến có dạng chuẩn là:",
+    "a": "các hạng tử theo lũy thừa giảm dần của x",
+    "options": [
+      "các hạng tử theo lũy thừa giảm dần của x",
+      "thứ tự tùy ý",
+      "tăng dần theo hệ số",
+      "chỉ gồm hai hạng tử"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức hằng khác 0 là:",
+    "a": "0",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "không xác định"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong các biểu thức sau, biểu thức nào là đa thức ba biến x,y,z?",
+    "a": "x^2 + y + z",
+    "options": [
+      "x^2 + y + z",
+      "x + 1/z",
+      "√2xy + 1",
+      "x + √z"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức P = 5x^2y^3 - 2xy + 4 có bậc:",
+    "a": "5",
+    "options": [
+      "5",
+      "3",
+      "2",
+      "6"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức Q = 3x^4 - 2x^2 + 7, hạng tử bậc cao nhất là:",
+    "a": "3x^4",
+    "options": [
+      "3x^4",
+      "-2x^2",
+      "7",
+      "x^5"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức R = 2x^2 - x + 1 có bao nhiêu hạng tử?",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức S = ax^3 + bx + c (a≠0), bậc của S là:",
+    "a": "3",
+    "options": [
+      "3",
+      "1",
+      "2",
+      "0"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Biểu thức nào dưới đây KHÔNG phải đa thức?",
+    "a": "1/(x+1)",
+    "options": [
+      "x^2 + 1",
+      "1/(x+1)",
+      "3x - 5",
+      "2x^3 + x"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức T(x) = 0 có bậc:",
+    "a": "không xác định",
+    "options": [
+      "không xác định",
+      "0",
+      "1",
+      "−∞"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức 3x^2y - 2xy + k, hạng tử chứa x^2y là:",
+    "a": "3x^2y",
+    "options": [
+      "3x^2y",
+      "-2xy",
+      "k",
+      "x^2y^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức U(x) = x^5 - 7x^2 + 2 có bậc:",
+    "a": "5",
+    "options": [
+      "5",
+      "2",
+      "7",
+      "3"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức V = 4y^3 - 2y + 9, hạng tử bậc 1 là:",
+    "a": "-2y",
+    "options": [
+      "-2y",
+      "4y^3",
+      "9",
+      "2y^2"
+    ],
+    "level": "NB",
+    "hint": ""
+  },
+  {
+    "q": "Thu gọn đa thức M = x^3 - 2xy + 3xyz - 4xy^2 + 5x^3y - 2x^3 + 2xy",
+    "a": "x^3 + 3xyz - 4xy^2 + 5x^3y",
+    "options": [
+      "x^3 + 3xyz - 4xy^2 + 5x^3y",
+      "x^3 - 4xy^2 + 5x^3y",
+      "x^3 + 3xyz + 5x^3y",
+      "3xyz - 4xy^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Sắp xếp theo lũy thừa giảm dần của x: P = 2 - 3x + 4x^3 - x^2",
+    "a": "4x^3 - x^2 - 3x + 2",
+    "options": [
+      "4x^3 - x^2 - 3x + 2",
+      "2 - 3x - x^2 + 4x^3",
+      "4x^3 - 3x + 2 - x^2",
+      "-x^2 + 4x^3 - 3x + 2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: Q = (2x^2 - 3x + 1) + (x^2 + x - 4)",
+    "a": "3x^2 - 2x - 3",
+    "options": [
+      "3x^2 - 2x - 3",
+      "3x^2 - 2x + 5",
+      "x^2 - 2x - 3",
+      "3x^2 - 4"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: H = (x^2 - 5x + 6) - (2x^2 - x - 1)",
+    "a": "-x^2 - 4x + 7",
+    "options": [
+      "-x^2 - 4x + 7",
+      "x^2 - 4x + 7",
+      "-x^2 - 6x + 5",
+      "3x^2 - 4x + 5"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của P = x^2 - 3x + 2 tại x=1 là:",
+    "a": "0",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "-1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của Q = 2x^2 - x + 5 tại x=-2 là:",
+    "a": "15",
+    "options": [
+      "15",
+      "3",
+      "11",
+      "9"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của R(x,y) = x^2y - 2xy + y tại x=1, y=2 là:",
+    "a": "2",
+    "options": [
+      "2",
+      "1",
+      "0",
+      "3"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của S(x,y) = 3x^2y^2 - xy + 1 tại x=1, y=1 là:",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức nào sau đây đã ở dạng thu gọn?",
+    "a": "x^2 + 5x - 1",
+    "options": [
+      "2x^2 + 3x - 1 + x^2",
+      "x^2 + 5x - 1",
+      "x^2 + x - x + 1",
+      "3x - 2x + 1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 4x^3 - 3x^2 + kx - 7, hệ số của bậc cao nhất là:",
+    "a": "4",
+    "options": [
+      "4",
+      "k",
+      "-7",
+      "-3"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức Q(x,y) = 2x^3 - 5xy + y^4 là:",
+    "a": "4",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: T = (3x^2 - x) + (x^2 + 2x) - (x - 1)",
+    "a": "4x^2 + 2x + 1",
+    "options": [
+      "4x^2 + 2x + 1",
+      "4x^2 + x + 1",
+      "3x^2 + 2x - x + 1",
+      "4x^2 + 3x - 1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: M = (x - y) + (y - z) + (z - x)",
+    "a": "0",
+    "options": [
+      "0",
+      "x+y+z",
+      "x - y + z",
+      "1"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức P = ax^2 + bx + c (a≠0). Mệnh đề đúng là:",
+    "a": "Bậc P là 2",
+    "options": [
+      "Bậc P là 2",
+      "Bậc P là 1",
+      "P có đúng 1 hạng tử",
+      "P không có hạng tử tự do"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn và cho biết hạng tử bậc 3 của Q = x^3 + 2x^2 - x + 1 + 3x^3 - x^2",
+    "a": "4x^3",
+    "options": [
+      "4x^3",
+      "x^3",
+      "3x^3",
+      "2x^3"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của K = y^2 - 2y + 1 tại y=3",
+    "a": "4",
+    "options": [
+      "4",
+      "0",
+      "1",
+      "2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: N(x,y) = 2x^2y - xy + 3xy - x^2y",
+    "a": "x^2y + 2xy",
+    "options": [
+      "x^2y + 2xy",
+      "x^2y - 2xy",
+      "3x^2y + 2xy",
+      "2x^2y - 2xy"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 2x^2 - 3x + 5, hệ số của x là:",
+    "a": "-3",
+    "options": [
+      "-3",
+      "2",
+      "5",
+      "0"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: G = (x^2 + y^2) - (x^2 - y^2)",
+    "a": "2y^2",
+    "options": [
+      "2y^2",
+      "0",
+      "2x^2",
+      "x^2 + y^2"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Giá trị của H = x^2 + y^2 tại x=2, y=-1 là:",
+    "a": "5",
+    "options": [
+      "5",
+      "3",
+      "1",
+      "0"
+    ],
+    "level": "TH",
+    "hint": ""
+  },
+  {
+    "q": "Gộp các hạng tử đồng dạng trong P = 3x^2 - 2x + 1 + x^2 + x - 4",
+    "a": "4x^2 - x - 3",
+    "options": [
+      "4x^2 - x - 3",
+      "4x^2 - x + 5",
+      "3x^2 - x - 3",
+      "4x^2 - 2x - 3"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Gộp đồng dạng: Q = 2xy - 3x + xy + 5 - x",
+    "a": "3xy - 4x + 5",
+    "options": [
+      "3xy - 4x + 5",
+      "xy - 4x + 5",
+      "3xy - 2x + 5",
+      "2xy - 4x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đưa về dạng chuẩn theo x: R = 1 - 4x + 3x^3 - x^2 + 2x^3",
+    "a": "5x^3 - x^2 - 4x + 1",
+    "options": [
+      "5x^3 - x^2 - 4x + 1",
+      "3x^3 - x^2 - 4x + 1",
+      "5x^3 - 4x + 1 - x^2",
+      "x^3 - x^2 - 4x + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức P = 2x^2y + 3xy^2 - 5, hạng tử bậc 3 là:",
+    "a": "2x^2y, 3xy^2",
+    "options": [
+      "2x^2y, 3xy^2",
+      "2x^2y",
+      "3xy^2",
+      "-5"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Viết đa thức có 3 hạng tử, hệ số các hạng tử bậc 2 đều bằng 1 và có bậc 2.",
+    "a": "x^2 + xy + y^2",
+    "options": [
+      "x^2 + xy + y^2",
+      "x^2 + y + 1",
+      "x + y + 1",
+      "xy + y^2 + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức nào có 4 hạng tử và bậc 3?",
+    "a": "x^3 + x^2 + x + 1",
+    "options": [
+      "x^3 + x^2 + x + 1",
+      "x^4 + x + 1 + 2",
+      "x^2 + x + 1",
+      "x^3"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Gộp đồng dạng: M = 4x^2y - xy + 6xy - 2x^2y + 1",
+    "a": "2x^2y + 5xy + 1",
+    "options": [
+      "2x^2y + 5xy + 1",
+      "2x^2y - 5xy + 1",
+      "6x^2y + 5xy + 1",
+      "2xy + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: N = (x - 1)(x + 1) + x^2 - 1 (chỉ dùng hằng đẳng thức cơ bản)",
+    "a": "2x^2 - 2",
+    "options": [
+      "2x^2 - 2",
+      "x^2 - 1 + x^2 - 1",
+      "x^2 + x - x - 1",
+      "0"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Chọn đa thức có hạng tử tự do âm:",
+    "a": "x^2 - x - 3",
+    "options": [
+      "x^2 - x - 3",
+      "x^2 + 2x + 3",
+      "-x + 5",
+      "x^2 - 1 + 4"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Sắp xếp theo lũy thừa giảm dần của y: P = x + 2y^3 - y + 3",
+    "a": "2y^3 - y + x + 3",
+    "options": [
+      "2y^3 - y + x + 3",
+      "x + 2y^3 - y + 3",
+      "2y^3 + x - y + 3",
+      "2y^3 - y + 3 + x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Một hình chữ nhật có diện tích S(x) = x^2 + 5x + 6 (đơn vị m^2). Khi x=2 thì S bằng:",
+    "a": "20",
+    "options": [
+      "20",
+      "18",
+      "16",
+      "14"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Một dãy sản phẩm có chi phí C(x) = 3x^2 - 2x + 5. Khi x tăng thêm 1, C(3) - C(2) bằng:",
+    "a": "10",
+    "options": [
+      "10",
+      "8",
+      "6",
+      "4"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tìm hệ số của x^2 trong P = (x^2 - x + 1) + (2x^2 + 3)",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "4"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Gộp đồng dạng và tìm bậc đa thức: Q = 3x^3 - x^2 + 2x^3 + x - 1",
+    "a": "bậc 3",
+    "options": [
+      "bậc 3",
+      "bậc 2",
+      "bậc 1",
+      "bậc 0"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức nào sau đây có bậc 0?",
+    "a": "5",
+    "options": [
+      "5",
+      "x + 1",
+      "x^2",
+      "x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: P = x^2 + 2xy + y^2 - (x^2 - 2xy + y^2)",
+    "a": "4xy",
+    "options": [
+      "4xy",
+      "0",
+      "2x^2",
+      "2y^2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Viết đa thức hai biến bậc 3 có đúng 2 hạng tử.",
+    "a": "x^2y + xy^2",
+    "options": [
+      "x^2y + xy^2",
+      "x^3 + y^3 + 1",
+      "x^3 + y",
+      "x^2 + y^2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức T = 5x^2 - 2x + 3, hạng tử bậc 2 là:",
+    "a": "5x^2",
+    "options": [
+      "5x^2",
+      "-2x",
+      "3",
+      "x^2 - 2x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức một biến bậc 4 có dạng nào đúng?",
+    "a": "ax^4 + bx^3 + cx^2 + dx + e (a≠0)",
+    "options": [
+      "ax^4 + bx^3 + cx^2 + dx + e (a≠0)",
+      "ax^5 + b",
+      "ax^4 + b (a=0)",
+      "x^4/x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: H = (2x^2 - 3x + 1) - (x^2 - x - 2)",
+    "a": "x^2 - 2x + 3",
+    "options": [
+      "x^2 - 2x + 3",
+      "x^2 - 4x + 3",
+      "3x^2 - 2x - 1",
+      "x^2 - 2x - 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Gộp đồng dạng: K = (x^3 + 2x) + (3x^3 - x)",
+    "a": "4x^3 + x",
+    "options": [
+      "4x^3 + x",
+      "x^3 + x",
+      "4x^3 - x",
+      "x^3 + 2x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Viết đa thức P có ba hạng tử, bậc cao nhất là 2 và hệ số bậc 2 bằng 1.",
+    "a": "x^2 + 3x + 2",
+    "options": [
+      "x^2 + 3x + 2",
+      "2x^2 + x + 1",
+      "x^3 + x + 1",
+      "x^2 + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: L = (x + y)^2 - (x - y)^2",
+    "a": "4xy",
+    "options": [
+      "4xy",
+      "2xy",
+      "x^2 - y^2",
+      "0"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đưa về dạng chuẩn theo x: P = -x + 2 - 3x^2 + x^3",
+    "a": "x^3 - 3x^2 - x + 2",
+    "options": [
+      "x^3 - 3x^2 - x + 2",
+      "-x + 2 - 3x^2 + x^3",
+      "x^3 - x - 3x^2 + 2",
+      "x^3 - x^2 - x + 2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính P(1) với P(x)=x^3 - 2x + 1",
+    "a": "0",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "-1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "hạng tử bậc 0 trong Q = 2x^2 - 3x + 4 là:",
+    "a": "4",
+    "options": [
+      "4",
+      "-3x",
+      "2x^2",
+      "0"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trong đa thức R = 3x^2y + 2xy^2 + y, hạng tử bậc 1 là:",
+    "a": "y",
+    "options": [
+      "y",
+      "3x^2y",
+      "2xy^2",
+      "x"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Rút gọn: S = (x^2 + x) - (x - 1)",
+    "a": "x^2 + 1",
+    "options": [
+      "x^2 + 1",
+      "x^2 + 2x - 1",
+      "x^2 - 1",
+      "x^2 + x - x + 1"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức có hệ số tự do 0 và bậc 3 là:",
+    "a": "x^3 + x^2 + x",
+    "options": [
+      "x^3 + x^2 + x",
+      "x^3 + 1",
+      "x^2 + x + 1",
+      "3"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Trong các đa thức sau, đa thức nào hai biến?",
+    "a": "x^2 + y^2",
+    "options": [
+      "x^2 + y^2",
+      "x^2 + 1",
+      "x^3",
+      "2"
+    ],
+    "level": "VD",
+    "hint": ""
+  },
+  {
+    "q": "Tính tổng các đa thức đồng dạng: 4x^2y - 3x^2y + 2xy",
+    "a": "x^2y + 2xy",
+    "options": [
+      "x^2y + 2xy",
+      "x^2y - 2xy",
+      "7x^2y + 2xy",
+      "x^2y"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho P(x) có 3 hạng tử, bậc 2, hệ số các hạng tử bậc 2 đều bằng 1. Chọn đáp án đúng.",
+    "a": "x^2 + xy + y^2",
+    "options": [
+      "x^2 + xy + y^2",
+      "x^2 + 2x + 1",
+      "x^2 + y + 1",
+      "x + y + 1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm A biết: A - (x^2 - 2x) = 3x^2 - x + 1",
+    "a": "4x^2 - 3x + 1",
+    "options": [
+      "4x^2 - 3x + 1",
+      "2x^2 + x + 1",
+      "3x^2 - x + 1",
+      "x^2 - 2x"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm B biết: (2x^2 - 3x) - B = x^2 - x + 2",
+    "a": "x^2 - 2x - 2",
+    "options": [
+      "x^2 - 2x - 2",
+      "x^2 - 2x + 2",
+      "3x^2 - 2x - 2",
+      "x^2 + x - 2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho M = x^3 - 2xy + 3xyz - 4xy^2 + 5x^3y. Hãy nêu bậc của M.",
+    "a": "4",
+    "options": [
+      "4",
+      "3",
+      "5",
+      "2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Với x=2,y=1, tính P = (x^2 - x) + (2x - 1) - (x - 3)",
+    "a": "6",
+    "options": [
+      "6",
+      "5",
+      "4",
+      "3"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tổng của ba đa thức: (x^2 - x + 1) + (x^2 + 2) + (-2x^2 + x) là:",
+    "a": "x + 3",
+    "options": [
+      "x + 3",
+      "x^2 + x + 3",
+      "x + 2",
+      "3"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Chọn phát biểu đúng về đa thức Z(x)=ax^3+bx^2+cx+d (a≠0).",
+    "a": "Bậc là 3",
+    "options": [
+      "Bậc là 3",
+      "Bậc là 2",
+      "Bậc là 1",
+      "Không xác định"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Gộp và tính giá trị tại x=1: P = (2x^2 - x + 1) + (x^2 + x - 2)",
+    "a": "2",
+    "options": [
+      "2",
+      "1",
+      "0",
+      "3"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Một đa thức một biến có bậc 0 nhưng không phải là 0. Đó là:",
+    "a": "hằng số khác 0",
+    "options": [
+      "hằng số khác 0",
+      "x",
+      "x^2",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm hạng tử bậc 3 của Q = 2x^3 - x^2 + 5 - 3x^3 + 4x",
+    "a": "-x^3",
+    "options": [
+      "-x^3",
+      "x^3",
+      "2x^3",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho đa thức P(x,y)=x^2y + xy^2 - y. Hệ số của xy^2 là:",
+    "a": "1",
+    "options": [
+      "1",
+      "2",
+      "-1",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính P(2, -1) với P(x,y)=x^2y - 2xy + y",
+    "a": "-3",
+    "options": [
+      "-3",
+      "-1",
+      "0",
+      "1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Cho P có 4 hạng tử, bậc 3, hệ hạng tử tử bậc 3 bằng 1. Mệnh đề đúng:",
+    "a": "x^3 + x^2 + x + 1",
+    "options": [
+      "x^3 + x^2 + x + 1",
+      "2x^3 + x^2 + 1",
+      "x^3 + 1",
+      "x^2 + x + 1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Đưa về dạng chuẩn theo y: T = 3 - y + 2y^3 + y^2",
+    "a": "2y^3 + y^2 - y + 3",
+    "options": [
+      "2y^3 + y^2 - y + 3",
+      "y^2 + 2y^3 - y + 3",
+      "2y^3 - y + y^2 + 3",
+      "-y + 3 + 2y^3 + y^2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính tổng hai đa thức đồng dạng: (√2x^2) + (3√2x^2)",
+    "a": "4√2x^2",
+    "options": [
+      "4√2x^2",
+      "3√2x^2",
+      "√2x^2",
+      "2√2x^2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Với x=−2, y=√5, tính Q = xy^2 - 3x + 2",
+    "a": "0",
+    "options": [
+      "-10 + 8 + 2 = 0",
+      "10 + 6 + 2 = 18",
+      "10 - 6 + 2 = 6",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Chọn đa thức không có hạng tử bậc 1:",
+    "a": "x^3 + x^2 + 2",
+    "options": [
+      "x^3 + x^2 + 2",
+      "x^2 + x + 1",
+      "x + 1",
+      "x^3 + x"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Giải thích nhanh: Vì sao 1/(x+1) không là đa thức?",
+    "a": "Vì có biến ở mẫu",
+    "options": [
+      "Vì có biến ở mẫu",
+      "Vì bậc quá lớn",
+      "Vì có căn",
+      "Vì là hằng"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm đa thức A biết A + (x^2 - 2x + 1) = 3x^2 - x + 2",
+    "a": "2x^2 + x + 1",
+    "options": [
+      "2x^2 + x + 1",
+      "x^2 + x + 1",
+      "3x^2 - x + 1",
+      "x^2 - 2x + 1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tổng các hạng tử bậc 2 của P = x^3 + 2x^2 - x + 1 + x^2 - 3",
+    "a": "3x^2",
+    "options": [
+      "3x^2",
+      "x^2",
+      "2x^2",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "hạng tử tự do của Q = x^2y + xy^2 - 2 là:",
+    "a": "-2",
+    "options": [
+      "-2",
+      "x^2y",
+      "xy^2",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính P(−1) với P(x)=x^4 - x^2 + 1",
+    "a": "1",
+    "options": [
+      "1",
+      "3",
+      "0",
+      "2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Đa thức nào sau đây có ba biến?",
+    "a": "x^2 + y + z",
+    "options": [
+      "x^2 + y + z",
+      "x^2 + 1",
+      "x^3",
+      "y"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Với x=2, tính R = (x^2 - 1) + (2 - x)",
+    "a": "3",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "0"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tìm đa thức một biến bậc 2 có hệ số tự do 0 và hệ số bậc 1 là -3.",
+    "a": "x^2 - 3x",
+    "options": [
+      "x^2 - 3x",
+      "x^2 - 3x + 1",
+      "x^2 + 3x",
+      "-3x"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Tính nhanh: (x^2 + y^2) - (y^2 + x^2) bằng:",
+    "a": "0",
+    "options": [
+      "0",
+      "x^2",
+      "y^2",
+      "1"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "hạng tử bậc cao nhất của M = 2x^2y^2 - xy + 3 là:",
+    "a": "2x^2y^2",
+    "options": [
+      "2x^2y^2",
+      "-xy",
+      "3",
+      "xy^2"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Bậc của đa thức N = x^4 + x^2y^2 + y^4 là:",
+    "a": "4",
+    "options": [
+      "4",
+      "2",
+      "3",
+      "5"
+    ],
+    "level": "VDC",
+    "hint": ""
+  },
+  {
+    "q": "Thực hiện: \\\\((8x)(7x+2)\\\\)",
+    "a": "56x^2+16x",
+    "options": [
+      "15x^2+2x",
+      "56x+16",
+      "56x^2+2",
+      "56x^2+16x"
+    ],
+    "level": "TH",
+    "hint": "Nhân đơn thức với từng hạng tử của đa thức."
+  }
+]
