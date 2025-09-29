@@ -1,270 +1,168 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ==== DOM ====
-  const clsSel = document.getElementById("cls");
-  const studentTop = document.getElementById("studentTop");
-  const btnCall = document.getElementById("btnCall");
-  const overlay = document.getElementById("overlay");
-  const bigName = document.getElementById("bigName");
+// ========== Biến toàn cục ==========
+let students = [];
+let questions = [];
+let currentQ = 0;
+let score = 0;
+let timer = null;
+let timePerQ = 60;
+let shuffleFX = null;
 
-  const btnShuffle = document.getElementById("btnShuffle");
-  const btnStart = document.getElementById("btnStart");
-  const btnConfirm = document.getElementById("btnConfirm");
-  const btnNext = document.getElementById("btnNext");
-  const btnEnd = document.getElementById("btnEnd");
-  const btnReplay = document.getElementById("btnReplay");
+// DOM elements
+const studentDisplay = document.getElementById("studentDisplay");
+const questionBox = document.getElementById("questionBox");
+const timerDisplay = document.getElementById("timerDisplay");
+const shuffleFXBox = document.getElementById("shuffleFX");
 
-  const lessonWrap = document.getElementById("lessonWrap");
-  const qtext = document.getElementById("qtext");
-  const opts = document.getElementById("opts");
-  const prog = document.getElementById("prog");
-  const card = document.getElementById("card");
-  const hint = document.getElementById("hint");
-
-  const toastBox = document.getElementById("toast");
-  const fx = document.getElementById("fx");
-  const bigTimer = document.getElementById("bigTimer");
-
-  // ==== State ====
-  let students = {};
-  let currentStudent = null;
-  let hasStudent = false;
-  let hasLesson = false;
-  let selectedLessons = [];
-  let questions = {};
-  let qList = [];
-  let qIndex = 0;
-  let score = 0;
-  let timer = null;
-  let timePerQ = 60;
-  let numQ = 10;
-
-  // ==== Utils ====
-  function showToast(msg) {
-    toastBox.textContent = msg;
-    toastBox.style.display = "block";
-    setTimeout(() => (toastBox.style.display = "none"), 2000);
+// ========== Load dữ liệu ==========
+async function loadStudents(className) {
+  const file = `data/students_${className}.json`;
+  try {
+    const res = await fetch(file);
+    students = await res.json();
+  } catch (err) {
+    console.error("Lỗi load HS:", err);
   }
+}
 
-  function updateStartButton() {
-    btnStart.disabled = !(hasStudent && hasLesson);
+async function loadQuestions(lesson) {
+  const file = `data/questions_${lesson}.json`;
+  try {
+    const res = await fetch(file);
+    questions = await res.json();
+  } catch (err) {
+    console.error("Lỗi load câu hỏi:", err);
   }
+}
 
-  function loadLessons() {
-    for (let c = 1; c <= 5; c++) {
-      for (let b = 1; b <= 5; b++) {
-        const id = `C${c}_B${b}`;
-        const label = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.value = id;
-        input.addEventListener("change", () => {
-          selectedLessons = Array.from(
-            lessonWrap.querySelectorAll("input:checked")
-          ).map((i) => i.value);
-          hasLesson = selectedLessons.length > 0;
-          updateStartButton();
-          btnShuffle.disabled = !hasLesson;
-        });
-        label.appendChild(input);
-        label.appendChild(document.createTextNode(`Ch ${c} - Bài ${b}`));
-        lessonWrap.appendChild(label);
-      }
+// ========== Gọi tên HS ==========
+function callStudent() {
+  if (!students.length) {
+    alert("Chưa có danh sách HS!");
+    return;
+  }
+  let idx = 0;
+  studentDisplay.classList.remove("hide");
+  const interval = setInterval(() => {
+    studentDisplay.textContent = students[idx % students.length].name;
+    idx++;
+  }, 200);
+
+  setTimeout(() => {
+    clearInterval(interval);
+    const final = students[Math.floor(Math.random() * students.length)].name;
+    studentDisplay.textContent = final;
+    setTimeout(() => studentDisplay.classList.add("hide"), 3000);
+  }, 4000);
+}
+
+// ========== Hiển thị câu hỏi ==========
+function showQuestion() {
+  if (currentQ >= questions.length) {
+    endGame();
+    return;
+  }
+  const q = questions[currentQ];
+  questionBox.innerHTML = `
+    <div class="card">
+      <div class="qtext">${q.q}</div>
+      <div class="opts">
+        ${q.options.map((opt, i) => `
+          <button onclick="checkAnswer(this, '${opt}', '${q.a}')">${opt}</button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  startTimer();
+}
+
+// ========== Đếm ngược ==========
+function startTimer() {
+  clearInterval(timer);
+  let t = timePerQ;
+  timerDisplay.textContent = t;
+  timer = setInterval(() => {
+    t--;
+    timerDisplay.textContent = t;
+    if (t <= 0) {
+      clearInterval(timer);
+      nextQ();
     }
-  }
-
-  function startTimer(sec) {
-    clearInterval(timer);
-    let t = sec;
-    bigTimer.textContent = t;
-    timer = setInterval(() => {
-      t--;
-      bigTimer.textContent = t;
-      if (t <= 0) {
-        clearInterval(timer);
-        lockOptions();
-        btnConfirm.disabled = true;
-        showToast("Hết giờ!");
-      }
-    }, 1000);
-  }
-
-  function renderQuestion() {
-    if (qIndex >= qList.length) {
-      endGame();
-      return;
-    }
-    const q = qList[qIndex];
-    qtext.innerHTML = q.q;
-    opts.innerHTML = "";
-    q.options.forEach((opt) => {
-      const div = document.createElement("div");
-      div.className = "opt";
-      div.textContent = opt;
-      div.onclick = () => {
-        document
-          .querySelectorAll(".opt")
-          .forEach((o) => o.classList.remove("selected"));
-        div.classList.add("selected");
-      };
-      opts.appendChild(div);
-    });
-    prog.textContent = `Câu ${qIndex + 1}/${qList.length} — Điểm: ${score}`;
-    btnConfirm.classList.remove("hide");
-    btnNext.classList.add("hide");
-    startTimer(timePerQ);
-  }
-
-  function lockOptions() {
-    document.querySelectorAll(".opt").forEach((o) => (o.onclick = null));
-  }
-
-  function endGame() {
-    clearInterval(timer);
-    qtext.innerHTML = `<b>Kết thúc!</b> Bạn được ${score}/${qList.length} điểm.`;
-    opts.innerHTML = "";
-    btnConfirm.classList.add("hide");
-    btnNext.classList.add("hide");
-    btnReplay.classList.remove("hide");
-  }
-
-  // ==== Events ====
-  // Load students
-  fetch("assets/data/students.json")
-    .then((r) => r.json())
-    .then((data) => {
-      students = data;
-      Object.keys(data).forEach((cls) => {
-        let o = document.createElement("option");
-        o.value = cls;
-        o.textContent = cls;
-        clsSel.appendChild(o);
-      });
-    });
-
-  // Load questions
-  fetch("assets/data/questions.json")
-    .then((r) => r.json())
-    .then((data) => (questions = data));
-
-  // Lessons
-  loadLessons();
-
-  // Gọi tên HS
-  btnCall.onclick = () => {
-    if (!clsSel.value) {
-      showToast("Chọn lớp trước");
-      return;
-    }
-    const arr = students[clsSel.value];
-    if (!arr) return;
-    overlay.classList.remove("hide");
-    let roll = setInterval(() => {
-      bigName.textContent = arr[Math.floor(Math.random() * arr.length)];
-    }, 100);
-    setTimeout(() => {
-      clearInterval(roll);
-      currentStudent = arr[Math.floor(Math.random() * arr.length)];
-      bigName.textContent = currentStudent;
-      setTimeout(() => {
-        overlay.classList.add("hide");
-        studentTop.textContent = currentStudent;
-        hasStudent = true;
-        updateStartButton();
-      }, 3000);
-    }, 4000);
-  };
-
-  // Trộn bài
-  btnShuffle.onclick = () => {
-    if (!hasLesson) return;
-    fx.classList.remove("hide");
-    fx.textContent = "ĐANG TRỘN...";
-    new Audio("assets/audio/shuffle.mp3").play();
-    setTimeout(() => {
-      fx.classList.add("hide");
-      showToast("Đã trộn câu!");
-    }, 3000);
-  };
-
-  // Bắt đầu
-  btnStart.onclick = () => {
-    if (!(hasStudent && hasLesson)) {
-      showToast("Hãy gọi HS & chọn bài");
-      return;
-    }
-    timePerQ = parseInt(document.getElementById("time").value) || 60;
-    numQ = parseInt(document.getElementById("num").value) || 10;
-
-    // gom câu hỏi từ lesson
-    qList = [];
-    selectedLessons.forEach((id) => {
-      if (questions[id]) qList.push(...questions[id]);
-    });
-    qList = qList.sort(() => Math.random() - 0.5).slice(0, numQ);
-
-    qIndex = 0;
-    score = 0;
-    card.classList.remove("hide");
-    hint.classList.add("hide");
-    renderQuestion();
-  };
-
-  // Xác nhận
-  btnConfirm.onclick = () => {
-    const sel = document.querySelector(".opt.selected");
-    if (!sel) {
-      showToast("Chọn đáp án!");
-      return;
-    }
-    const ans = qList[qIndex].a;
-    if (sel.textContent === ans) {
-      sel.classList.add("correct");
-      score++;
-      new Audio("assets/audio/click.mp3").play();
-    } else {
-      sel.classList.add("incorrect");
-      document
-        .querySelectorAll(".opt")
-        .forEach((o) => {
-          if (o.textContent === ans) o.classList.add("correct");
-        });
-    }
-    lockOptions();
-    clearInterval(timer);
-    btnConfirm.classList.add("hide");
-    btnNext.classList.remove("hide");
-    prog.textContent = `Câu ${qIndex + 1}/${qList.length} — Điểm: ${score}`;
-  };
-
-  // Câu tiếp
-  btnNext.onclick = () => {
-    qIndex++;
-    renderQuestion();
-  };
-
-  // Kết thúc
-  btnEnd.onclick = () => endGame();
-
-  // Chơi lại
-  btnReplay.onclick = () => {
-    hasLesson = false;
-    hasStudent = false;
-    selectedLessons = [];
-    studentTop.textContent = "—";
-    document
-      .querySelectorAll("#lessonWrap input")
-      .forEach((i) => (i.checked = false));
-    btnShuffle.disabled = true;
-    updateStartButton();
-    card.classList.add("hide");
-    hint.classList.remove("hide");
-    btnReplay.classList.add("hide");
-  };
-
-  // Đồng hồ realtime
-  setInterval(() => {
-    document.getElementById("clock").textContent = new Date()
-      .toLocaleTimeString("vi-VN")
-      .slice(0, 8);
   }, 1000);
-});
+}
+
+// ========== Kiểm tra đáp án ==========
+function checkAnswer(btn, chosen, correct) {
+  const allBtns = btn.parentNode.querySelectorAll("button");
+  allBtns.forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add("correct");
+    score++;
+    playSound("correct");
+  } else {
+    btn.classList.add("wrong");
+    playSound("wrong");
+  }
+}
+
+// ========== Câu tiếp ==========
+function nextQ() {
+  currentQ++;
+  showQuestion();
+}
+
+// ========== Bắt đầu ==========
+function startGame() {
+  currentQ = 0;
+  score = 0;
+  showQuestion();
+}
+
+// ========== Kết thúc ==========
+function endGame() {
+  clearInterval(timer);
+  questionBox.innerHTML = `
+    <div class="card">
+      <h2>Hoàn thành!</h2>
+      <p>Điểm: ${score}/${questions.length}</p>
+    </div>
+  `;
+  playSound("clap");
+}
+
+// ========== Trộn bài ==========
+function shuffleQuestions() {
+  if (!questions.length) {
+    alert("Chưa chọn bài!");
+    return;
+  }
+  shuffleFXBox.classList.remove("hide");
+  shuffleFXBox.textContent = "Đang xáo...";
+  setTimeout(() => {
+    questions = questions.sort(() => Math.random() - 0.5);
+    shuffleFXBox.classList.add("hide");
+    toast("Đã trộn câu hỏi!");
+  }, 3000);
+}
+
+// ========== Hiệu ứng toast ==========
+function toast(msg) {
+  const el = document.createElement("div");
+  el.className = "toast show";
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2000);
+}
+
+// ========== Âm thanh ==========
+function playSound(type) {
+  const audio = new Audio(`audio/${type}.wav`);
+  audio.play();
+}
+
+// ========== Gán nút ==========
+document.getElementById("btnCall").onclick = callStudent;
+document.getElementById("btnStart").onclick = startGame;
+document.getElementById("btnNext").onclick = nextQ;
+document.getElementById("btnShuffle").onclick = shuffleQuestions;
+document.getElementById("btnEnd").onclick = endGame;
