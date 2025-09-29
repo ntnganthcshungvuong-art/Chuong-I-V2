@@ -1,97 +1,349 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Toán 8 • V11.1 Full Logic</title>
-  <link rel="stylesheet" href="assets/css/style.css"/>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</head>
-<body>
-  <header class="topbar">
-    <div class="brand">Mùa 1 • Toán 8</div>
-    <div class="controls">
-      <label for="cls">Lớp:</label>
-      <select id="cls" class="select"></select>
-      <button id="btnCall" class="btn btn-call">Gọi tên HS</button>
-    </div>
-    <div class="info">Học sinh: <b id="studentTop" class="accent">—</b></div>
-    <div class="right">
-      <select id="bgSel" class="select small">
-        <option value="bg1">BG1</option>
-        <option value="bg2">BG2</option>
-        <option value="bg3">BG3</option>
-        <option value="synth">Synth</option>
-      </select>
-      <button id="bgToggle" class="btn btn-sound" title="Bật/Tắt nhạc">🔇</button>
-      <div id="bigTimer" class="timer">00</div>
-      <div id="clock" class="clock">--:--:--</div>
-    </div>
-  </header>
+document.addEventListener("DOMContentLoaded", () => {
+  // ==== DOM ====
+  const clsSel = document.getElementById("cls");
+  const studentTop = document.getElementById("studentTop");
+  const btnCall = document.getElementById("btnCall");
+  const overlay = document.getElementById("overlay");
+  const bigName = document.getElementById("bigName");
 
-  <section id="cfg" class="window">
-    <div id="cfgBar" class="wbar">
-      <span>⚙️ Cấu hình</span>
-      <div class="wctrl">
-        <button id="wMin">⎯</button>
-        <button id="wMax">☐</button>
-      </div>
-    </div>
-    <div class="wbody">
-      <div class="grid">
-        <div class="field">
-          <label>Thời gian mỗi câu (10–180s)</label>
-          <div class="spin">
-            <button data-t="time" data-d="-5">−</button>
-            <input id="time" type="number" min="10" max="180" step="5" value="60"/>
-            <button data-t="time" data-d="5">+</button>
-          </div>
-        </div>
-        <div class="field">
-          <label>Số câu (1–100)</label>
-          <div class="spin">
-            <button data-t="num" data-d="-1">−</button>
-            <input id="num" type="number" min="1" max="100" step="1" value="10"/>
-            <button data-t="num" data-d="1">+</button>
-          </div>
-        </div>
-      </div>
+  const btnShuffle = document.getElementById("btnShuffle");
+  const btnStart = document.getElementById("btnStart");
+  const btnConfirm = document.getElementById("btnConfirm");
+  const btnNext = document.getElementById("btnNext");
+  const btnEnd = document.getElementById("btnEnd");
+  const btnReplay = document.getElementById("btnReplay");
 
-      <div class="field">
-        <label>Chọn Bài (Chương I–V, mỗi chương Bài 1–5)</label>
-        <div id="lessonWrap" class="lesson-wrap"></div>
-      </div>
+  const lessonWrap = document.getElementById("lessonWrap");
+  const qtext = document.getElementById("qtext");
+  const opts = document.getElementById("opts");
+  const prog = document.getElementById("prog");
+  const card = document.getElementById("card");
+  const hint = document.getElementById("hint");
+  const toastBox = document.getElementById("toast");
+  const fx = document.getElementById("fx");
+  const bigTimer = document.getElementById("bigTimer");
 
-      <div class="buttons">
-        <div class="left">
-          <button id="btnShuffle" class="btn btn-warn" disabled>Trộn câu</button>
-        </div>
-        <div class="rightBtns">
-          <button id="btnStart" class="btn btn-ok" disabled>Bắt đầu</button>
-          <button id="btnConfirm" class="btn btn-info hide">Xác nhận</button>
-          <button id="btnNext" class="btn btn-purple hide">Câu tiếp</button>
-          <button id="btnEnd" class="btn btn-bad">Kết thúc</button>
-          <button id="btnReplay" class="btn btn-orange hide">Chơi lại</button>
-        </div>
-      </div>
-    </div>
-  </section>
+  // ==== State ====
+  let currentStudents = [];
+  let currentStudent = null;
+  let hasStudent = false;
+  let hasLesson = false;
 
-  <main class="stage">
-    <div id="card" class="card hide">
-      <div id="overlay" class="overlay hide"><div id="bigName" class="bigname">Tên Học Sinh</div></div>
-      <div id="qtext" class="qtext"></div>
-      <div id="opts" class="opts"></div>
-      <div class="nav"><div id="prog" class="prog">Câu 0/0 — Điểm: 0</div></div>
-    </div>
-    <div id="hint" class="hint">Hãy <b>Gọi tên HS</b> & chọn <b>Bài</b> → bấm <b>Bắt đầu</b></div>
-  </main>
+  // lessons người dùng tick: C1_B1 … C5_B5
+  const selectedLessons = new Set();
 
-  <div id="taskbar"></div>
-  <div id="fx" class="fx hide"></div>
-  <div id="toast" class="toast"></div>
+  // pool câu hỏi đã nạp & xáo
+  let pool = [];
+  let qIndex = 0;
+  let score = 0;
+  let timer = null;
+  let timePerQ = 60;
+  let numQ = 10;
 
-  <script src="assets/js/app.js"></script>
-</body>
-</html>
+  // ==== Utils ====
+  const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+  const showToast = (m) => {
+    toastBox.textContent = m;
+    toastBox.style.display = "block";
+    setTimeout(() => (toastBox.style.display = "none"), 1800);
+  };
+  const enable = (el, on = true) => (el.disabled = !on);
+
+  function updateStartButton() {
+    btnStart.disabled = !(hasStudent && hasLesson);
+  }
+
+  // ====== LOAD FILES THEO QUY ƯỚC ======
+  // students_8a5.json, students_8a1.json, ...
+  async function loadStudentsByClass(lop) {
+    const file = `assets/data/students_${lop.toLowerCase()}.json`;
+    try {
+      const r = await fetch(file);
+      if (!r.ok) throw new Error("not found");
+      const data = await r.json();
+      return Array.isArray(data) ? data : (data.students || []);
+    } catch (e) {
+      console.error(e);
+      showToast("Không tải được danh sách HS!");
+      return [];
+    }
+  }
+
+  // questions_b1.json … questions_b5.json
+  async function loadQuestionsByBai(b) {
+    const file = `assets/data/questions_b${b}.json`;
+    try {
+      const r = await fetch(file);
+      if (!r.ok) throw new Error("not found");
+      const data = await r.json();
+      return Array.isArray(data) ? data : (data.questions || []);
+    } catch (e) {
+      console.error(e);
+      showToast(`Không tải được câu hỏi Bài ${b}!`);
+      return [];
+    }
+  }
+
+  // gom tất cả bài được chọn → tập hợp unique theo số bài 1..5
+  async function buildPoolFromSelected() {
+    const baiSet = new Set(
+      [...selectedLessons].map((key) => parseInt(key.split("_B")[1], 10))
+    );
+    const loaders = [...baiSet].map((b) => loadQuestionsByBai(b));
+    const lists = await Promise.all(loaders);
+    let merged = [];
+    lists.forEach((arr) => (merged = merged.concat(arr)));
+    // xáo
+    for (let i = merged.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [merged[i], merged[j]] = [merged[j], merged[i]];
+    }
+    return merged;
+  }
+
+  // ==== UI: render lessons (Ch I–V × Bài 1–5) ====
+  function renderLessons() {
+    const roman = ["I", "II", "III", "IV", "V"];
+    lessonWrap.innerHTML = "";
+    for (let c = 1; c <= 5; c++) {
+      // mỗi chapter 1 hàng "Chương X | B1 B2 B3 B4 B5"
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "140px repeat(5, 1fr)";
+      row.style.gap = "6px";
+      row.style.alignItems = "center";
+      row.style.margin = "4px 0";
+
+      const left = document.createElement("div");
+      left.textContent = `Chương ${roman[c - 1]}`;
+      left.style.fontWeight = "900";
+      row.appendChild(left);
+
+      for (let b = 1; b <= 5; b++) {
+        const key = `C${c}_B${b}`;
+        const label = document.createElement("label");
+        label.className = "pill";
+        label.style.userSelect = "none";
+        label.style.display = "inline-block";
+        label.style.textAlign = "center";
+        label.textContent = `Bài ${b}`;
+        label.onclick = () => {
+          if (selectedLessons.has(key)) {
+            selectedLessons.delete(key);
+            label.classList.remove("active");
+          } else {
+            selectedLessons.add(key);
+            label.classList.add("active");
+          }
+          hasLesson = selectedLessons.size > 0;
+          enable(btnShuffle, hasLesson);
+          updateStartButton();
+        };
+        row.appendChild(label);
+      }
+      lessonWrap.appendChild(row);
+    }
+  }
+
+  // ==== Clock ====
+  setInterval(() => {
+    document.getElementById("clock").textContent = new Date()
+      .toLocaleTimeString("vi-VN")
+      .slice(0, 8);
+  }, 1000);
+
+  // ==== Timer ====
+  function startTimer(sec) {
+    clearInterval(timer);
+    let t = sec;
+    bigTimer.textContent = String(t).padStart(2, "0");
+    timer = setInterval(() => {
+      t--;
+      bigTimer.textContent = String(t).padStart(2, "0");
+      if (t <= 0) {
+        clearInterval(timer);
+        autoRevealThenNext();
+      }
+    }, 1000);
+  }
+
+  function autoRevealThenNext() {
+    // highlight đáp án đúng
+    const ans = pool[qIndex]?.a ?? pool[qIndex]?.answer;
+    document.querySelectorAll(".opt").forEach((o) => {
+      if (o.textContent.trim() === String(ans)) o.classList.add("correct");
+    });
+    btnConfirm.classList.add("hide");
+    btnNext.classList.remove("hide");
+    showToast("Hết giờ!");
+  }
+
+  // ==== Render 1 câu ====
+  function renderQuestion() {
+    if (qIndex >= pool.length) {
+      endGame();
+      return;
+    }
+    const q = pool[qIndex];
+    qtext.innerHTML = q.q || q.question || "—";
+    if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise();
+
+    opts.innerHTML = "";
+    const options = (q.options || q.choices || []).slice(0, 4);
+    options.forEach((t) => {
+      const div = document.createElement("div");
+      div.className = "opt";
+      div.textContent = t;
+      div.onclick = () => {
+        document.querySelectorAll(".opt").forEach((x) => x.classList.remove("selected"));
+        div.classList.add("selected");
+      };
+      opts.appendChild(div);
+    });
+
+    prog.textContent = `Câu ${qIndex + 1}/${pool.length} — Điểm: ${score}`;
+    btnConfirm.classList.remove("hide");
+    btnNext.classList.add("hide");
+    startTimer(timePerQ);
+  }
+
+  function lockOptions() {
+    document.querySelectorAll(".opt").forEach((o) => (o.onclick = null));
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    qtext.innerHTML = `<b>Kết thúc!</b> Bạn được ${score}/${pool.length} điểm.`;
+    opts.innerHTML = "";
+    btnConfirm.classList.add("hide");
+    btnNext.classList.add("hide");
+    btnReplay.classList.remove("hide");
+    card.classList.remove("hide");
+    hint.classList.add("hide");
+  }
+
+  // ====== Sự kiện ======
+  // Tạo danh sách lớp 8A1 → 8A7
+  ["8A1","8A2","8A3","8A4","8A5","8A6","8A7"].forEach((name)=>{
+    const o=document.createElement("option"); o.value=name; o.textContent=name; clsSel.appendChild(o);
+  });
+
+  // Gọi tên HS (random 4s → dừng 3s)
+  btnCall.onclick = async () => {
+    if (!clsSel.value) {
+      showToast("Chọn lớp trước");
+      return;
+    }
+    currentStudents = await loadStudentsByClass(clsSel.value);
+    if (!currentStudents.length) {
+      showToast("Không có danh sách HS");
+      return;
+    }
+
+    overlay.classList.remove("hide");
+    let t = 0;
+    const spin = setInterval(() => {
+      bigName.textContent =
+        currentStudents[Math.floor(Math.random() * currentStudents.length)];
+      t += 100;
+      if (t >= 4000) {
+        clearInterval(spin);
+        currentStudent =
+          currentStudents[Math.floor(Math.random() * currentStudents.length)];
+        bigName.textContent = currentStudent;
+        setTimeout(() => {
+          overlay.classList.add("hide");
+          studentTop.textContent = currentStudent;
+          hasStudent = true;
+          updateStartButton();
+        }, 3000);
+      }
+    }, 100);
+  };
+
+  // Trộn câu (xáo với animation 3s + load đúng file theo bài)
+  btnShuffle.onclick = async () => {
+    if (!hasLesson) return;
+    fx.classList.remove("hide");
+    fx.textContent = "ĐANG TRỘN...";
+    // nạp & xáo trước để Start vào là có ngay
+    pool = await buildPoolFromSelected();
+    setTimeout(() => {
+      fx.classList.add("hide");
+      showToast(`Đã trộn ${pool.length} câu!`);
+    }, 3000);
+  };
+
+  // Bắt đầu
+  btnStart.onclick = async () => {
+    if (!(hasStudent && hasLesson)) {
+      showToast("Hãy Gọi tên HS & chọn Bài");
+      return;
+    }
+    timePerQ = clamp(parseInt(document.getElementById("time").value || "60", 10), 10, 180);
+    numQ = clamp(parseInt(document.getElementById("num").value || "10", 10), 1, 100);
+
+    // nếu chưa trộn trước đó, nạp & xáo ngay
+    if (!pool.length) pool = await buildPoolFromSelected();
+
+    // cắt theo số câu
+    pool = pool.slice(0, Math.min(numQ, pool.length));
+    qIndex = 0;
+    score = 0;
+
+    // khóa các nút cấu hình khi đang làm
+    enable(btnCall, false);
+    enable(btnShuffle, false);
+
+    hint.classList.add("hide");
+    card.classList.remove("hide");
+    renderQuestion();
+  };
+
+  // Xác nhận
+  btnConfirm.onclick = () => {
+    const sel = document.querySelector(".opt.selected");
+    if (!sel) {
+      showToast("Chọn đáp án!");
+      return;
+    }
+    clearInterval(timer);
+    const ans = String(pool[qIndex].a || pool[qIndex].answer);
+    if (sel.textContent.trim() === ans) {
+      sel.classList.add("correct");
+      score++;
+    } else {
+      sel.classList.add("incorrect");
+      document.querySelectorAll(".opt").forEach((o) => {
+        if (o.textContent.trim() === ans) o.classList.add("correct");
+      });
+    }
+    lockOptions();
+    btnConfirm.classList.add("hide");
+    btnNext.classList.remove("hide");
+    prog.textContent = `Câu ${qIndex + 1}/${pool.length} — Điểm: ${score}`;
+  };
+
+  // Câu tiếp
+  btnNext.onclick = () => {
+    qIndex++;
+    renderQuestion();
+  };
+
+  // Kết thúc
+  btnEnd.onclick = () => endGame();
+
+  // Chơi lại (reset nhẹ: giữ UI, reset trạng thái)
+  btnReplay.onclick = () => {
+    btnReplay.classList.add("hide");
+    card.classList.add("hide");
+    hint.classList.remove("hide");
+    // mở lại các nút cấu hình
+    enable(btnCall, true);
+    enable(btnShuffle, hasLesson);
+    showToast("Đã sẵn sàng chơi lại");
+  };
+
+  // Render lesson grid khi load
+  renderLessons();
+});
