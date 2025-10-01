@@ -1,6 +1,6 @@
-// Hiển thị thông báo nhỏ
+// Thông báo
 function showToast(msg) {
-  alert(msg); // bạn có thể thay bằng toast UI đẹp hơn
+  alert(msg); // tạm dùng alert
 }
 
 // Hiển thị tên HS to rõ giữa màn hình
@@ -11,7 +11,7 @@ function showStudentName(name) {
   display.style.fontSize = "48px";
   display.style.fontWeight = "bold";
 
-  // Hiển thị 4 giây rồi biến mất (còn tên nhỏ trên topbar)
+  // Hiện 4 giây rồi ẩn
   setTimeout(() => {
     display.innerText = "";
   }, 4000);
@@ -19,7 +19,7 @@ function showStudentName(name) {
 
 // ================== SỰ KIỆN ==================
 
-// Nút gọi tên HS
+// Gọi tên HS
 document.getElementById("pickStudent").addEventListener("click", () => {
   const classValue = document.getElementById("classSelect").value;
   if (!classValue) {
@@ -27,6 +27,7 @@ document.getElementById("pickStudent").addEventListener("click", () => {
     return;
   }
 
+  // file data/students_8a1.json → students_8a7.json
   fetch(`data/students_${classValue}.json`)
     .then(res => res.json())
     .then(data => {
@@ -43,13 +44,13 @@ document.getElementById("pickStudent").addEventListener("click", () => {
     });
 });
 
-// Nút trộn câu
+// Trộn câu
 document.getElementById("shuffleBtn").addEventListener("click", () => {
   showToast("Đang trộn câu hỏi...");
   document.getElementById("startBtn").disabled = false;
 });
 
-// Nút bắt đầu
+// Bắt đầu
 document.getElementById("startBtn").addEventListener("click", () => {
   document.getElementById("startBtn").disabled = true;
   document.getElementById("endBtn").disabled = false;
@@ -59,14 +60,14 @@ document.getElementById("startBtn").addEventListener("click", () => {
   startTimer();
 });
 
-// Nút kết thúc
+// Kết thúc
 document.getElementById("endBtn").addEventListener("click", () => {
   if (confirm("Bạn có chắc muốn kết thúc?")) {
     resetQuiz();
   }
 });
 
-// ================== LOGIC QUIZ ==================
+// ================== QUIZ ==================
 let timerInterval;
 function startTimer() {
   let time = parseInt(document.getElementById("timePerQuestion").value) || 60;
