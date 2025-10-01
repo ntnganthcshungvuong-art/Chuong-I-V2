@@ -1,95 +1,44 @@
-// Thông báo
-function showToast(msg) {
-  alert(msg); // tạm dùng alert
+async function loadStudents(className) {
+  try {
+    const res = await fetch(`data/students_${className}.json`);
+    const data = await res.json();
+    return data.students || [];
+  } catch (err) {
+    alert("Không tải được danh sách lớp: " + className);
+    return [];
+  }
 }
 
-// Hiển thị tên HS to rõ giữa màn hình
-function showStudentName(name) {
-  const display = document.getElementById("studentDisplay");
-  display.innerText = name;
-  display.style.color = "yellow";
-  display.style.fontSize = "48px";
-  display.style.fontWeight = "bold";
+document.getElementById("callBtn").addEventListener("click", async () => {
+  const classSelect = document.getElementById("classSelect");
+  const className = classSelect.value;
 
-  // Hiện 4 giây rồi ẩn
-  setTimeout(() => {
-    display.innerText = "";
-  }, 4000);
-}
-
-// ================== SỰ KIỆN ==================
-
-// Gọi tên HS
-document.getElementById("pickStudent").addEventListener("click", () => {
-  const classValue = document.getElementById("classSelect").value;
-  if (!classValue) {
-    showToast("Bạn chưa chọn lớp!");
+  if (!className) {
+    alert("Hãy chọn lớp trước!");
     return;
   }
 
-  // file data/students_8a1.json → students_8a7.json
-  fetch(`data/students_${classValue}.json`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.length) {
-        showToast("Danh sách học sinh trống!");
-        return;
-      }
-      const randomName = data[Math.floor(Math.random() * data.length)];
-      showStudentName(randomName);
-    })
-    .catch(err => {
-      console.error(err);
-      showToast("Không tìm thấy file học sinh cho lớp này!");
-    });
-});
-
-// Trộn câu
-document.getElementById("shuffleBtn").addEventListener("click", () => {
-  showToast("Đang trộn câu hỏi...");
-  document.getElementById("startBtn").disabled = false;
-});
-
-// Bắt đầu
-document.getElementById("startBtn").addEventListener("click", () => {
-  document.getElementById("startBtn").disabled = true;
-  document.getElementById("endBtn").disabled = false;
-  document.getElementById("nextBtn").disabled = false;
-  document.getElementById("confirmBtn").disabled = false;
-  document.getElementById("quizArea").classList.remove("hidden");
-  startTimer();
-});
-
-// Kết thúc
-document.getElementById("endBtn").addEventListener("click", () => {
-  if (confirm("Bạn có chắc muốn kết thúc?")) {
-    resetQuiz();
+  const students = await loadStudents(className);
+  if (students.length === 0) {
+    alert("Danh sách học sinh trống!");
+    return;
   }
-});
 
-// ================== QUIZ ==================
-let timerInterval;
-function startTimer() {
-  let time = parseInt(document.getElementById("timePerQuestion").value) || 60;
-  const timer = document.getElementById("timer");
+  // Hiệu ứng gọi tên random
+  const display = document.getElementById("studentDisplay");
+  display.style.display = "block";
 
-  timer.innerText = time;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    time--;
-    timer.innerText = time;
-    if (time <= 0) {
-      clearInterval(timerInterval);
-      showToast("Hết giờ cho câu này!");
+  let i = 0;
+  const interval = setInterval(() => {
+    const randomName = students[Math.floor(Math.random() * students.length)];
+    display.innerText = randomName;
+    i++;
+    if (i > 20) { // chạy khoảng 4 giây
+      clearInterval(interval);
+      // Giữ tên cuối 3 giây rồi ẩn
+      setTimeout(() => {
+        display.style.display = "none";
+      }, 3000);
     }
-  }, 1000);
-}
-
-function resetQuiz() {
-  clearInterval(timerInterval);
-  document.getElementById("quizArea").classList.add("hidden");
-  document.getElementById("startBtn").disabled = false;
-  document.getElementById("endBtn").disabled = true;
-  document.getElementById("nextBtn").disabled = true;
-  document.getElementById("confirmBtn").disabled = true;
-}
+  }, 200); // tốc độ random 200ms
+});
