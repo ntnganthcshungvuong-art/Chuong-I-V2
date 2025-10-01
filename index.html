@@ -2,55 +2,26 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toán 8 - Học tập</title>
+  <title>Toán 8 - Luyện tập</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Mùa 1 • Toán 8</h1>
-    <div class="controls">
-      <label for="classSelect">Lớp:</label>
-      <select id="classSelect">
-        <option value="">-- Chọn lớp --</option>
-        <option value="8a1">8A1</option>
-        <option value="8a2">8A2</option>
-        <option value="8a3">8A3</option>
-        <option value="8a4">8A4</option>
-        <option value="8a5">8A5</option>
-        <option value="8a6">8A6</option>
-        <option value="8a7">8A7</option>
-      </select>
-      <button id="pickStudent" class="btn yellow">Gọi tên HS</button>
-    </div>
-    <div id="studentDisplay" class="student-display"></div>
-  </header>
+  <div class="topbar">
+    <label for="classSelect">Lớp:</label>
+    <select id="classSelect">
+      <option value="">-- Chọn lớp --</option>
+      <option value="8a1">8A1</option>
+      <option value="8a2">8A2</option>
+      <option value="8a3">8A3</option>
+      <option value="8a4">8A4</option>
+      <option value="8a5">8A5</option>
+      <option value="8a6">8A6</option>
+      <option value="8a7">8A7</option>
+    </select>
+    <button id="callBtn">Gọi tên HS</button>
+  </div>
 
-  <main>
-    <div id="configPanel" class="config-panel">
-      <h2>Cấu hình</h2>
-      <label>Thời gian mỗi câu (giây):</label>
-      <input id="timePerQuestion" type="number" min="10" max="180" value="60">
-      <label>Số câu (1–100):</label>
-      <input id="questionCount" type="number" min="1" max="100" value="10">
-
-      <div class="btn-group">
-        <button id="shuffleBtn" class="btn yellow">Trộn câu</button>
-        <button id="startBtn" class="btn green" disabled>Bắt đầu</button>
-        <button id="endBtn" class="btn red" disabled>Kết thúc</button>
-      </div>
-    </div>
-
-    <div id="quizArea" class="quiz-area hidden">
-      <div id="timer" class="timer">00</div>
-      <div id="questionContainer"></div>
-      <div id="answersContainer"></div>
-      <div class="btn-group">
-        <button id="nextBtn" class="btn blue" disabled>Câu tiếp</button>
-        <button id="confirmBtn" class="btn purple" disabled>Xác nhận</button>
-      </div>
-    </div>
-  </main>
+  <div id="studentDisplay"></div>
 
   <script src="js/app.js"></script>
 </body>
