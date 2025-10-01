@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toast       = document.getElementById("toast");
   const fx          = document.getElementById("fx");
   const debugPane   = document.getElementById("debug");
+  const taskbar     = document.getElementById("taskbar");
 
   const bigTimer    = document.getElementById("bigTimer");
   const bgm         = document.getElementById("bgm");
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
   const showToast = (m)=>{ toast.textContent=m; toast.style.display='block'; setTimeout(()=>toast.style.display='none',1600); };
   const setDisabled = (el, v)=>{ el.disabled = !!v; };
+  const buzz = (el)=>{ el.classList.add("clicked"); setTimeout(()=>el.classList.remove("clicked"), 200); };
   const logErr = (msg)=>{ debugPane.style.display='block'; debugPane.textContent = `[${new Date().toLocaleTimeString('vi-VN')}] ${msg}\n` + debugPane.textContent; console.error(msg); };
 
   function updateStartButton() {
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const hasLesson  = selectedLessons.size > 0;
     const n = parseInt(document.getElementById("num").value || "0",10);
     btnStart.disabled = !(hasStudent && hasLesson && n>0);
-    btnEnd.disabled   = btnStart.disabled; // chỉ mở khi có thể start (tránh bấm thừa)
+    btnEnd.disabled   = true; // chỉ mở khi đang làm bài
   }
 
   function setClock() {
@@ -75,10 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const p = document.createElement("div");
         p.className="pill"; p.textContent=`Bài ${b}`;
         p.onclick=()=>{
-          if(p.classList.contains("active")){ p.classList.remove("active"); selectedLessons.delete(key);}
-          else{ p.classList.add("active"); selectedLessons.add(key); }
+          p.classList.toggle("active");
+          if(p.classList.contains("active")) selectedLessons.add(key); else selectedLessons.delete(key);
           setDisabled(btnShuffle, selectedLessons.size===0);
           updateStartButton();
+          buzz(p);
         };
         lessonWrap.appendChild(p);
       }
@@ -114,41 +117,92 @@ document.addEventListener("DOMContentLoaded", () => {
     return merged;
   }
 
-  // ===== Gọi tên HS =====
+  // ===== Gọi tên HS (4s quay → 3s giữ → thu nhỏ lên topbar) =====
   btnCall.onclick = async ()=>{
-    const lop = clsSel.value;
+    buzz(btnCall);
+    const lop = (clsSel.value || "").toLowerCase();
     if(!lop){ showToast("Chọn lớp trước!"); return; }
 
-    studentList = await loadStudentsByClass(lop);
-    if(!studentList.length){ return; }
+    const list = await loadStudentsByClass(lop);
+    if(!list.length){ return; }
+    studentList = list;
 
     overlay.classList.remove("hide");
-
-    // Quay 4s → chốt 1 tên → giữ 3s → ẩn
     let t=0; const spin=setInterval(()=>{
       bigName.textContent = studentList[Math.floor(Math.random()*studentList.length)];
       t+=100; if(t>=4000){
         clearInterval(spin);
-        currentStudent = studentList[Math.floor(Math.random()*studentList.length)];
-        bigName.textContent = currentStudent;
+        const finalName = studentList[Math.floor(Math.random()*studentList.length)];
+        bigName.textContent = finalName;
+
+        // sau 3s: animate shrink to topbar
         setTimeout(()=>{
           overlay.classList.add("hide");
-          studentTop.textContent = currentStudent;
-          updateStartButton();
+          animateNameToTop(finalName);
         },3000);
       }
     },100);
   };
 
-  // ===== Trộn bài =====
+  // FLIP animation: bigName -> studentTop
+  function animateNameToTop(name){
+    const ghost = document.createElement("div");
+    ghost.textContent = name;
+    ghost.style.position="fixed";
+    ghost.style.left="50%";
+    ghost.style.top="50%";
+    ghost.style.transform="translate(-50%,-50%)";
+    ghost.style.fontSize="72px";
+    ghost.style.fontWeight="900";
+    ghost.style.color="#ffeb3b";
+    ghost.style.textShadow="2px 2px 8px #000";
+    ghost.style.zIndex="1000";
+    document.body.appendChild(ghost);
+
+    const topRect = studentTop.getBoundingClientRect();
+    const ghostRect = ghost.getBoundingClientRect();
+
+    const dx = topRect.left + topRect.width/2 - (ghostRect.left + ghostRect.width/2);
+    const dy = topRect.top + topRect.height/2 - (ghostRect.top + ghostRect.height/2);
+    const scale = 0.28;
+
+    ghost.animate([
+      { transform:"translate(-50%,-50%) scale(1)", opacity:1 },
+      { transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${scale})`, opacity:1 }
+    ], { duration:650, easing:"cubic-bezier(.2,.8,.2,1)" })
+    .onfinish = ()=>{
+      ghost.remove();
+      currentStudent = name;
+      studentTop.textContent = name;
+      updateStartButton();
+    };
+  }
+
+  // ===== Trộn bài: hiệu ứng mưa ký tự + âm thanh 3s =====
   btnShuffle.onclick = async ()=>{
+    buzz(btnShuffle);
     if(selectedLessons.size===0){ showToast("Chọn ít nhất 1 bài!"); return; }
-    fx.classList.remove("hide");
-    try{
-      sfxShuffle?.play().catch(()=>{});
-    }catch{}
+
+    // Build pool trước để báo số lượng
     pool = await buildPoolFromSelected();
-    setTimeout(()=>{ fx.classList.add("hide"); showToast(`Đã trộn ${pool.length} câu`); },3000);
+
+    // FX symbols
+    fx.innerHTML = ""; // clear
+    fx.classList.add("show");
+    const chars = "Σ∆πθλμxyz12345+=−×÷√αβγ";
+    const count = 42;
+    for(let i=0;i<count;i++){
+      const s = document.createElement("span");
+      s.className="symbol";
+      s.textContent = chars[Math.floor(Math.random()*chars.length)];
+      s.style.left = Math.floor(Math.random()*100) + "vw";
+      s.style.fontSize = (18 + Math.random()*30) + "px";
+      s.style.animationDelay = (Math.random()*0.9) + "s";
+      fx.appendChild(s);
+    }
+    try{ sfxShuffle?.play().catch(()=>{});}catch{}
+    setTimeout(()=>{ fx.classList.remove("show"); showToast(`Đã trộn ${pool.length} câu`); },3000);
+
     updateStartButton();
   };
 
@@ -173,12 +227,15 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast("Hết giờ!");
   }
 
-  // ===== Render 1 câu =====
-  function renderQuestion(){
+  // ===== Render 1 câu (MathJax + chữ to + đáp án căn trái, chọn 1) =====
+  async function renderQuestion(){
     if(idx>=pool.length){ endGame(); return; }
     const q = pool[idx];
+
     qtext.innerHTML = q.q || q.question || "—";
-    if(window.MathJax?.typesetPromise) MathJax.typesetPromise();
+    // typeset chỉ vùng qtext để nhanh
+    if(window.MathJax?.typesetClear){ MathJax.typesetClear([qtext]); }
+    if(window.MathJax?.typesetPromise){ await MathJax.typesetPromise([qtext]); }
 
     opts.innerHTML="";
     (q.options || q.choices || []).slice(0,4).forEach(t=>{
@@ -188,9 +245,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));
         div.classList.add("selected");
         btnConfirm.classList.remove("hide");
+        buzz(div);
       };
       opts.appendChild(div);
     });
+
     prog.textContent = `Câu ${idx+1}/${pool.length} — Điểm: ${score}`;
     btnConfirm.classList.remove("hide");
     btnNext.classList.add("hide");
@@ -199,6 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== Start =====
   btnStart.onclick = async ()=>{
+    buzz(btnStart);
     if(!currentStudent){ showToast("Gọi tên HS trước!"); return; }
     if(selectedLessons.size===0){ showToast("Chọn bài trước!"); return; }
 
@@ -220,6 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== Xác nhận =====
   btnConfirm.onclick = ()=>{
+    buzz(btnConfirm);
     const sel = document.querySelector(".opt.selected");
     if(!sel){ showToast("Chọn đáp án!"); return; }
     clearInterval(timer);
@@ -237,20 +298,23 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ===== Câu tiếp =====
-  btnNext.onclick = ()=>{ idx++; renderQuestion(); };
+  btnNext.onclick = ()=>{ buzz(btnNext); idx++; renderQuestion(); };
 
   // ===== Kết thúc =====
   function endGame(){
     clearInterval(timer);
     qtext.innerHTML = `<b>Kết thúc!</b> ${currentStudent ? currentStudent + " " : ""}được ${score}/${pool.length} điểm.`;
+    if(window.MathJax?.typesetClear){ MathJax.typesetClear([qtext]); }
+    if(window.MathJax?.typesetPromise){ MathJax.typesetPromise([qtext]); }
     opts.innerHTML=""; btnConfirm.classList.add("hide"); btnNext.classList.add("hide");
     btnReplay.classList.remove("hide");
     try{sfxClap?.play();}catch{}
   }
-  btnEnd.onclick = endGame;
+  btnEnd.onclick = ()=>{ buzz(btnEnd); endGame(); };
 
   // ===== Chơi lại =====
   btnReplay.onclick = ()=>{
+    buzz(btnReplay);
     btnReplay.classList.add("hide");
     card.classList.add("hide"); hint.classList.remove("hide");
     setDisabled(btnCall,false);
@@ -262,26 +326,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ===== Music toggle =====
   musicToggle.onclick = ()=>{
+    buzz(musicToggle);
     try{
       if(bgm.paused){ bgm.play(); musicToggle.textContent="🔊"; }
       else{ bgm.pause(); musicToggle.textContent="🔈"; }
     }catch(e){ logErr("Không phát được nhạc nền (trình duyệt chặn autoplay)"); }
   };
 
-  // ===== Drag window + thu nhỏ/mở lại =====
+  // ===== Drag window + thu nhỏ/mở lại (kiểu Windows) =====
   (function dragWin(){
     const win = document.getElementById("cfg"); const bar = document.getElementById("cfgBar");
     let sx=0, sy=0, dx=0, dy=0, dragging=false;
     bar.addEventListener("mousedown",e=>{dragging=true;sx=e.clientX;sy=e.clientY;dx=win.offsetLeft;dy=win.offsetTop;});
     document.addEventListener("mousemove",e=>{ if(!dragging) return; win.style.left=dx+(e.clientX-sx)+"px"; win.style.top=dy+(e.clientY-sy)+"px"; });
     document.addEventListener("mouseup",()=>dragging=false);
-    document.getElementById("wMin").onclick=()=>{ win.classList.add("hide"); showToast("Đã thu cấu hình"); };
-    document.getElementById("wMax").onclick=()=>{ win.classList.remove("hide"); };
+
+    const wMin = document.getElementById("wMin");
+    const wMax = document.getElementById("wMax");
+
+    // taskbar chip
+    let chip = null;
+    wMin.onclick = ()=>{
+      buzz(wMin);
+      if(win.classList.contains("hide")) return;
+      win.classList.add("hide");
+      chip = document.createElement("div");
+      chip.className="task-chip";
+      chip.textContent="⚙️ Cấu hình";
+      chip.onclick = ()=>{ win.classList.remove("hide"); chip.remove(); chip=null; };
+      taskbar.appendChild(chip);
+      showToast("Đã thu cửa sổ cấu hình");
+    };
+    wMax.onclick = ()=>{ buzz(wMax); win.classList.remove("hide"); if(chip){ chip.remove(); chip=null; } };
   })();
 
   // ===== +/- input time/num =====
-  document.querySelectorAll(".spin button").forEach(b=>{
+  document.querySelectorAll(".btn-mini").forEach(b=>{
     b.addEventListener("click",()=>{
+      buzz(b);
       const t=b.getAttribute("data-t"), d=parseInt(b.getAttribute("data-d"),10);
       const el=document.getElementById(t==="time"?"time":"num");
       el.value = clamp(parseInt(el.value||"0",10)+d, t==="time"?10:1, t==="time"?180:100);
