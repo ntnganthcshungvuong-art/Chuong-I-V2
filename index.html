@@ -2,26 +2,75 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Toán 8 - Luyện tập</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mùa 1 • Toán 8</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="topbar">
-    <label for="classSelect">Lớp:</label>
-    <select id="classSelect">
-      <option value="">-- Chọn lớp --</option>
-      <option value="8a1">8A1</option>
-      <option value="8a2">8A2</option>
-      <option value="8a3">8A3</option>
-      <option value="8a4">8A4</option>
-      <option value="8a5">8A5</option>
-      <option value="8a6">8A6</option>
-      <option value="8a7">8A7</option>
-    </select>
-    <button id="callBtn">Gọi tên HS</button>
-  </div>
+  <header>
+    <div class="topbar">
+      <span class="title">Mùa 1 • Toán 8</span>
+      <div class="class-select">
+        <label for="class">Lớp:</label>
+        <select id="class">
+          <option value="">-- Chọn lớp --</option>
+          <option value="8a1">8A1</option>
+          <option value="8a2">8A2</option>
+          <option value="8a3">8A3</option>
+          <option value="8a4">8A4</option>
+          <option value="8a5">8A5</option>
+          <option value="8a6">8A6</option>
+          <option value="8a7">8A7</option>
+        </select>
+        <button id="btnCall">Gọi tên HS</button>
+      </div>
+      <div class="right-info">
+        <span>Học sinh: <span id="studentName">—</span></span>
+        <span class="timer" id="timer">00</span>
+      </div>
+    </div>
+  </header>
 
-  <div id="studentDisplay"></div>
+  <main>
+    <div id="configBox" class="config">
+      <h3>Cấu hình</h3>
+      <label>Thời gian mỗi câu (giây):</label>
+      <input type="number" id="timePerQ" min="10" max="180" value="60">
+      <label>Số câu (1–100):</label>
+      <input type="number" id="numQuestions" min="1" max="100" value="10">
+
+      <h4>Chọn Bài (Ch1–5):</h4>
+      <div class="bai-list">
+        <label><input type="checkbox" value="b1">Ch1-Bài1</label>
+        <label><input type="checkbox" value="b2">Ch1-Bài2</label>
+        <label><input type="checkbox" value="b3">Ch1-Bài3</label>
+        <label><input type="checkbox" value="b4">Ch1-Bài4</label>
+        <label><input type="checkbox" value="b5">Ch1-Bài5</label>
+      </div>
+
+      <div class="buttons">
+        <button id="btnShuffle">Trộn câu</button>
+        <button id="btnStart" disabled>Bắt đầu</button>
+        <button id="btnEnd" disabled>Kết thúc</button>
+      </div>
+    </div>
+
+    <div id="questionBox" class="question-box hidden">
+      <h2 id="questionText"></h2>
+      <div id="answers"></div>
+      <div class="buttons">
+        <button id="btnConfirm" disabled>Xác nhận</button>
+        <button id="btnNext" disabled>Câu tiếp</button>
+      </div>
+    </div>
+
+    <div id="popupName" class="popup hidden"></div>
+  </main>
+
+  <audio id="bgAudio" src="audio/bg.mp3" loop></audio>
+  <audio id="correctAudio" src="audio/correct.wav"></audio>
+  <audio id="wrongAudio" src="audio/wrong.wav"></audio>
+  <audio id="shuffleAudio" src="audio/shuffle.wav"></audio>
 
   <script src="js/app.js"></script>
 </body>
