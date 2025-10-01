@@ -178,4 +178,96 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       opts.appendChild(div);
     });
-    prog.textContent = `Câu ${idx+1}/${pool.length
+    prog.textContent = `Câu ${idx+1}/${pool.length} — Điểm: ${score}`;
+    btnConfirm.classList.remove("hide");
+    btnNext.classList.add("hide");
+    startTimer(timePerQ);
+  }
+
+  // ===== Start =====
+  btnStart.onclick = async ()=>{
+    timePerQ = clamp(parseInt(document.getElementById("time").value||"60",10),10,180);
+    numQ    = clamp(parseInt(document.getElementById("num").value||"10",10),1,100);
+
+    if(!pool.length) pool = await buildPoolFromSelected();
+    pool = pool.slice(0, Math.min(numQ, pool.length));
+
+    idx=0; score=0;
+    setDisabled(btnCall,true);  // khoá khi đang làm
+    setDisabled(btnShuffle,true);
+
+    hint.classList.add("hide");
+    card.classList.remove("hide");
+    renderQuestion();
+  };
+
+  // ===== Xác nhận =====
+  btnConfirm.onclick = ()=>{
+    const sel = document.querySelector(".opt.selected");
+    if(!sel){ showToast("Chọn đáp án!"); return; }
+    clearInterval(timer);
+
+    const ans = String(pool[idx].a ?? pool[idx].answer);
+    if(sel.textContent.trim()===ans){ sel.classList.add("correct"); score++; sfxCorrect.play(); }
+    else{
+      sel.classList.add("incorrect"); sfxWrong.play();
+      document.querySelectorAll(".opt").forEach(o=>{ if(o.textContent.trim()===ans) o.classList.add("correct"); });
+    }
+    document.querySelectorAll(".opt").forEach(o=>o.onclick=null);
+    btnConfirm.classList.add("hide");
+    btnNext.classList.remove("hide");
+    prog.textContent = `Câu ${idx+1}/${pool.length} — Điểm: ${score}`;
+  };
+
+  // ===== Câu tiếp =====
+  btnNext.onclick = ()=>{ idx++; renderQuestion(); };
+
+  // ===== Kết thúc =====
+  function endGame(){
+    clearInterval(timer);
+    qtext.innerHTML = `<b>Kết thúc!</b> Bạn được ${score}/${pool.length} điểm.`;
+    opts.innerHTML=""; btnConfirm.classList.add("hide"); btnNext.classList.add("hide");
+    btnReplay.classList.remove("hide");
+    sfxClap.play();
+  }
+  btnEnd.onclick = endGame;
+
+  // ===== Chơi lại =====
+  btnReplay.onclick = ()=>{
+    btnReplay.classList.add("hide");
+    card.classList.add("hide"); hint.classList.remove("hide");
+    setDisabled(btnCall,false);
+    setDisabled(btnShuffle, selectedLessons.size===0 ? true : false);
+    pool=[]; score=0; idx=0; bigTimer.textContent="00";
+    showToast("Đã sẵn sàng chơi lại");
+  };
+
+  // ===== Music toggle =====
+  musicToggle.onclick = ()=>{
+    if(bgm.paused){ bgm.play(); musicToggle.textContent="🔊"; }
+    else{ bgm.pause(); musicToggle.textContent="🔈"; }
+  };
+
+  // ===== Drag window + thu nhỏ/mở lại (demo) =====
+  (function dragWin(){
+    const win = document.getElementById("cfg"); const bar = document.getElementById("cfgBar");
+    let sx=0, sy=0, dx=0, dy=0, dragging=false;
+    bar.addEventListener("mousedown",e=>{dragging=true;sx=e.clientX;sy=e.clientY;dx=win.offsetLeft;dy=win.offsetTop;});
+    document.addEventListener("mousemove",e=>{ if(!dragging) return; win.style.left=dx+(e.clientX-sx)+"px"; win.style.top=dy+(e.clientY-sy)+"px"; });
+    document.addEventListener("mouseup",()=>dragging=false);
+    document.getElementById("wMin").onclick=()=>{ win.classList.add("hide"); showToast("Đã thu cấu hình"); };
+    document.getElementById("wMax").onclick=()=>{ win.classList.remove("hide"); };
+  })();
+
+  // ===== +/- input time/num =====
+  document.querySelectorAll(".spin button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      const t=b.getAttribute("data-t"), d=parseInt(b.getAttribute("data-d"),10);
+      const el=document.getElementById(t==="time"?"time":"num");
+      el.value = clamp(parseInt(el.value||"0",10)+d, t==="time"?10:1, t==="time"?180:100);
+      updateStartButton();
+    });
+  });
+  document.getElementById("time").addEventListener("input",updateStartButton);
+  document.getElementById("num").addEventListener("input",updateStartButton);
+});
