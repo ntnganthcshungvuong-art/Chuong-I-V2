@@ -3,15 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Toán 8 • V11 Final</title>
-
-  <!-- Styles -->
+  <title>Toán 8 • V11.1</title>
   <link rel="stylesheet" href="css/style.css"/>
 
-  <!-- MathJax cho công thức Toán -->
+  <!-- MathJax -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <!-- TOPBAR -->
@@ -21,7 +19,7 @@
     <div class="controls">
       <label for="cls">Lớp:</label>
       <select id="cls" class="select"></select>
-      <button id="btnCall" class="btn btn-call" title="Gọi tên học sinh">Gọi tên HS</button>
+      <button id="btnCall" class="btn btn-call">Gọi tên HS</button>
     </div>
 
     <div class="info">
@@ -29,20 +27,20 @@
     </div>
 
     <div class="right">
-      <select id="bgSel" class="select small" title="Nhạc nền">
-        <option value="synth">Synth</option>
-        <option value="edm">EDM</option>
-        <option value="rock">Rock</option>
-      </select>
-      <button id="bgToggle" class="btn btn-sound" title="Bật/Tắt nhạc">🔇</button>
+      <button id="musicToggle" class="btn btn-sound" title="Bật/Tắt nhạc">🔈</button>
       <div id="bigTimer" class="timer">00</div>
       <div id="clock" class="clock">--:--:--</div>
+      <audio id="bgm" loop src="audio/bg.mp3"></audio>
+      <audio id="sfx-correct" src="audio/correct.wav"></audio>
+      <audio id="sfx-wrong"   src="audio/wrong.wav"></audio>
+      <audio id="sfx-clap"    src="audio/clap.wav"></audio>
+      <audio id="sfx-shuffle" src="audio/correct.wav"></audio>
     </div>
   </header>
 
-  <!-- CẤU HÌNH (cửa sổ có thể kéo/thu nhỏ/mở rộng) -->
+  <!-- CẤU HÌNH -->
   <section id="cfg" class="window">
-    <div id="cfgBar" class="wbar">
+    <div id="cfgBar" class="wbar" title="Kéo để di chuyển">
       <span>⚙️ Cấu hình</span>
       <div class="wctrl">
         <button id="wMin" title="Thu nhỏ">⎯</button>
@@ -114,16 +112,15 @@
     </div>
   </main>
 
-  <!-- Taskbar cho cửa sổ cấu hình khi thu nhỏ -->
+  <!-- Thanh taskbar khi thu nhỏ -->
   <div id="taskbar"></div>
 
-  <!-- Hiệu ứng shuffle -->
-  <div id="fx" class="fx hide"></div>
+  <!-- FX shuffle -->
+  <div id="fx" class="fx hide">ĐANG XÁO…</div>
 
-  <!-- Toast thông báo -->
+  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <!-- Scripts -->
   <script src="js/app.js"></script>
 </body>
 </html>
