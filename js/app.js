@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCall     = document.getElementById("btnCall");
   const studentTop  = document.getElementById("studentTop");
   const overlay     = document.getElementById("overlay");
+  const runningName = document.getElementById("runningName");
   const bigName     = document.getElementById("bigName");
 
   const lessonWrap  = document.getElementById("lessonWrap");
@@ -47,28 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
   const buzz  = el=>{ el.classList.add("clicked"); setTimeout(()=>el.classList.remove("clicked"),180); };
   const toastMsg = m=>{ toast.textContent=m; toast.style.display="block"; setTimeout(()=>toast.style.display="none",1600); };
-  const setDisabled=(el,v)=> el.disabled=!!v;
+  const setDisabled = (el,v)=> el.disabled = !!v;
   const logErr = (msg)=>{ debugPane.style.display='block'; debugPane.textContent = `[${new Date().toLocaleTimeString('vi-VN')}] ${msg}\n` + debugPane.textContent; console.error(msg); };
 
-  function updateStartButton(){
-    const hasHS = !!currentStudent;
-    const hasLesson = selectedLessons.size>0;
-    const n = +document.getElementById("num").value||0;
-    btnStart.disabled = !(hasHS && hasLesson && n>0 && pool.length>0);
-  }
-
+  /* Đồng hồ góc phải */
   function setClock(){ document.getElementById("clock").textContent=new Date().toLocaleTimeString("vi-VN").slice(0,8); }
   setInterval(setClock,1000); setClock();
 
-  /* ==== BUILD LESSON GRID (Ch I–V, B1–B5, có Chọn tất/Bỏ hết) ==== */
+  /* ==== BUILD LESSON GRID ==== */
   (function renderLessons(){
     const roman=["I","II","III","IV","V"];
     for(let c=1;c<=5;c++){
       const head = document.createElement("div");
       head.className="pill chapter";
       head.innerHTML = `Chương ${roman[c-1]} <span style="float:right;display:flex;gap:6px">
-        <button class="btn-mini mini-ctl" data-act="all"  data-c="${c}">✓</button>
-        <button class="btn-mini mini-ctl" data-act="none" data-c="${c}">×</button>
+        <button class="btn-mini mini-ctl" data-act="all"  data-c="${c}" title="Chọn tất">✓</button>
+        <button class="btn-mini mini-ctl" data-act="none" data-c="${c}" title="Bỏ hết">×</button>
       </span>`;
       lessonWrap.appendChild(head);
 
@@ -87,8 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     lessonWrap.querySelectorAll(".mini-ctl").forEach(btn=>{
       btn.onclick=()=>{
         buzz(btn);
-        const c=+btn.dataset.c;
-        const act=btn.dataset.act;
+        const c=+btn.dataset.c, act=btn.dataset.act;
         const row=[...lessonWrap.children].filter(x=>!x.classList.contains("chapter")).slice((c-1)*5, (c-1)*5+5);
         row.forEach((p,i)=>{
           const key=`C${c}_B${i+1}`;
@@ -130,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return merged;
   }
 
-  /* ==== GỌI TÊN HS: 4s random → 3s giữ → thu nhỏ lên topbar ==== */
+  /* ==== RANDOM TÊN HS: có hiển thị chạy liên tục 4s ==== */
   btnCall.onclick = async ()=>{
     buzz(btnCall);
     const lop=(clsSel.value||"").toLowerCase();
@@ -141,19 +135,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     overlay.classList.remove("hide");
     let t=0;
-    const spin=setInterval(()=>{
-      bigName.textContent = studentList[Math.floor(Math.random()*studentList.length)];
-      t+=100;
+    const tick=120; // ms
+    const slot = setInterval(()=>{
+      runningName.textContent = studentList[Math.floor(Math.random()*studentList.length)];
+      t+=tick;
       if(t>=4000){
-        clearInterval(spin);
+        clearInterval(slot);
         const finalName = studentList[Math.floor(Math.random()*studentList.length)];
         bigName.textContent = finalName;
+        runningName.textContent = "Đã chọn:";
         setTimeout(()=>{
           overlay.classList.add("hide");
           animateNameToTop(finalName);
         },3000);
       }
-    },100);
+    },tick);
   };
 
   function animateNameToTop(name){
@@ -161,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ghost.textContent=name;
     Object.assign(ghost.style,{
       position:"fixed",left:"50%",top:"50%",transform:"translate(-50%,-50%)",
-      fontSize:"72px",fontWeight:"900",color:"#ffeb3b",textShadow:"2px 2px 8px #000",zIndex:1000
+      fontSize:"70px",fontWeight:"900",color:"#ffd54f",textShadow:"2px 2px 8px #000",zIndex:1000
     });
     document.body.appendChild(ghost);
 
@@ -180,27 +176,33 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  /* ==== TRỘN CÂU: hiệu ứng 3s + âm thanh ==== */
+  /* ==== TRỘN CÂU: hiệu ứng + âm thanh (nổi bật thấy rõ) ==== */
   btnShuffle.onclick = async ()=>{
     buzz(btnShuffle);
     if(selectedLessons.size===0){ toastMsg("Chọn ít nhất 1 bài!"); return; }
     setDisabled(btnShuffle,true); setDisabled(btnStart,true);
 
-    // build pool trước
-    pool = await buildPoolFromSelected();
-
-    // FX
+    // FX rõ ràng
     fx.innerHTML=""; fx.classList.add("show");
-    const chars="Σ∆πθλμxyz12345+=−×÷√αβγ";
-    for(let i=0;i<40;i++){
+    const status=document.createElement("div");
+    status.style.position="absolute"; status.style.top="20%"; status.style.fontSize="28px";
+    status.textContent="Đang trộn câu…";
+    fx.appendChild(status);
+
+    const chars="Σ ∆ π θ λ μ x y z 1 2 3 4 5 + − × ÷ √ α β γ".split(" ");
+    for(let i=0;i<50;i++){
       const s=document.createElement("span");
       s.className="symbol"; s.textContent=chars[Math.floor(Math.random()*chars.length)];
       s.style.left=Math.floor(Math.random()*100)+"vw";
-      s.style.fontSize=(18+Math.random()*30)+"px";
+      s.style.fontSize=(18+Math.random()*32)+"px";
       s.style.animationDelay=(Math.random()*0.9)+"s";
       fx.appendChild(s);
     }
     try{sfxShuffle?.play().catch(()=>{});}catch{}
+
+    // build pool
+    pool = await buildPoolFromSelected();
+
     setTimeout(()=>{
       fx.classList.remove("show");
       toastMsg(`Đã trộn ${pool.length} câu`);
@@ -213,11 +215,15 @@ document.addEventListener("DOMContentLoaded", () => {
   function startTimer(sec){
     clearInterval(timer);
     let t=sec;
-    bigTimer.textContent=String(t).padStart(2,"0");
+    updateTimerVisual(t);
     timer=setInterval(()=>{
-      t--; bigTimer.textContent=String(t).padStart(2,"0");
+      t--; updateTimerVisual(t);
       if(t<=0){ clearInterval(timer); timeUpReveal(); }
     },1000);
+  }
+  function updateTimerVisual(t){
+    bigTimer.textContent=String(Math.max(0,t)).padStart(2,"0");
+    if(t<=5) bigTimer.style.color="#ff6961"; else bigTimer.style.color="#fff";
   }
   function timeUpReveal(){
     const ans=String(pool[idx].a ?? pool[idx].answer);
@@ -234,6 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function renderQuestion(){
     if(idx>=pool.length){ endGame(); return; }
     const q=pool[idx];
+
+    // text có thể là LaTeX → MathJax
     qtext.innerHTML = q.q || q.question || "—";
     if(window.MathJax?.typesetClear){ MathJax.typesetClear([qtext]); }
     if(window.MathJax?.typesetPromise){ await MathJax.typesetPromise([qtext]); }
@@ -363,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
       buzz(wMax);
       maxed=!maxed;
       if(maxed){ win.style.left="10px"; win.style.top="60px"; win.style.width="calc(100% - 20px)"; }
-      else{ win.style.width="680px"; }
+      else{ win.style.width="760px"; }
     };
   })();
 
@@ -377,9 +385,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.getElementById("time").addEventListener("input",()=>{});
-  document.getElementById("num").addEventListener("input",()=>{});
-
-  /* ==== ĐỒNG HỒ ==== */
+  /* ==== Đồng hồ realtime ==== */
   setInterval(()=>{ document.getElementById("clock").textContent=new Date().toLocaleTimeString("vi-VN").slice(0,8); },1000);
+
+  function updateStartButton(){
+    const hasHS = !!currentStudent;
+    const hasLesson = selectedLessons.size>0;
+    const n = +document.getElementById("num").value||0;
+    btnStart.disabled = !(hasHS && hasLesson && n>0 && pool.length>0);
+  }
 });
