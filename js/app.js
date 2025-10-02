@@ -1,117 +1,80 @@
-let students = {};
-let currentStudent = "";
-let selectedLessons = [];
-let questions = [];
-let timerInterval;
+const studentNameEl = document.getElementById("studentName");
+const callNameBtn = document.getElementById("callNameBtn");
+const classSelect = document.getElementById("classSelect");
+const studentLabel = document.getElementById("studentLabel");
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadStudentData();
+const shuffleBtn = document.getElementById("shuffleBtn");
+const startBtn = document.getElementById("startBtn");
+const endBtn = document.getElementById("endBtn");
+const restartBtn = document.getElementById("restartBtn");
 
-  document.getElementById("callNameBtn").addEventListener("click", randomizeName);
-  document.querySelectorAll(".lessonBtn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
-      updateLessons();
-    });
-  });
-  document.getElementById("shuffleBtn").addEventListener("click", shuffleQuestions);
-  document.getElementById("startBtn").addEventListener("click", startGame);
-  document.getElementById("endBtn").addEventListener("click", endGame);
-  document.getElementById("retryBtn").addEventListener("click", resetGame);
+const questionBox = document.getElementById("questionBox");
+const questionText = document.getElementById("questionText");
+const optionsEl = document.getElementById("options");
+const progressEl = document.getElementById("progress");
 
-  setInterval(updateClock, 1000);
-});
+// Fake data lớp
+const classData = {
+  "8A1": ["Nguyễn Văn A", "Trần Thị B"],
+  "8A2": ["Phạm Văn C", "Hoàng Thị D"],
+  "8A3": ["Nguyễn E", "Trần F"],
+  "8A4": ["Nguyễn G", "Trần H"],
+  "8A5": ["Nguyễn I", "Trần K"],
+  "8A6": ["Nguyễn L", "Trần M"],
+  "8A7": ["Nguyễn N", "Trần O"]
+};
 
-function loadStudentData() {
-  const classes = ["8a1","8a2","8a3","8a4","8a5","8a6","8a7"];
-  classes.forEach(cls => {
-    fetch(`data/students_${cls}.json`)
-      .then(res => res.json())
-      .then(data => students[cls] = data.students);
-  });
-}
-
-function randomizeName() {
-  const cls = document.getElementById("classSelect").value;
-  if (!cls || !students[cls]) {
-    alert("Chưa có danh sách lớp!");
+// ----------------- Gọi tên HS -----------------
+callNameBtn.addEventListener("click", () => {
+  const cls = classSelect.value;
+  if (!cls || !classData[cls]) {
+    alert("Chưa chọn lớp hoặc danh sách trống!");
     return;
   }
-  const names = students[cls];
-  let i = 0;
-  const box = document.getElementById("randomNameBox");
-  box.classList.remove("hidden");
+  let names = [...classData[cls]];
+  let count = 0;
   const interval = setInterval(() => {
-    box.textContent = names[Math.floor(Math.random() * names.length)];
-    i++;
-    if (i > 20) {
+    studentNameEl.style.display = "block";
+    studentNameEl.innerText = names[Math.floor(Math.random() * names.length)];
+    count++;
+    if (count > 20) { // chạy 20 lần ~ 2s
       clearInterval(interval);
-      currentStudent = names[Math.floor(Math.random() * names.length)];
-      document.getElementById("studentName").textContent = currentStudent;
-      box.textContent = currentStudent;
-      setTimeout(() => box.classList.add("hidden"), 3000);
-      document.getElementById("startBtn").disabled = false;
+      studentLabel.innerText = "Học sinh: " + studentNameEl.innerText;
     }
-  }, 200);
-}
+  }, 100);
+});
 
-function updateLessons() {
-  selectedLessons = [];
-  document.querySelectorAll(".lessonBtn.active").forEach(btn => {
-    selectedLessons.push({chuong: btn.dataset.chuong, bai: btn.dataset.bai});
-  });
-}
+// ----------------- Trộn câu -----------------
+shuffleBtn.addEventListener("click", () => {
+  shuffleBtn.innerText = "⏳ Đang trộn...";
+  setTimeout(() => {
+    shuffleBtn.innerText = "Trộn câu ✔";
+    alert("Đã trộn xong!");
+  }, 1500);
+});
 
-function shuffleQuestions() {
-  const btn = document.getElementById("shuffleBtn");
-  btn.textContent = "🔄 Đang trộn...";
-  setTimeout(() => btn.textContent = "🔄 Trộn câu", 1500);
-}
-
-function startGame() {
-  document.getElementById("configPanel").classList.add("hidden");
-  document.getElementById("questionBox").classList.remove("hidden");
-  startTimer();
-  loadQuestions();
-}
-
-function startTimer() {
-  let time = parseInt(document.getElementById("timePerQuestion").value);
-  const timer = document.getElementById("timer");
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timer.textContent = time;
-    time--;
-    if (time < 0) clearInterval(timerInterval);
-  }, 1000);
-}
-
-function loadQuestions() {
-  const qBox = document.getElementById("questionText");
-  const aBox = document.getElementById("answerOptions");
-  qBox.innerHTML = "Ví dụ: \\( x^3 + \\frac{1}{x} \\)";
-  MathJax.typeset();
-  aBox.innerHTML = `
-    <button>\\( x^3 + 1 \\)</button>
-    <button>\\( x^2 + x + 1 \\)</button>
-    <button>\\( \\frac{1}{x} + x \\)</button>
-    <button>\\( 3x \\)</button>
+// ----------------- Bắt đầu -----------------
+startBtn.addEventListener("click", () => {
+  questionBox.classList.remove("hidden");
+  questionText.innerHTML = "Đa thức bậc 2: \\( x^2 + 2x + 1 \\)";
+  optionsEl.innerHTML = `
+    <button>\\( (x+1)^2 \\)</button>
+    <button>\\( x^2 + 1 \\)</button>
+    <button>\\( x^2 + 2x \\)</button>
+    <button>\\( 2x + 1 \\)</button>
   `;
-  MathJax.typeset();
-}
+  MathJax.typesetPromise();
+});
 
-function endGame() {
-  document.getElementById("resultBox").classList.remove("hidden");
-  document.getElementById("resultBox").textContent = `${currentStudent} đã hoàn thành!`;
-  document.getElementById("endBtn").disabled = true;
-  document.getElementById("retryBtn").disabled = false;
-}
+// ----------------- Kết thúc & Chơi lại -----------------
+endBtn.addEventListener("click", () => {
+  questionBox.classList.add("hidden");
+  restartBtn.style.display = "inline-block";
+});
 
-function resetGame() {
-  location.reload();
-}
-
-function updateClock() {
-  const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString();
-}
+restartBtn.addEventListener("click", () => {
+  restartBtn.style.display = "none";
+  studentNameEl.style.display = "none";
+  studentLabel.innerText = "Học sinh: --";
+  questionBox.classList.add("hidden");
+});
