@@ -2,19 +2,19 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Toán 8 • V11 Final</title>
+  <title>Toán 8 • Leo Rank</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
           src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <div class="topbar">
-    <div class="logo">Mùa 1 • Toán 8</div>
-    <div class="controls">
+  <header>
+    <div class="left">Mùa 1 • Toán 8</div>
+    <div class="middle">
       <label for="classSelect">Lớp:</label>
       <select id="classSelect">
-        <option value="">--Chọn lớp--</option>
+        <option value="">-- Chọn lớp --</option>
         <option value="8a1">8A1</option>
         <option value="8a2">8A2</option>
         <option value="8a3">8A3</option>
@@ -24,61 +24,73 @@
         <option value="8a7">8A7</option>
       </select>
       <button id="callNameBtn" class="btn yellow">Gọi tên HS</button>
-      <span class="studentName" id="studentName">Học sinh: --</span>
     </div>
-    <div class="rightControls">
+    <div class="right">
+      Học sinh: <span id="studentName">---</span>
       <select id="musicSelect">
-        <option>EDM</option>
-        <option>Chill</option>
-        <option>Lo-fi</option>
+        <option value="edm">EDM</option>
+        <option value="bg">BG</option>
       </select>
-      <button id="soundToggle">🔊</button>
+      <button id="toggleMusic">🔊</button>
       <span id="timer">00</span>
       <span id="clock"></span>
     </div>
-  </div>
+  </header>
 
-  <!-- Cấu hình -->
-  <div class="config" id="configPanel">
-    <h3>⚙ Cấu hình</h3>
-    <div>
-      <label>Thời gian mỗi câu (10–180 giây):</label>
-      <button class="btn small" id="timeMinus">-</button>
-      <input type="number" id="timePerQuestion" value="60" min="10" max="180">
-      <button class="btn small" id="timePlus">+</button>
-    </div>
-    <div>
-      <label>Số câu (1–100):</label>
-      <button class="btn small" id="qMinus">-</button>
-      <input type="number" id="numQuestions" value="10" min="1" max="100">
-      <button class="btn small" id="qPlus">+</button>
-    </div>
+  <main>
+    <section id="configPanel">
+      <h3>⚙ Cấu hình</h3>
+      <div class="config-row">
+        <label>Thời gian mỗi câu (10–180 giây):</label>
+        <button class="btn small" id="timeDec">-</button>
+        <input type="number" id="timePerQuestion" min="10" max="180" value="60">
+        <button class="btn small" id="timeInc">+</button>
+      </div>
+      <div class="config-row">
+        <label>Số câu (1–100):</label>
+        <button class="btn small" id="qDec">-</button>
+        <input type="number" id="numQuestions" min="1" max="100" value="10">
+        <button class="btn small" id="qInc">+</button>
+      </div>
 
-    <div id="chapters"></div>
+      <div id="chapterContainer">
+        <h4>Chọn Bài</h4>
+        <div class="chapters">
+          <div class="chapter"><span>Chương I</span>
+            <button class="lessonBtn" data-chuong="1" data-bai="1">Bài 1</button>
+            <button class="lessonBtn" data-chuong="1" data-bai="2">Bài 2</button>
+            <button class="lessonBtn" data-chuong="1" data-bai="3">Bài 3</button>
+            <button class="lessonBtn" data-chuong="1" data-bai="4">Bài 4</button>
+            <button class="lessonBtn" data-chuong="1" data-bai="5">Bài 5</button>
+          </div>
+          <div class="chapter"><span>Chương II</span>
+            <button class="lessonBtn" data-chuong="2" data-bai="1">Bài 1</button>
+            <button class="lessonBtn" data-chuong="2" data-bai="2">Bài 2</button>
+            <button class="lessonBtn" data-chuong="2" data-bai="3">Bài 3</button>
+            <button class="lessonBtn" data-chuong="2" data-bai="4">Bài 4</button>
+            <button class="lessonBtn" data-chuong="2" data-bai="5">Bài 5</button>
+          </div>
+          <!-- Tương tự cho Chương III–V -->
+        </div>
+      </div>
 
-    <div class="configBtns">
-      <button id="shuffleBtn" class="btn yellow">Trộn câu</button>
-      <button id="startBtn" class="btn green" disabled>Bắt đầu</button>
-      <button id="endBtn" class="btn red">Kết thúc</button>
-    </div>
-  </div>
+      <div class="config-actions">
+        <button id="shuffleBtn" class="btn yellow">🔄 Trộn câu</button>
+        <button id="startBtn" class="btn green" disabled>Bắt đầu</button>
+        <button id="endBtn" class="btn red" disabled>Kết thúc</button>
+        <button id="retryBtn" class="btn orange" disabled>Chơi lại</button>
+      </div>
+    </section>
 
-  <!-- Khu câu hỏi -->
-  <div class="questionBox" id="questionBox">
-    <div id="questionText"></div>
-    <div id="answers"></div>
-    <div id="progress"></div>
-    <div class="actionBtns">
-      <button id="confirmBtn" class="btn blue" disabled>Xác nhận</button>
-      <button id="nextBtn" class="btn gray" disabled>Câu tiếp</button>
-      <button id="retryBtn" class="btn yellow hidden">Chơi lại</button>
-    </div>
-  </div>
-
-  <!-- Overlay random tên -->
-  <div id="nameOverlay" class="overlay hidden">
-    <span id="overlayName"></span>
-  </div>
+    <section id="gameArea">
+      <div id="randomNameBox"></div>
+      <div id="questionBox" class="hidden">
+        <div id="questionText"></div>
+        <div id="answerOptions"></div>
+      </div>
+      <div id="resultBox" class="hidden"></div>
+    </section>
+  </main>
 
   <script src="js/app.js"></script>
 </body>
