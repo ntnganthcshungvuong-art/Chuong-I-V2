@@ -1,36 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Toán 8 • V11.5</title>
-  <link rel="stylesheet" href="css/style.css"/>
-
-  <!-- Google Font gọn gàng, hỗ trợ TV -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-
-  <!-- MathJax: hiển thị công thức đẹp -->
-  <script>
-    window.MathJax = {
-      tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
-      chtml: {scale: 125},
-      startup: {typeset: false}
-    };
-  </script>
-  <script async id="MathJax-script"
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <meta charset="UTF-8">
+  <title>Toán 8 • V11 Final</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="brand">Mùa 1 • Toán 8</div>
-
+  <div class="topbar">
+    <div class="logo">Mùa 1 • Toán 8</div>
     <div class="controls">
-      <label for="cls">Lớp:</label>
-      <select id="cls" class="select">
-        <option value="">— Chọn lớp —</option>
+      <label for="classSelect">Lớp:</label>
+      <select id="classSelect">
+        <option value="">--Chọn lớp--</option>
         <option value="8a1">8A1</option>
         <option value="8a2">8A2</option>
         <option value="8a3">8A3</option>
@@ -39,122 +23,62 @@
         <option value="8a6">8A6</option>
         <option value="8a7">8A7</option>
       </select>
-      <button id="btnCall" class="btn btn-call" title="Gọi tên học sinh">Gọi tên HS</button>
+      <button id="callNameBtn" class="btn yellow">Gọi tên HS</button>
+      <span class="studentName" id="studentName">Học sinh: --</span>
     </div>
-
-    <div class="info">
-      Học sinh: <b id="studentTop" class="accent">—</b>
-    </div>
-
-    <div class="right">
-      <select id="bgmSelect" class="select small" title="Chọn nhạc nền">
-        <option value="">— Nhạc —</option>
-        <option value="audio/bg_synth.mp3">Synth</option>
-        <option value="audio/bg_edm.mp3">EDM</option>
-        <option value="audio/bg_lofi.mp3">LoFi</option>
+    <div class="rightControls">
+      <select id="musicSelect">
+        <option>EDM</option>
+        <option>Chill</option>
+        <option>Lo-fi</option>
       </select>
-      <button id="musicToggle" class="btn btn-sound" title="Bật/Tắt nhạc">🔈</button>
-      <div id="bigTimer" class="timer">00</div>
-      <div id="clock" class="clock">--:--:--</div>
-
-      <audio id="bgm" loop></audio>
-      <audio id="sfx-shuffle" src="audio/shuffle.wav"></audio>
-      <audio id="sfx-correct" src="audio/correct.wav"></audio>
-      <audio id="sfx-wrong"   src="audio/wrong.wav"></audio>
-      <audio id="sfx-clap"    src="audio/clap.wav"></audio>
+      <button id="soundToggle">🔊</button>
+      <span id="timer">00</span>
+      <span id="clock"></span>
     </div>
-  </header>
+  </div>
 
-  <!-- CỬA SỔ CẤU HÌNH -->
-  <section id="cfg" class="window">
-    <div id="cfgBar" class="wbar" title="Kéo để di chuyển">
-      <span>⚙️ Cấu hình</span>
-      <div class="wctrl">
-        <button id="wMin" title="Thu nhỏ">⎯</button>
-        <button id="wMax" title="Phóng to/Mặc định">☐</button>
-      </div>
+  <!-- Cấu hình -->
+  <div class="config" id="configPanel">
+    <h3>⚙ Cấu hình</h3>
+    <div>
+      <label>Thời gian mỗi câu (10–180 giây):</label>
+      <button class="btn small" id="timeMinus">-</button>
+      <input type="number" id="timePerQuestion" value="60" min="10" max="180">
+      <button class="btn small" id="timePlus">+</button>
     </div>
-
-    <div class="wbody">
-      <div class="grid">
-        <div class="field">
-          <label>Thời gian mỗi câu (10–180 giây)</label>
-          <div class="spin">
-            <button class="btn-mini" data-t="time" data-d="-5">−</button>
-            <input id="time" type="number" min="10" max="180" step="5" value="60"/>
-            <button class="btn-mini" data-t="time" data-d="5">+</button>
-          </div>
-          <div class="hint-sm">Gõ trực tiếp số (ví dụ 60)</div>
-        </div>
-
-        <div class="field">
-          <label>Số câu (1–100)</label>
-          <div class="spin">
-            <button class="btn-mini" data-t="num" data-d="-1">−</button>
-            <input id="num" type="number" min="1" max="100" step="1" value="10"/>
-            <button class="btn-mini" data-t="num" data-d="1">+</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CHỌN BÀI -->
-      <div class="field">
-        <label>Chọn Bài (Chương I–V, mỗi chương Bài 1–5)</label>
-        <div id="lessonWrap" class="lesson-wrap"></div>
-      </div>
-
-      <!-- NÚT HÀNH ĐỘNG -->
-      <div class="buttons">
-        <div class="left">
-          <button id="btnShuffle" class="btn btn-warn" disabled>Trộn câu</button>
-        </div>
-        <div class="rightBtns">
-          <button id="btnStart"   class="btn btn-ok"     disabled>Bắt đầu</button>
-          <button id="btnConfirm" class="btn btn-info hide">Xác nhận</button>
-          <button id="btnNext"    class="btn btn-purple hide">Câu tiếp</button>
-          <button id="btnEnd"     class="btn btn-bad"    disabled>Kết thúc</button>
-          <button id="btnReplay"  class="btn btn-orange hide">Chơi lại</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SÂN THI -->
-  <main class="stage">
-    <div id="card" class="card hide">
-      <!-- Overlay gọi tên: thấy rõ đang random -->
-      <div id="overlay" class="overlay hide">
-        <div class="randombox">
-          <div class="running" id="runningName">Đang chọn…</div>
-          <div class="bigname" id="bigName">Tên Học Sinh</div>
-          <div class="subnote">Đang quay số → 4 giây</div>
-        </div>
-      </div>
-
-      <div id="qtext" class="qtext"></div>
-      <div id="opts" class="opts"></div>
-
-      <div class="nav">
-        <div id="prog" class="prog">Câu 0/0 — Điểm: 0</div>
-      </div>
+    <div>
+      <label>Số câu (1–100):</label>
+      <button class="btn small" id="qMinus">-</button>
+      <input type="number" id="numQuestions" value="10" min="1" max="100">
+      <button class="btn small" id="qPlus">+</button>
     </div>
 
-    <div id="hint" class="hint">
-      Hãy <b>Gọi tên HS</b> & chọn <b>Bài</b> → bấm <b>Bắt đầu</b>
+    <div id="chapters"></div>
+
+    <div class="configBtns">
+      <button id="shuffleBtn" class="btn yellow">Trộn câu</button>
+      <button id="startBtn" class="btn green" disabled>Bắt đầu</button>
+      <button id="endBtn" class="btn red">Kết thúc</button>
     </div>
-  </main>
+  </div>
 
-  <!-- Taskbar khi thu nhỏ -->
-  <div id="taskbar"></div>
+  <!-- Khu câu hỏi -->
+  <div class="questionBox" id="questionBox">
+    <div id="questionText"></div>
+    <div id="answers"></div>
+    <div id="progress"></div>
+    <div class="actionBtns">
+      <button id="confirmBtn" class="btn blue" disabled>Xác nhận</button>
+      <button id="nextBtn" class="btn gray" disabled>Câu tiếp</button>
+      <button id="retryBtn" class="btn yellow hidden">Chơi lại</button>
+    </div>
+  </div>
 
-  <!-- FX trộn câu -->
-  <div id="fx" class="fx hide"></div>
-
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
-
-  <!-- Debug -->
-  <pre id="debug" class="debug"></pre>
+  <!-- Overlay random tên -->
+  <div id="nameOverlay" class="overlay hidden">
+    <span id="overlayName"></span>
+  </div>
 
   <script src="js/app.js"></script>
 </body>
