@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Toán 8 • V11.3</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Toán 8 • V11.4</title>
+  <link rel="stylesheet" href="css/style.css" />
 
-  <!-- MathJax config: inline $...$ + scale chữ Toán lớn, canh giữa -->
+  <!-- MathJax (render công thức toán học) -->
   <script>
     window.MathJax = {
       tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] },
       chtml: { scale: 130 },
       startup: { typeset: false }
     };
   </script>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <!-- TOPBAR -->
@@ -44,25 +43,32 @@
     </div>
 
     <div class="right">
+      <select id="bgmSelect" class="select small" title="Chọn nhạc nền">
+        <option value="">— Nhạc —</option>
+        <option value="audio/bg_synth.mp3">Synth</option>
+        <option value="audio/bg_edm.mp3">EDM</option>
+        <option value="audio/bg_lofi.mp3">LoFi</option>
+      </select>
       <button id="musicToggle" class="btn btn-sound" title="Bật/Tắt nhạc">🔈</button>
       <div id="bigTimer" class="timer">00</div>
       <div id="clock" class="clock">--:--:--</div>
-      <!-- Audio (thiếu file vẫn không crash) -->
-      <audio id="bgm" loop src="audio/bg.mp3"></audio>
+
+      <!-- Audio (không có file thì chỉ mất tiếng, không crash) -->
+      <audio id="bgm" loop></audio>
+      <audio id="sfx-shuffle" src="audio/shuffle.wav"></audio>
       <audio id="sfx-correct" src="audio/correct.wav"></audio>
       <audio id="sfx-wrong"   src="audio/wrong.wav"></audio>
       <audio id="sfx-clap"    src="audio/clap.wav"></audio>
-      <audio id="sfx-shuffle" src="audio/shuffle.wav"></audio>
     </div>
   </header>
 
-  <!-- CẤU HÌNH: cửa sổ kéo/thu nhỏ/mở lại -->
+  <!-- CỬA SỔ CẤU HÌNH -->
   <section id="cfg" class="window">
     <div id="cfgBar" class="wbar" title="Kéo để di chuyển">
       <span>⚙️ Cấu hình</span>
       <div class="wctrl">
         <button id="wMin" title="Thu nhỏ">⎯</button>
-        <button id="wMax" title="Mở lại">☐</button>
+        <button id="wMax" title="Phóng to/Mặc định">☐</button>
       </div>
     </div>
 
@@ -75,6 +81,7 @@
             <input id="time" type="number" min="10" max="180" step="5" value="60"/>
             <button class="btn-mini" data-t="time" data-d="5">+</button>
           </div>
+          <div class="hint-sm">VD: gõ <b>60</b> → 60 giây</div>
         </div>
 
         <div class="field">
@@ -87,11 +94,13 @@
         </div>
       </div>
 
+      <!-- Chọn bài -->
       <div class="field">
         <label>Chọn Bài (Chương I–V, mỗi chương Bài 1–5)</label>
         <div id="lessonWrap" class="lesson-wrap"></div>
       </div>
 
+      <!-- Buttons -->
       <div class="buttons">
         <div class="left">
           <button id="btnShuffle" class="btn btn-warn" disabled>Trộn câu</button>
@@ -130,7 +139,7 @@
     </div>
   </main>
 
-  <!-- Taskbar khi thu nhỏ -->
+  <!-- Taskbar (khi thu nhỏ) -->
   <div id="taskbar"></div>
 
   <!-- FX shuffle -->
@@ -139,7 +148,7 @@
   <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <!-- Debug panel (ẩn, chỉ hiện khi có lỗi) -->
+  <!-- Debug (tự bật khi có lỗi) -->
   <pre id="debug" class="debug"></pre>
 
   <script src="js/app.js"></script>
