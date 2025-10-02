@@ -1,150 +1,117 @@
-let students = [];
+let students = {};
 let currentStudent = "";
+let selectedLessons = [];
 let questions = [];
-let currentQ = 0;
-let score = 0;
-let timeLeft = 0;
 let timerInterval;
 
-const studentNameSpan = document.getElementById("studentName");
-const overlay = document.getElementById("nameOverlay");
-const overlayName = document.getElementById("overlayName");
+document.addEventListener("DOMContentLoaded", () => {
+  loadStudentData();
 
-document.getElementById("classSelect").addEventListener("change", loadStudents);
-document.getElementById("callNameBtn").addEventListener("click", callRandomStudent);
-document.getElementById("shuffleBtn").addEventListener("click", shuffleQuestions);
-document.getElementById("startBtn").addEventListener("click", startGame);
-document.getElementById("confirmBtn").addEventListener("click", confirmAnswer);
-document.getElementById("nextBtn").addEventListener("click", nextQuestion);
-document.getElementById("endBtn").addEventListener("click", endGame);
-document.getElementById("retryBtn").addEventListener("click", resetGame);
-
-async function loadStudents() {
-  const cls = document.getElementById("classSelect").value;
-  if (!cls) return;
-  const res = await fetch(`data/students_${cls}.json`);
-  const data = await res.json();
-  students = data.students;
-}
-
-// Hiệu ứng gọi tên HS
-async function callRandomStudent() {
-  if (students.length === 0) {
-    alert("Danh sách học sinh trống!");
-    return;
-  }
-  overlay.classList.remove("hidden");
-
-  let count = 0;
-  let interval = setInterval(() => {
-    const rand = students[Math.floor(Math.random() * students.length)];
-    overlayName.textContent = rand;
-    count++;
-  }, 150);
-
-  setTimeout(() => {
-    clearInterval(interval);
-    currentStudent = students[Math.floor(Math.random() * students.length)];
-    overlayName.textContent = currentStudent;
-    setTimeout(() => {
-      overlay.classList.add("hidden");
-      studentNameSpan.textContent = "Học sinh: " + currentStudent;
-      document.getElementById("startBtn").disabled = false;
-    }, 2000);
-  }, 4000);
-}
-
-// Trộn câu hỏi (hiệu ứng shuffle)
-function shuffleQuestions() {
-  document.getElementById("shuffleBtn").textContent = "🔄 Đang trộn...";
-  document.getElementById("shuffleBtn").disabled = true;
-
-  setTimeout(() => {
-    // shuffle logic
-    questions = questions.sort(() => Math.random() - 0.5);
-    document.getElementById("shuffleBtn").textContent = "Trộn câu ✔";
-  }, 1500);
-}
-
-// Bắt đầu
-async function startGame() {
-  const res = await fetch(`data/questions_b1.json`);
-  questions = await res.json();
-  currentQ = 0;
-  score = 0;
-  showQuestion();
-}
-
-// Hiển thị câu hỏi
-function showQuestion() {
-  if (currentQ >= questions.length) {
-    endGame();
-    return;
-  }
-  const q = questions[currentQ];
-  document.getElementById("questionText").innerHTML = q.q;
-  MathJax.typeset(); // render công thức
-
-  const answersDiv = document.getElementById("answers");
-  answersDiv.innerHTML = "";
-  q.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.innerHTML = opt;
-    btn.onclick = () => {
-      document.querySelectorAll("#answers button").forEach(b => b.style.background = "#1f2937");
-      btn.style.background = "#3b82f6";
-      btn.dataset.selected = true;
-      document.getElementById("confirmBtn").disabled = false;
-    };
-    answersDiv.appendChild(btn);
+  document.getElementById("callNameBtn").addEventListener("click", randomizeName);
+  document.querySelectorAll(".lessonBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active");
+      updateLessons();
+    });
   });
+  document.getElementById("shuffleBtn").addEventListener("click", shuffleQuestions);
+  document.getElementById("startBtn").addEventListener("click", startGame);
+  document.getElementById("endBtn").addEventListener("click", endGame);
+  document.getElementById("retryBtn").addEventListener("click", resetGame);
 
-  document.getElementById("progress").textContent = `Câu ${currentQ+1}/${questions.length} — Điểm: ${score}`;
+  setInterval(updateClock, 1000);
+});
+
+function loadStudentData() {
+  const classes = ["8a1","8a2","8a3","8a4","8a5","8a6","8a7"];
+  classes.forEach(cls => {
+    fetch(`data/students_${cls}.json`)
+      .then(res => res.json())
+      .then(data => students[cls] = data.students);
+  });
 }
 
-// Xác nhận
-function confirmAnswer() {
-  const selected = document.querySelector("#answers button[style*='rgb(59, 130, 246)']");
-  if (!selected) return;
-
-  const q = questions[currentQ];
-  if (selected.innerHTML === q.a) {
-    score++;
-    playSound("audio/correct.wav");
-  } else {
-    playSound("audio/wrong.wav");
+function randomizeName() {
+  const cls = document.getElementById("classSelect").value;
+  if (!cls || !students[cls]) {
+    alert("Chưa có danh sách lớp!");
+    return;
   }
-
-  document.getElementById("confirmBtn").disabled = true;
-  document.getElementById("nextBtn").disabled = false;
+  const names = students[cls];
+  let i = 0;
+  const box = document.getElementById("randomNameBox");
+  box.classList.remove("hidden");
+  const interval = setInterval(() => {
+    box.textContent = names[Math.floor(Math.random() * names.length)];
+    i++;
+    if (i > 20) {
+      clearInterval(interval);
+      currentStudent = names[Math.floor(Math.random() * names.length)];
+      document.getElementById("studentName").textContent = currentStudent;
+      box.textContent = currentStudent;
+      setTimeout(() => box.classList.add("hidden"), 3000);
+      document.getElementById("startBtn").disabled = false;
+    }
+  }, 200);
 }
 
-// Câu tiếp
-function nextQuestion() {
-  currentQ++;
-  document.getElementById("nextBtn").disabled = true;
-  showQuestion();
+function updateLessons() {
+  selectedLessons = [];
+  document.querySelectorAll(".lessonBtn.active").forEach(btn => {
+    selectedLessons.push({chuong: btn.dataset.chuong, bai: btn.dataset.bai});
+  });
 }
 
-// Kết thúc
+function shuffleQuestions() {
+  const btn = document.getElementById("shuffleBtn");
+  btn.textContent = "🔄 Đang trộn...";
+  setTimeout(() => btn.textContent = "🔄 Trộn câu", 1500);
+}
+
+function startGame() {
+  document.getElementById("configPanel").classList.add("hidden");
+  document.getElementById("questionBox").classList.remove("hidden");
+  startTimer();
+  loadQuestions();
+}
+
+function startTimer() {
+  let time = parseInt(document.getElementById("timePerQuestion").value);
+  const timer = document.getElementById("timer");
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timer.textContent = time;
+    time--;
+    if (time < 0) clearInterval(timerInterval);
+  }, 1000);
+}
+
+function loadQuestions() {
+  const qBox = document.getElementById("questionText");
+  const aBox = document.getElementById("answerOptions");
+  qBox.innerHTML = "Ví dụ: \\( x^3 + \\frac{1}{x} \\)";
+  MathJax.typeset();
+  aBox.innerHTML = `
+    <button>\\( x^3 + 1 \\)</button>
+    <button>\\( x^2 + x + 1 \\)</button>
+    <button>\\( \\frac{1}{x} + x \\)</button>
+    <button>\\( 3x \\)</button>
+  `;
+  MathJax.typeset();
+}
+
 function endGame() {
-  document.getElementById("questionText").innerHTML =
-    `Kết thúc! <b>${currentStudent}</b> được ${score}/${questions.length} điểm.`;
-  document.getElementById("answers").innerHTML = "";
-  document.getElementById("confirmBtn").disabled = true;
-  document.getElementById("nextBtn").disabled = true;
-  document.getElementById("retryBtn").classList.remove("hidden");
-  playSound("audio/clap.wav");
+  document.getElementById("resultBox").classList.remove("hidden");
+  document.getElementById("resultBox").textContent = `${currentStudent} đã hoàn thành!`;
+  document.getElementById("endBtn").disabled = true;
+  document.getElementById("retryBtn").disabled = false;
 }
 
-// Reset
 function resetGame() {
-  document.getElementById("retryBtn").classList.add("hidden");
-  startGame();
+  location.reload();
 }
 
-// Âm thanh
-function playSound(src) {
-  const audio = new Audio(src);
-  audio.play();
+function updateClock() {
+  const now = new Date();
+  document.getElementById("clock").textContent = now.toLocaleTimeString();
 }
