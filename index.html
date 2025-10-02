@@ -1,24 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Toán 8 • V11.4</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Toán 8 • V11.5</title>
+  <link rel="stylesheet" href="css/style.css"/>
 
-  <!-- MathJax (render công thức toán học) -->
+  <!-- Google Font gọn gàng, hỗ trợ TV -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <!-- MathJax: hiển thị công thức đẹp -->
   <script>
     window.MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-      chtml: { scale: 130 },
-      startup: { typeset: false }
+      tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      chtml: {scale: 125},
+      startup: {typeset: false}
     };
   </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
+  <script async id="MathJax-script"
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+
   <!-- TOPBAR -->
   <header class="topbar">
     <div class="brand">Mùa 1 • Toán 8</div>
@@ -53,7 +57,6 @@
       <div id="bigTimer" class="timer">00</div>
       <div id="clock" class="clock">--:--:--</div>
 
-      <!-- Audio (không có file thì chỉ mất tiếng, không crash) -->
       <audio id="bgm" loop></audio>
       <audio id="sfx-shuffle" src="audio/shuffle.wav"></audio>
       <audio id="sfx-correct" src="audio/correct.wav"></audio>
@@ -81,7 +84,7 @@
             <input id="time" type="number" min="10" max="180" step="5" value="60"/>
             <button class="btn-mini" data-t="time" data-d="5">+</button>
           </div>
-          <div class="hint-sm">VD: gõ <b>60</b> → 60 giây</div>
+          <div class="hint-sm">Gõ trực tiếp số (ví dụ 60)</div>
         </div>
 
         <div class="field">
@@ -94,23 +97,23 @@
         </div>
       </div>
 
-      <!-- Chọn bài -->
+      <!-- CHỌN BÀI -->
       <div class="field">
         <label>Chọn Bài (Chương I–V, mỗi chương Bài 1–5)</label>
         <div id="lessonWrap" class="lesson-wrap"></div>
       </div>
 
-      <!-- Buttons -->
+      <!-- NÚT HÀNH ĐỘNG -->
       <div class="buttons">
         <div class="left">
           <button id="btnShuffle" class="btn btn-warn" disabled>Trộn câu</button>
         </div>
         <div class="rightBtns">
-          <button id="btnStart" class="btn btn-ok" disabled>Bắt đầu</button>
+          <button id="btnStart"   class="btn btn-ok"     disabled>Bắt đầu</button>
           <button id="btnConfirm" class="btn btn-info hide">Xác nhận</button>
-          <button id="btnNext" class="btn btn-purple hide">Câu tiếp</button>
-          <button id="btnEnd" class="btn btn-bad" disabled>Kết thúc</button>
-          <button id="btnReplay" class="btn btn-orange hide">Chơi lại</button>
+          <button id="btnNext"    class="btn btn-purple hide">Câu tiếp</button>
+          <button id="btnEnd"     class="btn btn-bad"    disabled>Kết thúc</button>
+          <button id="btnReplay"  class="btn btn-orange hide">Chơi lại</button>
         </div>
       </div>
     </div>
@@ -119,16 +122,18 @@
   <!-- SÂN THI -->
   <main class="stage">
     <div id="card" class="card hide">
-      <!-- Overlay gọi tên -->
+      <!-- Overlay gọi tên: thấy rõ đang random -->
       <div id="overlay" class="overlay hide">
-        <div id="bigName" class="bigname">Tên Học Sinh</div>
+        <div class="randombox">
+          <div class="running" id="runningName">Đang chọn…</div>
+          <div class="bigname" id="bigName">Tên Học Sinh</div>
+          <div class="subnote">Đang quay số → 4 giây</div>
+        </div>
       </div>
 
-      <!-- Nội dung câu hỏi -->
       <div id="qtext" class="qtext"></div>
       <div id="opts" class="opts"></div>
 
-      <!-- Thanh tiến độ -->
       <div class="nav">
         <div id="prog" class="prog">Câu 0/0 — Điểm: 0</div>
       </div>
@@ -139,16 +144,16 @@
     </div>
   </main>
 
-  <!-- Taskbar (khi thu nhỏ) -->
+  <!-- Taskbar khi thu nhỏ -->
   <div id="taskbar"></div>
 
-  <!-- FX shuffle -->
+  <!-- FX trộn câu -->
   <div id="fx" class="fx hide"></div>
 
   <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <!-- Debug (tự bật khi có lỗi) -->
+  <!-- Debug -->
   <pre id="debug" class="debug"></pre>
 
   <script src="js/app.js"></script>
